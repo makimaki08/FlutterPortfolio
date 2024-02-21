@@ -45,9 +45,6 @@ class MyHomePage extends StatelessWidget {
   MyHomePage(this.title);
   // MyHomePage(this.title, {Key? key}) : super(key: key);
 
-  // To Doアプリに設定する、Demo用のデータ ※floatingActionの箇所がScopedModelの実装に対応していないので、まだ削除できない
-  final _demoItems = ['Demo ToDo1', 'Demo ToDo2', 'Demo ToDo3'];
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -74,7 +71,8 @@ class MyHomePage extends StatelessWidget {
           return FloatingActionButton(
             // onPressedで、表示するToDoを追加するように処理
             onPressed: () {
-              _demoItems.add('Add Demo ToDo');
+              model.addToDoList();
+              // _demoItems.add('Add Demo ToDo');
             },
             tooltip: 'Increment',
             child: Icon(Icons.add),
