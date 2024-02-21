@@ -3,13 +3,13 @@ import 'package:scoped_model/scoped_model.dart';
 
 void main() {
   // runApp(const MyApp()); // constで定義すると、ScopedModelの利点である、StatelessWidgetだけでの管理ができなくなる
-  runApp(new MyApp(CounterModel()));
+  runApp(new MyApp(ToDoModel()));
 }
 
 class MyApp extends StatelessWidget {
-  // ScopedModelを利用するため、CounterModelをインスタンス化
-  final CounterModel counterModel;
-  MyApp(this.counterModel, {Key? key}) : super(key: key); // MyAppとcounterモデルを初期化
+  // ScopedModelを利用するため、ToDoModelをインスタンス化
+  final ToDoModel toDoModel;
+  MyApp(this.toDoModel, {Key? key}) : super(key: key); // MyAppとcounterモデルを初期化
 
   // This widget is the root of your application.
   @override
@@ -20,21 +20,11 @@ class MyApp extends StatelessWidget {
         primaryColor: Colors.blue
       ),
       // 共通でmodelを使用したいルート(親)Widgetにて、WidgetをWrapするように定義する
-      home: ScopedModel<CounterModel>(
-        model: counterModel,
+      home: ScopedModel<ToDoModel>(
+        model: toDoModel,
         child: new MyHomePage('Scoped Model ToDo Apps'),
       ),
     );
-  }
-}
-
-class CounterModel extends Model {
-  int _counter = 0;
-  int get counter => _counter;
-
-  void incrementCounter() {
-    _counter++;
-    notifyListeners(); // 状態を変更したら、必ずよぶメソッド
   }
 }
 
@@ -75,7 +65,7 @@ class MyHomePage extends StatelessWidget {
           },
         ),
       ),
-      floatingActionButton: ScopedModelDescendant<CounterModel> (
+      floatingActionButton: ScopedModelDescendant<ToDoModel> (
         builder: (context, child, model) {
           return FloatingActionButton(
             // onPressedで、表示するToDoを追加するように処理
