@@ -38,6 +38,17 @@ class CounterModel extends Model {
   }
 }
 
+// setStateを利用せずにToDoListを表示するために利用するModel
+class ToDoModel extends Model {
+  List<String> _toDoList = ['Demo ToDo1', 'Demo ToDo2', 'Demo ToDo3'];
+  List<String> get toDoList => _toDoList;
+
+  void addToDoList() {
+    _toDoList.add('Add ToDo'); // Demo用に同じToDoを挿入
+    notifyListeners();
+  }
+}
+
 class MyHomePage extends StatelessWidget {
   final String title;
 
@@ -64,29 +75,19 @@ class MyHomePage extends StatelessWidget {
           },
         ),
       ),
-      // body: Center(
-      //   child: Column(
-      //     mainAxisAlignment: MainAxisAlignment.center,
-      //     children: <Widget>[
-      //       Text('You have pushed the button this many times:'),
-      //       // Modelの情報を参照したいwidgetをScopedModelDescendantにてWrapし、builder関数を定義する
-      //       ScopedModelDescendant<CounterModel>(
-      //         builder: (context, child, model) =>
-      //         Text(
-      //           '${model.counter}',
-      //           style: Theme.of(context).textTheme.bodyMedium,
-      //         ),
-      //       )
-      //     ],
-      //   ),
-      // ),
-
       floatingActionButton: ScopedModelDescendant<CounterModel> (
         builder: (context, child, model) {
           return FloatingActionButton(
-            onPressed: () => model.incrementCounter(),
+            // onPressedで、表示するToDoを追加するように処理
+            onPressed: () {
+              _demoItems.add('Add Demo ToDo');
+            },
             tooltip: 'Increment',
             child: Icon(Icons.add),
+
+            // onPressed: () => model.incrementCounter(),
+            // tooltip: 'Increment',
+            // child: Icon(Icons.add),
           );
         },
       ),
