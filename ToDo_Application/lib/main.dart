@@ -54,13 +54,15 @@ class MyHomePage extends StatelessWidget {
         title: Text(title),
       ),
       // ToDoアプリのため、リスト型に変更
-      body: ListView.builder(
-        itemCount: _demoItems.length,
-        itemBuilder: (context, index) {
-          return ListTile(
-            title: Text(_demoItems[index]),
-          );
-        },
+      body: Center(
+        child: ListView.builder(
+          itemCount: _demoItems.length,
+          itemBuilder: (context, index) {
+            return ListTile(
+              title: Text(_demoItems[index]),
+            );
+          },
+        ),
       ),
       // body: Center(
       //   child: Column(
