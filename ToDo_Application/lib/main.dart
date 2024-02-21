@@ -44,28 +44,40 @@ class MyHomePage extends StatelessWidget {
   MyHomePage(this.title);
   // MyHomePage(this.title, {Key? key}) : super(key: key);
 
+  // To Doアプリに設定する、Demo用のデータ
+  final _demoItems = ['Demo ToDo1', 'Demo ToDo2', 'Demo ToDo3'];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(title),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text('You have pushed the button this many times:'),
-            // Modelの情報を参照したいwidgetをScopedModelDescendantにてWrapし、builder関数を定義する
-            ScopedModelDescendant<CounterModel>(
-              builder: (context, child, model) =>
-              Text(
-                '${model.counter}',
-                style: Theme.of(context).textTheme.bodyMedium,
-              ),
-            )
-          ],
-        ),
+      // ToDoアプリのため、リスト型に変更
+      body: ListView.builder(
+        itemCount: _demoItems.length,
+        itemBuilder: (context, index) {
+          return ListTile(
+            title: Text(_demoItems[index]),
+          );
+        },
       ),
+      // body: Center(
+      //   child: Column(
+      //     mainAxisAlignment: MainAxisAlignment.center,
+      //     children: <Widget>[
+      //       Text('You have pushed the button this many times:'),
+      //       // Modelの情報を参照したいwidgetをScopedModelDescendantにてWrapし、builder関数を定義する
+      //       ScopedModelDescendant<CounterModel>(
+      //         builder: (context, child, model) =>
+      //         Text(
+      //           '${model.counter}',
+      //           style: Theme.of(context).textTheme.bodyMedium,
+      //         ),
+      //       )
+      //     ],
+      //   ),
+      // ),
 
       floatingActionButton: ScopedModelDescendant<CounterModel> (
         builder: (context, child, model) {
