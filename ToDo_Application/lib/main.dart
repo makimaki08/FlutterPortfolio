@@ -3,13 +3,13 @@ import 'package:scoped_model/scoped_model.dart';
 
 void main() {
   // runApp(const MyApp()); // constで定義すると、ScopedModelの利点である、StatelessWidgetだけでの管理ができなくなる
-  runApp(new MyApp(CounterModel()));
+  runApp(new MyApp(ToDoModel()));
 }
 
 class MyApp extends StatelessWidget {
-  // ScopedModelを利用するため、CounterModelをインスタンス化
-  final CounterModel counterModel;
-  MyApp(this.counterModel, {Key? key}) : super(key: key); // MyAppとcounterモデルを初期化
+  // ScopedModelを利用するため、ToDoModelをインスタンス化
+  final ToDoModel toDoModel;
+  MyApp(this.toDoModel, {Key? key}) : super(key: key); // MyAppとcounterモデルを初期化
 
   // This widget is the root of your application.
   @override
@@ -20,29 +20,28 @@ class MyApp extends StatelessWidget {
         primaryColor: Colors.blue
       ),
       // 共通でmodelを使用したいルート(親)Widgetにて、WidgetをWrapするように定義する
-      home: ScopedModel<CounterModel>(
-        model: counterModel,
+      home: ScopedModel<ToDoModel>(
+        model: toDoModel,
         child: new MyHomePage('Scoped Model ToDo Apps'),
       ),
     );
   }
 }
 
-class CounterModel extends Model {
-  int _counter = 0;
-  int get counter => _counter;
+// setStateを利用せずにToDoListを表示するために利用するModel
+class ToDoModel extends Model {
+  List<String> _toDoList = ['Demo ToDo1', 'Demo ToDo2', 'Demo ToDo3'];
+  List<String> get toDoList => _toDoList;
 
-  void incrementCounter() {
-    _counter++;
-    notifyListeners(); // 状態を変更したら、必ずよぶメソッド
+  void addToDoList() {
+    _toDoList.add('Add ToDo'); // Demo用に同じToDoを挿入
+    notifyListeners();
   }
 }
 
 class MyHomePage extends StatelessWidget {
   final String title;
-
   MyHomePage(this.title);
-  // MyHomePage(this.title, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -50,27 +49,29 @@ class MyHomePage extends StatelessWidget {
       appBar: AppBar(
         title: Text(title),
       ),
+      // ToDoアプリのため、リスト型に変更
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text('You have pushed the button this many times:'),
-            // Modelの情報を参照したいwidgetをScopedModelDescendantにてWrapし、builder関数を定義する
-            ScopedModelDescendant<CounterModel>(
-              builder: (context, child, model) =>
-              Text(
-                '${model.counter}',
-                style: Theme.of(context).textTheme.bodyMedium,
-              ),
-            )
-          ],
+        child: ScopedModelDescendant<ToDoModel>(
+          builder: (context, child, model) {
+            return ListView.builder(
+              itemCount: model.toDoList.length,
+              itemBuilder: (context, index) {
+                return ListTile(
+                  title: Text(model.toDoList[index]),
+                );
+              },
+            );
+          },
         ),
       ),
-
-      floatingActionButton: ScopedModelDescendant<CounterModel> (
+      floatingActionButton: ScopedModelDescendant<ToDoModel> (
         builder: (context, child, model) {
           return FloatingActionButton(
-            onPressed: () => model.incrementCounter(),
+            // onPressedで、表示するToDoを追加するように処理
+            onPressed: () {
+              // クリックされた時に別画面に遷移させ、そこでToDo内容を記載するように処理させる？
+              model.addToDoList();
+            },
             tooltip: 'Increment',
             child: Icon(Icons.add),
           );
