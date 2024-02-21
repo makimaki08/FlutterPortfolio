@@ -41,9 +41,7 @@ class ToDoModel extends Model {
 
 class MyHomePage extends StatelessWidget {
   final String title;
-
   MyHomePage(this.title);
-  // MyHomePage(this.title, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -71,15 +69,11 @@ class MyHomePage extends StatelessWidget {
           return FloatingActionButton(
             // onPressedで、表示するToDoを追加するように処理
             onPressed: () {
+              // クリックされた時に別画面に遷移させ、そこでToDo内容を記載するように処理させる？
               model.addToDoList();
-              // _demoItems.add('Add Demo ToDo');
             },
             tooltip: 'Increment',
             child: Icon(Icons.add),
-
-            // onPressed: () => model.incrementCounter(),
-            // tooltip: 'Increment',
-            // child: Icon(Icons.add),
           );
         },
       ),
