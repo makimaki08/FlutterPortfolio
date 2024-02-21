@@ -45,7 +45,7 @@ class MyHomePage extends StatelessWidget {
   MyHomePage(this.title);
   // MyHomePage(this.title, {Key? key}) : super(key: key);
 
-  // To Doアプリに設定する、Demo用のデータ
+  // To Doアプリに設定する、Demo用のデータ ※floatingActionの箇所がScopedModelの実装に対応していないので、まだ削除できない
   final _demoItems = ['Demo ToDo1', 'Demo ToDo2', 'Demo ToDo3'];
 
   @override
@@ -58,26 +58,16 @@ class MyHomePage extends StatelessWidget {
       body: Center(
         child: ScopedModelDescendant<ToDoModel>(
           builder: (context, child, model) {
-            // ToDoModelのtoDoListが取得できるのかテスト
-            print('DEBUG：${model.toDoList}');
             return ListView.builder(
-              itemCount: _demoItems.length,
+              itemCount: model.toDoList.length,
               itemBuilder: (context, index) {
                 return ListTile(
-                  title: Text(_demoItems[index]),
+                  title: Text(model.toDoList[index]),
                 );
               },
             );
           },
         ),
-        // child: ListView.builder(
-        //   itemCount: _demoItems.length,
-        //   itemBuilder: (context, index) {
-        //     return ListTile(
-        //       title: Text(_demoItems[index]),
-        //     );
-        //   },
-        // ),
       ),
       floatingActionButton: ScopedModelDescendant<ToDoModel> (
         builder: (context, child, model) {
