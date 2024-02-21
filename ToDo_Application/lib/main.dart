@@ -56,14 +56,26 @@ class MyHomePage extends StatelessWidget {
       ),
       // ToDoアプリのため、リスト型に変更
       body: Center(
-        child: ListView.builder(
-          itemCount: _demoItems.length,
-          itemBuilder: (context, index) {
-            return ListTile(
-              title: Text(_demoItems[index]),
+        child: ScopedModelDescendant<ToDoModel>(
+          builder: (context, child, model) {
+            return ListView.builder(
+              itemCount: _demoItems.length,
+              itemBuilder: (context, index) {
+                return ListTile(
+                  title: Text(_demoItems[index]),
+                );
+              },
             );
           },
         ),
+        // child: ListView.builder(
+        //   itemCount: _demoItems.length,
+        //   itemBuilder: (context, index) {
+        //     return ListTile(
+        //       title: Text(_demoItems[index]),
+        //     );
+        //   },
+        // ),
       ),
       floatingActionButton: ScopedModelDescendant<ToDoModel> (
         builder: (context, child, model) {
