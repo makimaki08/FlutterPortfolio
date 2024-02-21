@@ -58,6 +58,8 @@ class MyHomePage extends StatelessWidget {
       body: Center(
         child: ScopedModelDescendant<ToDoModel>(
           builder: (context, child, model) {
+            // ToDoModelのtoDoListが取得できるのかテスト
+            print('DEBUG：${model.toDoList}');
             return ListView.builder(
               itemCount: _demoItems.length,
               itemBuilder: (context, index) {
