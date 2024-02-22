@@ -2,15 +2,13 @@
 
 A new Flutter project.
 
-## Getting Started
+## 利用方法
 
-This project is a starting point for a Flutter application.
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Poke API利用方法
+「<a>https://pokeapi.co/</a>」にアクセス
+<br>利用するPokemonの図鑑番号を調べ、入力欄に「pokemon/25」のように入力
+<br>※25はピカチュウの図鑑番号
+#### 　画像を利用する場合
+　Resource for XXXの、以下をコピー
+<br>　sprites>other>official-artwork>front-default
