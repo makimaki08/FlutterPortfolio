@@ -6,6 +6,9 @@
       <excludeFolder url="file://$MODULE_DIR$/ToDo_Application/.dart_tool" />
       <excludeFolder url="file://$MODULE_DIR$/ToDo_Application/.pub" />
       <excludeFolder url="file://$MODULE_DIR$/ToDo_Application/build" />
+      <excludeFolder url="file://$MODULE_DIR$/pokemon_flutter/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/pokemon_flutter/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/pokemon_flutter/build" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

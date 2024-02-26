@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import './poke_detail.dart';
 
 void main() {
   runApp(const MyApp());
@@ -30,14 +31,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -46,17 +39,43 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text(widget.title),
       ),
       body: Center(
-        child: Image.network(
-          "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png",
-          height: 300,
-          width: 300,
-        ),
+        child: TopPage(),
+        // child: PikaButton(index: 25),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+    );
+  }
+}
+
+// pikachuを表示するボタン
+class PikaButton extends StatelessWidget {
+  const PikaButton({super.key, required this.index});
+  final int index;
+
+  @override
+  Widget build(BuildContext context) {
+    return ElevatedButton(
+      child: const Text('pikachu'),
+      onPressed: () => {
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (BuildContext context) => const PokeDetail()
+          )
+        )
+      },
+    );
+  }
+}
+
+// List型でpokemonを表示できるように変更
+class TopPage extends StatelessWidget {
+  const TopPage({super.key});
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: ListView.builder(
+        itemCount: 10000,
+        itemBuilder: (context, index) => PikaButton(index: index),
+      ),
     );
   }
 }
