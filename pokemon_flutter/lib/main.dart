@@ -39,7 +39,7 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text(widget.title),
       ),
       body: Center(
-        child: PikaButton(),
+        child: PikaButton(index: 25),
       ),
     );
   }
@@ -47,7 +47,9 @@ class _MyHomePageState extends State<MyHomePage> {
 
 // pikachuを表示するボタン
 class PikaButton extends StatelessWidget {
-  const PikaButton({super.key});
+  const PikaButton({super.key, required this.index});
+  final int index;
+
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
@@ -59,6 +61,20 @@ class PikaButton extends StatelessWidget {
           )
         )
       },
+    );
+  }
+}
+
+// List型でpokemonを表示できるように変更
+class TopPage extends StatelessWidget {
+  const TopPage({super.key});
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: ListView.builder(
+        itemCount: 10000,
+        itemBuilder: (context, index) => PikaButton(index: index),
+      ),
     );
   }
 }
