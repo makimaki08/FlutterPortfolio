@@ -13,6 +13,12 @@ class PokeDetail extends StatelessWidget {
                 .colorScheme
                 .inversePrimary,
             title: Text('pikachu'),
+            leading: IconButton(
+              icon: Icon(Icons.arrow_back),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
           ),
           body: Center(
               child: Column(
