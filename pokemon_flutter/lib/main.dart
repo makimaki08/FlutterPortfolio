@@ -39,17 +39,26 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text(widget.title),
       ),
       body: Center(
-        child: ElevatedButton(
-          child: const Text('detail'),
-          onPressed: () => {
-            Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (BuildContext context) => const PokeDetail(),
-              )
-            )
-          },
-        ),
+        child: PikaButton(),
       ),
+    );
+  }
+}
+
+// pikachuを表示するボタン
+class PikaButton extends StatelessWidget {
+  const PikaButton({super.key});
+  @override
+  Widget build(BuildContext context) {
+    return ElevatedButton(
+      child: const Text('pikachu'),
+      onPressed: () => {
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (BuildContext context) => const PokeDetail()
+          )
+        )
+      },
     );
   }
 }
