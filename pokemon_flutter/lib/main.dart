@@ -39,7 +39,8 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text(widget.title),
       ),
       body: Center(
-        child: PikaButton(index: 25),
+        child: TopPage(),
+        // child: PikaButton(index: 25),
       ),
     );
   }
