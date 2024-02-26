@@ -50,10 +50,27 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Image.network(
-              "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png",
-              height: 300,
-              width: 300,
+            Stack(
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(32),
+                  child: Image.network(
+                    "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png",
+                    height: 300,
+                    width: 300,
+                  ),
+                ),
+                Container(
+                  padding: const EdgeInsets.all(8),
+                  child: const Text(
+                    'No.25',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold
+                    ),
+                  ),
+                )
+              ],
             ),
             Text(
               'pikachu',
