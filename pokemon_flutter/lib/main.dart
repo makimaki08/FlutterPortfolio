@@ -65,10 +65,18 @@ class PokeListItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      leading: Image.network(
-        "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png",
-        height: 50,
-        width: 50,
+      leading: Container(
+        width: 80,
+        decoration: BoxDecoration(
+          color: Colors.yellow.withOpacity(.5),
+          borderRadius: BorderRadius.circular(10),
+          image: const DecorationImage(
+            fit: BoxFit.fitWidth,
+            image: NetworkImage(
+              "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png"
+            )
+          ),
+        ),
       ),
       title: const Text('pikachu'),
       onTap: () => {
