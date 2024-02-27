@@ -17,6 +17,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
+      darkTheme: ThemeData.dark(),
       home: const MyHomePage(title: 'PokeAPI Demo'),
     );
   }
@@ -40,33 +41,11 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: Center(
         child: TopPage(),
-        // child: PikaButton(index: 25),
       ),
     );
   }
 }
 
-// pikachuを表示するボタン
-class PikaButton extends StatelessWidget {
-  const PikaButton({super.key, required this.index});
-  final int index;
-
-  @override
-  Widget build(BuildContext context) {
-    return ElevatedButton(
-      child: const Text('pikachu'),
-      onPressed: () => {
-        Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (BuildContext context) => const PokeDetail()
-          )
-        )
-      },
-    );
-  }
-}
-
-// List型でpokemonを表示できるように変更
 class TopPage extends StatelessWidget {
   const TopPage({super.key});
   @override
@@ -74,8 +53,49 @@ class TopPage extends StatelessWidget {
     return Scaffold(
       body: ListView.builder(
         itemCount: 10000,
-        itemBuilder: (context, index) => PikaButton(index: index),
+        itemBuilder: (context, index) => PokeListItem(index: index),
       ),
+    );
+  }
+}
+
+// Listから詳細画面に遷移させる
+class PokeListItem extends StatelessWidget {
+  const PokeListItem({Key? key, required this.index}) : super(key: key);
+  final int index;
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      leading: Container(
+        width: 80,
+        decoration: BoxDecoration(
+          color: Colors.yellow.withOpacity(.5),
+          borderRadius: BorderRadius.circular(10),
+          image: const DecorationImage(
+            fit: BoxFit.fitWidth,
+            image: NetworkImage(
+              "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png"
+            )
+          ),
+        ),
+      ),
+      title: const Text(
+        'pikachu',
+        style: TextStyle(
+          fontSize: 16,
+          fontWeight: FontWeight.bold
+        ),
+      ),
+      subtitle: const Text(
+        '⚡️electric'
+      ),
+      onTap: () => {
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (BuildContext context) => const PokeDetail()
+          )
+        )
+      },
     );
   }
 }
