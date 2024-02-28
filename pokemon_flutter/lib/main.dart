@@ -53,6 +53,8 @@ class TopPage extends StatefulWidget {
 }
 
 class _TopPageState extends State<TopPage> {
+  int _currentbnb = 0; // 現在のButtomBarの状態を保持するための変数
+
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
@@ -63,7 +65,12 @@ class _TopPageState extends State<TopPage> {
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(
-        onTap: (index) => {},
+        onTap: (index) => {
+          setState(
+            () => _currentbnb = index,
+          )
+        },
+        currentIndex: _currentbnb,
         items: const [
           BottomNavigationBarItem(
               icon: Icon(Icons.list),
