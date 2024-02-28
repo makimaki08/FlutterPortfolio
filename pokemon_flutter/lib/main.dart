@@ -55,6 +55,19 @@ class TopPage extends StatelessWidget {
         itemCount: 10000,
         itemBuilder: (context, index) => PokeListItem(index: index),
       ),
+      bottomNavigationBar: BottomNavigationBar(
+        onTap: (index) => {},
+        items: const [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.list),
+            label: 'Home'
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.settings),
+            label: 'Settings'
+          )
+        ],
+      ),
     );
   }
 }
