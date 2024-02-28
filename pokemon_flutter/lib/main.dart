@@ -46,14 +46,41 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 }
 
-class TopPage extends StatelessWidget {
-  const TopPage({super.key});
+class TopPage extends StatefulWidget {
+  const TopPage({Key? key}) : super(key: key);
   @override
+  _TopPageState createState() => _TopPageState();
+}
+
+class _TopPageState extends State<TopPage> {
+  int _currentbnb = 0; // 現在のButtomBarの状態を保持するための変数
+
   Widget build(BuildContext context) {
     return Scaffold(
-      body: ListView.builder(
-        itemCount: 10000,
-        itemBuilder: (context, index) => PokeListItem(index: index),
+      body: SafeArea(
+        child: ListView.builder(
+          padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 16),
+          itemCount: 10000,
+          itemBuilder: (context, index) => PokeListItem(index: index),
+        ),
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        onTap: (index) => {
+          setState(
+            () => _currentbnb = index,
+          )
+        },
+        currentIndex: _currentbnb,
+        items: const [
+          BottomNavigationBarItem(
+              icon: Icon(Icons.list),
+              label: 'Home'
+          ),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.settings),
+              label: 'Settings'
+          )
+        ],
       ),
     );
   }
