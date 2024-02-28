@@ -46,9 +46,13 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 }
 
-class TopPage extends StatelessWidget {
-  const TopPage({super.key});
+class TopPage extends StatefulWidget {
+  const TopPage({Key? key}) : super(key: key);
   @override
+  _TopPageState createState() => _TopPageState();
+}
+
+class _TopPageState extends State<TopPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: ListView.builder(
@@ -59,12 +63,12 @@ class TopPage extends StatelessWidget {
         onTap: (index) => {},
         items: const [
           BottomNavigationBarItem(
-            icon: Icon(Icons.list),
-            label: 'Home'
+              icon: Icon(Icons.list),
+              label: 'Home'
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.settings),
-            label: 'Settings'
+              icon: Icon(Icons.settings),
+              label: 'Settings'
           )
         ],
       ),
