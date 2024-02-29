@@ -146,6 +146,9 @@ class Settings extends StatefulWidget {
 }
 
 class _SettingsState extends State<Settings> {
+  bool _isSwitched = true;
+  bool _isChecked = true;
+  int _selectedRadio = 0;
   @override
   Widget build(BuildContext context) {
     return ListView(
@@ -156,19 +159,48 @@ class _SettingsState extends State<Settings> {
         ),
         SwitchListTile(
           title: const Text('Switch'),
-          value: true,
-          onChanged: (newValue) => {},
+          value: _isSwitched,
+          onChanged: (newValue) => {
+            setState((){
+              _isSwitched = newValue;
+            })
+          },
         ),
         CheckboxListTile(
           title: const Text('Checkbox'),
-          value: true,
-          onChanged: (newValue) => {},
+          value: _isChecked,
+          onChanged: (newValue) => {
+            setState((){
+              _isChecked = newValue!;
+            })
+          },
         ),
-        RadioListTile(
+        ListTile(
           title: const Text('Radio'),
-          value: true,
-          groupValue: true,
-          onChanged: (newValue) => {},
+          subtitle: Column(
+            children: <Widget>[
+              RadioListTile(
+                title: const Text('Radio 1'),
+                value: 1,
+                groupValue: _selectedRadio,
+                onChanged: (newValue) {
+                  setState(() {
+                    _selectedRadio = newValue as int;
+                  });
+                },
+              ),
+              RadioListTile(
+                title: const Text('Radio 2'),
+                value: 2,
+                groupValue: _selectedRadio,
+                onChanged: (newValue) {
+                  setState(() {
+                    _selectedRadio = newValue as int;
+                  });
+                },
+              ),
+            ],
+          ),
         )
       ],
     );
