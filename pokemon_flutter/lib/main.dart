@@ -212,8 +212,15 @@ class _SettingsState extends State<Settings> {
   }
 }
 
-class ThemeModeSelectionPage extends StatelessWidget {
+class ThemeModeSelectionPage extends StatefulWidget {
   const ThemeModeSelectionPage({Key? key}) : super(key: key);
+  @override
+  _ThemeModeSelectionPageState createState() => _ThemeModeSelectionPageState();
+}
+
+class _ThemeModeSelectionPageState extends State<ThemeModeSelectionPage> {
+  ThemeMode _currentThemeMode = ThemeMode.system;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -228,21 +235,33 @@ class ThemeModeSelectionPage extends StatelessWidget {
             ),
             RadioListTile<ThemeMode>(
               value: ThemeMode.system,
-              groupValue: ThemeMode.system,
+              groupValue: _currentThemeMode,
               title: const Text('System'),
-              onChanged: (newValue) {},
+              onChanged: (newValue) {
+                setState(() {
+                  _currentThemeMode = newValue!;
+                });
+              },
             ),
             RadioListTile<ThemeMode>(
               value: ThemeMode.light,
-              groupValue: ThemeMode.system,
+              groupValue: _currentThemeMode,
               title: const Text('Light'),
-              onChanged: (newValue) {},
+              onChanged: (newValue) {
+                setState(() {
+                  _currentThemeMode = newValue!;
+                });
+              },
             ),
             RadioListTile<ThemeMode>(
               value: ThemeMode.dark,
-              groupValue: ThemeMode.system,
+              groupValue: _currentThemeMode,
               title: const Text('Dark'),
-              onChanged: (newValue) {},
+              onChanged: (newValue) {
+                setState(() {
+                  _currentThemeMode = newValue!;
+                });
+              },
             ),
           ],
         ),
