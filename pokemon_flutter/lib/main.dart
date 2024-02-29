@@ -58,7 +58,8 @@ class _TopPageState extends State<TopPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: PokeList()
+        // _currentbnbの値により、表示させる画面を変更
+        child: _currentbnb == 0 ? PokeList() : Settings()
       ),
       bottomNavigationBar: BottomNavigationBar(
         onTap: (index) => {
