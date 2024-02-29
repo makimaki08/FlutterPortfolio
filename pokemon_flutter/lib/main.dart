@@ -144,11 +144,27 @@ class Settings extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView(
-      children: const [
+      children: [
         ListTile(
           leading: Icon(Icons.lightbulb),
           title: Text('Dark/Light Mode'),
         ),
+        SwitchListTile(
+          title: const Text('Switch'),
+          value: true,
+          onChanged: (newValue) => {},
+        ),
+        CheckboxListTile(
+          title: const Text('Checkbox'),
+          value: true,
+          onChanged: (newValue) => {},
+        ),
+        RadioListTile(
+          title: const Text('Radio'),
+          value: true,
+          groupValue: true,
+          onChanged: (newValue) => {},
+        )
       ],
     );
   }
