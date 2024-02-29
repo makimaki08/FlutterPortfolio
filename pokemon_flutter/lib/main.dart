@@ -58,11 +58,7 @@ class _TopPageState extends State<TopPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: ListView.builder(
-          padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 16),
-          itemCount: 10000,
-          itemBuilder: (context, index) => PokeListItem(index: index),
-        ),
+        child: PokeList()
       ),
       bottomNavigationBar: BottomNavigationBar(
         onTap: (index) => {
@@ -85,6 +81,20 @@ class _TopPageState extends State<TopPage> {
     );
   }
 }
+
+// PokemonListを表示するためのクラス
+class PokeList extends StatelessWidget {
+  PokeList({Key? key}) : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    return ListView.builder(
+      padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 16),
+      itemCount: 1010,
+      itemBuilder: (context, index) => PokeListItem(index: index),
+    );
+  }
+}
+
 
 // Listから詳細画面に遷移させる
 class PokeListItem extends StatelessWidget {
