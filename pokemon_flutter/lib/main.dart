@@ -149,6 +149,8 @@ class _SettingsState extends State<Settings> {
   bool _isSwitched = true;
   bool _isChecked = true;
   int _selectedRadio = 0;
+  ThemeMode _themeMode = ThemeMode.system;
+
   @override
   Widget build(BuildContext context) {
     return ListView(
@@ -156,10 +158,19 @@ class _SettingsState extends State<Settings> {
         ListTile(
           leading: Icon(Icons.lightbulb),
           title: Text('Dark/Light Mode'),
-          onTap: () => {
-            Navigator.of(context).push(MaterialPageRoute(
-              builder: (context) => const ThemeModeSelectionPage(),
-            ))
+          trailing: Text(
+              (_themeMode == ThemeMode.system) ? 'System'
+              : (_themeMode == ThemeMode.dark ? 'Dark' : 'Light')
+          ),
+          onTap: () async {
+            var ret = await Navigator.of(context).push<ThemeMode>(
+              MaterialPageRoute(
+                builder: (context) => ThemeModeSelectionPage(mode: _themeMode),
+              )
+            );
+            setState(() {
+              _themeMode = ret!;
+            });
           },
         ),
         SwitchListTile(
@@ -213,13 +224,20 @@ class _SettingsState extends State<Settings> {
 }
 
 class ThemeModeSelectionPage extends StatefulWidget {
-  const ThemeModeSelectionPage({Key? key}) : super(key: key);
+  const ThemeModeSelectionPage({Key? key, required this.mode}) : super(key: key);
+  final ThemeMode mode;
+
   @override
   _ThemeModeSelectionPageState createState() => _ThemeModeSelectionPageState();
 }
 
 class _ThemeModeSelectionPageState extends State<ThemeModeSelectionPage> {
-  ThemeMode _currentThemeMode = ThemeMode.system;
+  late ThemeMode _currentThemeMode;
+  @override
+  void initState() {
+    super.initState();
+    _currentThemeMode = widget.mode;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -230,7 +248,7 @@ class _ThemeModeSelectionPageState extends State<ThemeModeSelectionPage> {
             ListTile(
               leading: IconButton(
                 icon: const Icon(Icons.arrow_back),
-                onPressed: () => Navigator.pop(context),
+                onPressed: () => Navigator.pop<ThemeMode>(context, ThemeMode.light), // 暫定でlightを返す
               ),
             ),
             RadioListTile<ThemeMode>(
