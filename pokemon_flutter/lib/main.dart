@@ -37,21 +37,16 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  ThemeMode _themeMode = ThemeMode.system;
-  @override
-  void initState() {
-    super.initState();
-    loadThemeMode().then((value) => setState(() => _themeMode = value));
-  }
-
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: widget.title,
-      theme: ThemeData.light(),
-      darkTheme: ThemeData.dark(),
-      themeMode: _themeMode,
-      home: const TopPage(),
+    return Consumer<ThemeModeNotifier>(
+      builder: (context, mode, child) => MaterialApp(
+        title: widget.title,
+        theme: ThemeData.light(),
+        darkTheme: ThemeData.dark(),
+        themeMode: mode.mode,
+        home: const TopPage(),
+      ),
     );
   }
 }
