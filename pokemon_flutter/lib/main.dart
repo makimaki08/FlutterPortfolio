@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import './poke_detail.dart';
+import './manage_mode.dart';
 
 void main() {
   runApp(const MyApp());
@@ -152,6 +153,12 @@ class _SettingsState extends State<Settings> {
   ThemeMode _themeMode = ThemeMode.system;
 
   @override
+  void initState() {
+    super.initState();
+    loadThemeMode().then((value) => setState(() => _themeMode = value));
+  }
+
+  @override
   Widget build(BuildContext context) {
     return ListView(
       children: [
@@ -168,9 +175,8 @@ class _SettingsState extends State<Settings> {
                 builder: (context) => ThemeModeSelectionPage(mode: _themeMode),
               )
             );
-            setState(() {
-              _themeMode = ret!;
-            });
+            setState(() => _themeMode = ret!);
+            await saveThemeMode(_themeMode);
           },
         ),
         SwitchListTile(
