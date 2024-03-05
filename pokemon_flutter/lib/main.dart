@@ -1,10 +1,15 @@
+import 'dart:js';
+
 import 'package:flutter/material.dart';
 import './poke_detail.dart';
 import './manage_mode.dart';
 import 'package:provider/provider.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(ChangeNotifierProvider(
+    create: (context) => ThemeModeNotifier(),
+    child: const MyApp(),
+  ));
 }
 
 class MyApp extends StatelessWidget {
