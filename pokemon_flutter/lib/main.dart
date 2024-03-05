@@ -1,5 +1,3 @@
-import 'dart:js';
-
 import 'package:flutter/material.dart';
 import './poke_detail.dart';
 import './manage_mode.dart';
