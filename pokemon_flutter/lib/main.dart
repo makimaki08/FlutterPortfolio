@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import './poke_detail.dart';
 import './manage_mode.dart';
+import 'package:provider/provider.dart';
 
 void main() {
   runApp(const MyApp());
