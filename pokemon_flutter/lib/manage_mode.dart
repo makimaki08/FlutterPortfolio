@@ -43,3 +43,26 @@ Future<ThemeMode> loadThemeMode() async {
   final ret = valToMode(pref.getInt('theme_mode') ?? 0);
   return ret;
 }
+
+// 変更を通知する処理
+class ThemeModeNotifier extends ChangeNotifier {
+  late ThemeMode _themeMode;
+
+  ThemeModeNotifier() {
+    _init();
+  }
+
+  // _themeModeをmodeに設定 ※modeは引数として扱える
+  ThemeMode get mode => _themeMode;
+
+  void _init() async {
+    _themeMode = await loadThemeMode();
+    notifyListeners();
+  }
+
+  void update(ThemeMode nextMode) {
+    _themeMode = nextMode;
+    saveThemeMode(nextMode);
+    notifyListeners();
+  }
+}
