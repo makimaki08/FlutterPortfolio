@@ -48,7 +48,7 @@ Future<ThemeMode> loadThemeMode() async {
 class ThemeModeNotifier extends ChangeNotifier {
   late ThemeMode _themeMode;
 
-  ThemeModeNotifier() {
+  ThemeModeNotifier(SharedPreferences pref) {
     _init();
   }
 

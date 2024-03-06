@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import './poke_detail.dart';
 import './manage_mode.dart';
 import 'package:provider/provider.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  final SharedPreferences pref = await SharedPreferences.getInstance();
+  final _themeModeNotifier = ThemeModeNotifier(pref);
   runApp(ChangeNotifierProvider(
-    create: (context) => ThemeModeNotifier(),
+    create: (context) => _themeModeNotifier,
     child: const MyApp(),
   ));
 }
