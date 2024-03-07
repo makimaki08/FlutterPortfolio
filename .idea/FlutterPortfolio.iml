@@ -9,6 +9,9 @@
       <excludeFolder url="file://$MODULE_DIR$/pokemon_flutter/.dart_tool" />
       <excludeFolder url="file://$MODULE_DIR$/pokemon_flutter/.pub" />
       <excludeFolder url="file://$MODULE_DIR$/pokemon_flutter/build" />
+      <excludeFolder url="file://$MODULE_DIR$/change_notifier_demo/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/change_notifier_demo/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/change_notifier_demo/build" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
