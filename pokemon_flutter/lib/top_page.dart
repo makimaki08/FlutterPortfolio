@@ -1,6 +1,6 @@
 import 'utils/utils.dart';
 
-import './poke_detail.dart';
+import './poke_list.dart';
 import './setting/setting_page.dart';
 
 class TopPage extends StatefulWidget {
