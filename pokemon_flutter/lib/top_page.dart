@@ -1,8 +1,6 @@
-import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import './utils.dart';
 import './poke_detail.dart';
 import './manage_mode.dart';
-import 'package:provider/provider.dart';
 
 class TopPage extends StatefulWidget {
   const TopPage({Key? key}) : super(key: key);
