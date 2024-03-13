@@ -1,4 +1,4 @@
-import '../utils.dart';
+import '../utils/utils.dart';
 
 class ThemeModeSelectionPage extends StatefulWidget {
   const ThemeModeSelectionPage({Key? key, required this.mode}) : super(key: key);
