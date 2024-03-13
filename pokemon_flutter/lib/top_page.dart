@@ -1,6 +1,7 @@
 import 'utils/utils.dart';
+
 import './poke_detail.dart';
-import 'utils/manage_mode.dart';
+import './setting/setting_page.dart';
 
 class TopPage extends StatefulWidget {
   const TopPage({Key? key}) : super(key: key);
