@@ -2,6 +2,7 @@ import 'utils.dart';
 
 import './poke_detail.dart';
 import './manage_mode.dart';
+import './top_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
