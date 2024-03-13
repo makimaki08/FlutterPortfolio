@@ -1,7 +1,7 @@
-import 'utils.dart';
+import 'utils/utils.dart';
 
 import './poke_detail.dart';
-import './manage_mode.dart';
+import 'utils/manage_mode.dart';
 import './top_page.dart';
 
 void main() async {
