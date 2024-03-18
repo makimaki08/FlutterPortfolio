@@ -5,7 +5,7 @@ import './theme_mode_selection_page.dart';
 
 // Settings用の画面
 class Settings extends StatefulWidget {
-  const Settings({Key? key}) : super(key: key);
+  const Settings({super.key});
   @override
   _SettingsState createState() => _SettingsState();
 }
@@ -27,8 +27,8 @@ class _SettingsState extends State<Settings> {
     return ListView(
       children: [
         ListTile(
-          leading: Icon(Icons.lightbulb),
-          title: Text('Dark/Light Mode'),
+          leading: const Icon(Icons.lightbulb),
+          title: const Text('Dark/Light Mode'),
           trailing: Text(
               (_themeMode == ThemeMode.system) ? 'System'
                   : (_themeMode == ThemeMode.dark ? 'Dark' : 'Light')
