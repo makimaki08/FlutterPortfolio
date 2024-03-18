@@ -4,7 +4,7 @@ import './poke_detail.dart';
 
 // PokemonListを表示するためのクラス
 class PokeList extends StatelessWidget {
-  PokeList({Key? key}) : super(key: key);
+  const PokeList({super.key});
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
@@ -18,7 +18,7 @@ class PokeList extends StatelessWidget {
 
 // Listから詳細画面に遷移させる
 class PokeListItem extends StatelessWidget {
-  const PokeListItem({Key? key, required this.index}) : super(key: key);
+  const PokeListItem({super.key, required this.index});
   final int index;
   @override
   Widget build(BuildContext context) {

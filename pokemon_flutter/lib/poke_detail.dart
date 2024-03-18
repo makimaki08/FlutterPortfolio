@@ -11,9 +11,9 @@ class PokeDetail extends StatelessWidget {
                 .of(context)
                 .colorScheme
                 .inversePrimary,
-            title: Text('pikachu'),
+            title: const Text('pikachu'),
             leading: IconButton(
-              icon: Icon(Icons.arrow_back),
+              icon: const Icon(Icons.arrow_back),
               onPressed: () {
                 Navigator.of(context).pop();
               },
@@ -45,11 +45,11 @@ class PokeDetail extends StatelessWidget {
                       )
                     ],
                   ),
-                  Text(
+                  const Text(
                     'pikachu',
                     style: TextStyle(fontSize: 36, fontWeight: FontWeight.bold),
                   ),
-                  Chip(
+                  const Chip(
                     label: Text('electric'),
                     backgroundColor: Colors.yellow,
                   )
