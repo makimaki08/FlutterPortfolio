@@ -13,12 +13,16 @@ import './top_page.dart';
  */
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
+  WidgetsFlutterBinding
+      .ensureInitialized(); // Flutter EngineとFlutter Frameworkを通信できるようにするために設定
+  // 下記で、ローカルで変更したThemeModeを保存できるように定義
   final SharedPreferences pref = await SharedPreferences.getInstance();
   final themeModeNotifier = ThemeModeNotifier(pref);
+
+  // アプリを実装
   runApp(ChangeNotifierProvider(
     create: (context) => themeModeNotifier,
-    child: const MyApp(),
+    child: MyApp(),
   ));
 }
 

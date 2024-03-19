@@ -1,7 +1,7 @@
-import '../utils/utils.dart';
-import '../utils/manage_mode.dart';
+import 'utils/utils.dart';
+import 'utils/manage_mode.dart';
 
-import './theme_mode_selection_page.dart';
+import 'setting/theme_mode_selection_page.dart';
 
 // Settings用の画面
 class Settings extends StatefulWidget {
@@ -29,16 +29,14 @@ class _SettingsState extends State<Settings> {
         ListTile(
           leading: const Icon(Icons.lightbulb),
           title: const Text('Dark/Light Mode'),
-          trailing: Text(
-              (_themeMode == ThemeMode.system) ? 'System'
-                  : (_themeMode == ThemeMode.dark ? 'Dark' : 'Light')
-          ),
+          trailing: Text((_themeMode == ThemeMode.system)
+              ? 'System'
+              : (_themeMode == ThemeMode.dark ? 'Dark' : 'Light')),
           onTap: () async {
-            var ret = await Navigator.of(context).push<ThemeMode>(
-                MaterialPageRoute(
-                  builder: (context) => ThemeModeSelectionPage(mode: _themeMode),
-                )
-            );
+            var ret =
+                await Navigator.of(context).push<ThemeMode>(MaterialPageRoute(
+              builder: (context) => ThemeModeSelectionPage(mode: _themeMode),
+            ));
             setState(() => _themeMode = ret!);
             await saveThemeMode(_themeMode);
           },
@@ -47,7 +45,7 @@ class _SettingsState extends State<Settings> {
           title: const Text('Switch'),
           value: _isSwitched,
           onChanged: (newValue) => {
-            setState((){
+            setState(() {
               _isSwitched = newValue;
             })
           },
@@ -56,7 +54,7 @@ class _SettingsState extends State<Settings> {
           title: const Text('Checkbox'),
           value: _isChecked,
           onChanged: (newValue) => {
-            setState((){
+            setState(() {
               _isChecked = newValue!;
             })
           },
@@ -92,4 +90,3 @@ class _SettingsState extends State<Settings> {
     );
   }
 }
-
