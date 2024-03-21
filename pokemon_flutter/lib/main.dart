@@ -10,7 +10,9 @@ import './top_page.dart';
     →Provider.ofで変更した値をmainに渡す処理が正しく動作していないのでは？
       →ThemeModeNotifierのinitが、引数にprefを要求しているため、runAppでChangeNotifierを呼び出していた
       →runAppでChangeNotifierProviderを呼び出す方法に変える：済
-        →MyHomePageが原因ではなかったので、top_Pageの実装部分や、テーマが切り替わった瞬間の挙動を確認する⭐ToDo
+        →MyHomePageが原因ではなかった、ThemeModeが切り替わった後、notifier()をしている箇所がないから変更が読み込まれない。
+        →notifier()を利用するために、ChangeNotifierを継承する必要があるが、継承している箇所がないから実装できないという状態...
+        →ローカルでデータ保存をする必要がないこと、libファイルでデータを保存する必要がないことから、別ブランチを切ってFixさせる
   →MyAppと、MyHomePageって、2つに別れているけど分ける必要あるの？
     →同じような宣言繰り返しているだけで、本当は意味ないのでは？
  */
