@@ -9,7 +9,8 @@ import './top_page.dart';
     →おそらくmain関数の呼び出しは少し修正するくらい
     →Provider.ofで変更した値をmainに渡す処理が正しく動作していないのでは？
       →ThemeModeNotifierのinitが、引数にprefを要求しているため、runAppでChangeNotifierを呼び出していた
-      →runAppでChangeNotifierProviderを呼び出す方法に変える⭐️ToDo
+      →runAppでChangeNotifierProviderを呼び出す方法に変える：済
+        →MyHomePageが原因ではなかったので、top_Pageの実装部分や、テーマが切り替わった瞬間の挙動を確認する⭐ToDo
   →MyAppと、MyHomePageって、2つに別れているけど分ける必要あるの？
     →同じような宣言繰り返しているだけで、本当は意味ないのでは？
  */
