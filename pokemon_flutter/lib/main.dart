@@ -22,28 +22,18 @@ void main() async {
   final themeModeNotifier = ThemeModeNotifier(pref);
 
   // アプリを実装
-  runApp(MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  String appTitle = 'PokeAPI Demo';
-
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (context) => ThemeModeNotifier(),
-      child: Consumer<ThemeModeNotifier>(
-        builder: (context, themeNotifier, child) {
-          return MaterialApp(
-            title: appTitle,
-            theme: ThemeData.light(),
-            darkTheme: ThemeData.dark(),
-            themeMode: themeNotifier.mode,
-            home: TopPage(),
-          );
-        },
-      ),
-    );
-  }
+  runApp(ChangeNotifierProvider(
+    create: (context) => themeModeNotifier,
+    child: Consumer<ThemeModeNotifier>(
+      builder: (context, themeNotifier, child) {
+        return MaterialApp(
+          title: 'PokeAPI Demo',
+          theme: ThemeData.light(),
+          darkTheme: ThemeData.dark(),
+          themeMode: themeNotifier.mode,
+          home: TopPage(),
+        );
+      },
+    ),
+  ));
 }
