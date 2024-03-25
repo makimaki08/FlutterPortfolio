@@ -12,7 +12,7 @@ class S1Notifier extends _$S1Notifier {
 
   void updateState() {
     // 変更前のデータ
-    final oldState = State;
+    final oldState = state;
     // 変更後のデータ
     final newState = oldState + 1;
     // データを上書き
