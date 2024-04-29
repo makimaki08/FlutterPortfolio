@@ -23,26 +23,30 @@ class AuthAppPage extends ConsumerWidget {
       body: SafeArea(
         child: Padding(
           padding: EdgeInsets.all(20.0),
-          child: Column(
-            children: [
-              Text(
-                'OREFFERENCES ACCESS.',
-                style: TextStyle(
-                  fontSize: 32,
-                  fontWeight: FontWeight.w500,
+          child: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  'OREFFERENCES ACCESS.',
+                  style: TextStyle(
+                    fontSize: 32,
+                    fontWeight: FontWeight.w500,
+                  ),
                 ),
-              ),
-              const Gap(10),
-              Text(
-                state.text,
-                style: TextStyle(fontSize: 24),
-              ),
-              const Gap(10),
-              ElevatedButton(
-                onPressed: () => ref.read(authAppPageProvider.notifier).fire(),
-                child: const Text('Button'),
-              ),
-            ],
+                const Gap(10),
+                Text(
+                  state.text,
+                  style: TextStyle(fontSize: 24),
+                ),
+                const Gap(10),
+                ElevatedButton(
+                  onPressed: () =>
+                      ref.read(authAppPageProvider.notifier).fire(),
+                  child: const Text('Button'),
+                ),
+              ],
+            ),
           ),
         ),
       ),
