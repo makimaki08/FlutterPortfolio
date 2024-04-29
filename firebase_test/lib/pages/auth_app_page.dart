@@ -19,6 +19,7 @@ class AuthAppPage extends ConsumerWidget {
     final state = ref.watch(authAppPageProvider);
 
     return Scaffold(
+      appBar: AppBar(title: Text(title)),
       body: SafeArea(
         child: Padding(
           padding: EdgeInsets.all(20.0),
