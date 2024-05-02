@@ -32,19 +32,25 @@ class LoginController extends StateNotifier<LoginState> {
 
   /// ログイン
   Future<void> login() async {
-    try {
-      await Loading.show();
+    await Loading.show();
 
+    try {
       final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: 'test@gmail.com',
-        // email: inputUserIdController.text,
-        password: 'test01',
+        email: inputUserIdController.text,
+        password: inputPasswordController.text,
       );
 
-      // state = state.copyWith(
-      //   isAuth: true,
-      //   token: credential.credential!.token.toString(),
-      // );
+      if (credential.user == null) {
+        throw FirebaseAuthException(
+          code: 'user-not-found',
+          message: 'The user does not exist.',
+        );
+      }
+
+      state = state.copyWith(
+        isAuth: true,
+        uid: credential.user!.uid,
+      );
 
       // SecureStrageに、UserID保存
       final container = ProviderContainer();
@@ -53,11 +59,10 @@ class LoginController extends StateNotifier<LoginState> {
 
       // userIDを保存する
       // await secureStorageRepository.saveUserId(loginRequest.userId);
-    }
-
-    // エラー処理
-    on FirebaseAuthException catch (e) {
-      print(e.message);
+    } on FirebaseAuthException catch (e) {
+      print('Firebase Auth Error: ${e.code} - ${e.message}');
+      // 例外を再スローする
+      rethrow;
     } finally {
       await Loading.dismiss();
     }

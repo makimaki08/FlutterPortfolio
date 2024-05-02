@@ -17,7 +17,7 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$LoginState {
   bool get isAuth => throw _privateConstructorUsedError;
-  String get token => throw _privateConstructorUsedError;
+  String get uid => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $LoginStateCopyWith<LoginState> get copyWith =>
@@ -30,7 +30,7 @@ abstract class $LoginStateCopyWith<$Res> {
           LoginState value, $Res Function(LoginState) then) =
       _$LoginStateCopyWithImpl<$Res, LoginState>;
   @useResult
-  $Res call({bool isAuth, String token});
+  $Res call({bool isAuth, String uid});
 }
 
 /// @nodoc
@@ -47,16 +47,16 @@ class _$LoginStateCopyWithImpl<$Res, $Val extends LoginState>
   @override
   $Res call({
     Object? isAuth = null,
-    Object? token = null,
+    Object? uid = null,
   }) {
     return _then(_value.copyWith(
       isAuth: null == isAuth
           ? _value.isAuth
           : isAuth // ignore: cast_nullable_to_non_nullable
               as bool,
-      token: null == token
-          ? _value.token
-          : token // ignore: cast_nullable_to_non_nullable
+      uid: null == uid
+          ? _value.uid
+          : uid // ignore: cast_nullable_to_non_nullable
               as String,
     ) as $Val);
   }
@@ -70,7 +70,7 @@ abstract class _$$LoginStateImplCopyWith<$Res>
       __$$LoginStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({bool isAuth, String token});
+  $Res call({bool isAuth, String uid});
 }
 
 /// @nodoc
@@ -85,16 +85,16 @@ class __$$LoginStateImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? isAuth = null,
-    Object? token = null,
+    Object? uid = null,
   }) {
     return _then(_$LoginStateImpl(
       isAuth: null == isAuth
           ? _value.isAuth
           : isAuth // ignore: cast_nullable_to_non_nullable
               as bool,
-      token: null == token
-          ? _value.token
-          : token // ignore: cast_nullable_to_non_nullable
+      uid: null == uid
+          ? _value.uid
+          : uid // ignore: cast_nullable_to_non_nullable
               as String,
     ));
   }
@@ -103,18 +103,18 @@ class __$$LoginStateImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$LoginStateImpl extends _LoginState {
-  const _$LoginStateImpl({this.isAuth = false, this.token = ''}) : super._();
+  const _$LoginStateImpl({this.isAuth = false, this.uid = ''}) : super._();
 
   @override
   @JsonKey()
   final bool isAuth;
   @override
   @JsonKey()
-  final String token;
+  final String uid;
 
   @override
   String toString() {
-    return 'LoginState(isAuth: $isAuth, token: $token)';
+    return 'LoginState(isAuth: $isAuth, uid: $uid)';
   }
 
   @override
@@ -123,11 +123,11 @@ class _$LoginStateImpl extends _LoginState {
         (other.runtimeType == runtimeType &&
             other is _$LoginStateImpl &&
             (identical(other.isAuth, isAuth) || other.isAuth == isAuth) &&
-            (identical(other.token, token) || other.token == token));
+            (identical(other.uid, uid) || other.uid == uid));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, isAuth, token);
+  int get hashCode => Object.hash(runtimeType, isAuth, uid);
 
   @JsonKey(ignore: true)
   @override
@@ -137,14 +137,14 @@ class _$LoginStateImpl extends _LoginState {
 }
 
 abstract class _LoginState extends LoginState {
-  const factory _LoginState({final bool isAuth, final String token}) =
+  const factory _LoginState({final bool isAuth, final String uid}) =
       _$LoginStateImpl;
   const _LoginState._() : super._();
 
   @override
   bool get isAuth;
   @override
-  String get token;
+  String get uid;
   @override
   @JsonKey(ignore: true)
   _$$LoginStateImplCopyWith<_$LoginStateImpl> get copyWith =>

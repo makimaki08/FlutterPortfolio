@@ -41,7 +41,6 @@ class LoginPage extends ConsumerWidget {
                   controller: loginController.inputPasswordController,
                   decoration: InputDecoration(labelText: 'パスワード'),
                   obscureText: true,
-                  onChanged: (String value) {},
                 ),
                 Gap(20),
 
@@ -51,9 +50,8 @@ class LoginPage extends ConsumerWidget {
                   child: ElevatedButton(
                     child: Text('ログイン'),
                     onPressed: () async {
-                      await ref.read(loginProvider.notifier).login().then((_) {
-                        context.go('/top');
-                      });
+                      await ref.read(loginProvider.notifier).login();
+                      context.go('/top');
                     },
                   ),
                 )

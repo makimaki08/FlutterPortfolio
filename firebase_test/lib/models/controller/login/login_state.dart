@@ -5,7 +5,7 @@ part 'login_state.freezed.dart';
 class LoginState with _$LoginState {
   const factory LoginState({
     @Default(false) bool isAuth,
-    @Default('') String token,
+    @Default('') String uid,
   }) = _LoginState;
 
   const LoginState._();
