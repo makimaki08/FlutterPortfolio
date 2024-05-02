@@ -46,7 +46,7 @@ class LoginPage extends ConsumerWidget {
 
                 Container(
                   width: double.infinity,
-                  // ユーザー登録ボタン
+                  // ログインボタン
                   child: ElevatedButton(
                     child: Text('ログイン'),
                     onPressed: () async {
