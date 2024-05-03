@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_test/repositories/secure_storage_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
@@ -10,10 +11,7 @@ import '../models/controller/login/login_controller.dart';
 class LoginPage extends ConsumerWidget {
   const LoginPage({
     Key? key,
-    required this.title,
   }) : super(key: key);
-
-  final String title;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -21,7 +19,7 @@ class LoginPage extends ConsumerWidget {
     final loginController = ref.watch(loginProvider.notifier);
 
     return Scaffold(
-      appBar: AppBar(title: Text(title)),
+      appBar: AppBar(title: Text('Firebase_Auto_app')),
       body: SafeArea(
         child: Padding(
           padding: EdgeInsets.all(40.0),
