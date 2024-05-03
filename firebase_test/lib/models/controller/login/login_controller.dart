@@ -51,14 +51,6 @@ class LoginController extends StateNotifier<LoginState> {
         isAuth: true,
         uid: credential.user!.uid,
       );
-
-      // SecureStrageに、UserID保存
-      final container = ProviderContainer();
-      final secureStorageRepository =
-          container.read(secureStorageRepositoryProvider);
-
-      // userIDを保存する
-      // await secureStorageRepository.saveUserId(loginRequest.userId);
     } on FirebaseAuthException catch (e) {
       print('Firebase Auth Error: ${e.code} - ${e.message}');
       // 例外を再スローする
