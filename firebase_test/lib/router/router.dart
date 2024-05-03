@@ -16,7 +16,7 @@ final goRouter = GoRouter(
       pageBuilder: (context, state) {
         return MaterialPage(
           key: state.pageKey,
-          child: const LoginPage(title: 'Firebase_Auto_app'),
+          child: const LoginPage(),
         );
       },
     ),
