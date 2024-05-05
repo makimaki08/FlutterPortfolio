@@ -32,6 +32,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         useMaterial3: true,
         appBarTheme: AppBarTheme(backgroundColor: AppColors.appBarTheme),
+        // primarySwatch: Colors.amber,
       ),
 
       // go_router初期化
