@@ -53,7 +53,7 @@ class LoginPage extends ConsumerWidget {
                     child: ElevatedButton(
                       child: Text('ログイン'),
                       onPressed: () async {
-                        await ref.read(loginProvider.notifier).login();
+                        loginController.login();
                         context.go('/top');
                       },
                     ),
@@ -65,9 +65,7 @@ class LoginPage extends ConsumerWidget {
                     width: double.infinity,
                     child: ElevatedButton(
                       child: Text('新規登録'),
-                      onPressed: () {
-                        context.go('/registration');
-                      },
+                      onPressed: () => context.go('/registration'),
                     ),
                   ),
                 ],

@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_test/models/controller/registration/registration_controller.dart';
 import 'package:firebase_test/repositories/secure_storage_repository.dart';
 import 'package:firebase_test/style/color/app_colors.dart';
 import 'package:flutter/material.dart';
@@ -16,14 +17,7 @@ class RegistrationPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // final loginController = ref.watch(loginProvider.notifier);
-
-    /* --- コントローラー --- */
-    /// ユーザーID
-    TextEditingController inputUserIdController = TextEditingController();
-
-    /// パスワード
-    TextEditingController inputPasswordController = TextEditingController();
+    final registrationController = ref.watch(registrationProvider.notifier);
 
     return Scaffold(
       appBar: AppBar(title: Text('新規登録ページ')),
@@ -39,7 +33,7 @@ class RegistrationPage extends ConsumerWidget {
                 children: [
                   // メールアドレス入力
                   TextFormField(
-                    controller: inputUserIdController,
+                    controller: registrationController.inputUserIdController,
                     decoration: InputDecoration(labelText: 'メールアドレス'),
                     textInputAction: TextInputAction.next,
                   ),
@@ -47,7 +41,7 @@ class RegistrationPage extends ConsumerWidget {
 
                   // パスワード入力
                   TextFormField(
-                    controller: inputPasswordController,
+                    controller: registrationController.inputPasswordController,
                     decoration: InputDecoration(labelText: 'パスワード'),
                     obscureText: true,
                   ),
@@ -59,11 +53,7 @@ class RegistrationPage extends ConsumerWidget {
                     child: ElevatedButton(
                       child: Text('新規登録'),
                       onPressed: () async {
-                        await FirebaseAuth.instance
-                            .createUserWithEmailAndPassword(
-                          email: inputUserIdController.text,
-                          password: inputPasswordController.text,
-                        );
+                        await registrationController.registration();
                         context.go('/top');
                       },
                     ),
