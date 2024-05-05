@@ -1,5 +1,3 @@
-import 'dart:html';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_test/models/controller/registration/registration_state.dart';
 import 'package:firebase_test/repositories/secure_storage_repository.dart';
@@ -35,11 +33,15 @@ class RegistrationController extends StateNotifier<RegistrationState> {
     inputNameController = TextEditingController();
   }
 
+  Future<bool> isRegistered() async {
+    return await FirebaseAuth.instance
+        .isSignInWithEmailLink(inputUserIdController.text);
+  }
+
   /// 新規登録
-  Future<void> registration() async {
+  Future<void> register() async {
     await Loading.show();
     try {
-      // FIXME: 先にユーザーが既に存在していないか判定する処理が必要
       final credential =
           await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: inputUserIdController.text,
