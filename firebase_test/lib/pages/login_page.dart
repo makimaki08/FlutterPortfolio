@@ -24,7 +24,7 @@ class LoginPage extends ConsumerWidget {
     final loginState = ref.watch(loginProvider);
 
     return Scaffold(
-      appBar: AppBar(title: Text('Firebase_Auto_app')),
+      appBar: AppBar(title: const Text('Firebase_Auto_app')),
       body: SafeArea(
         child: Center(
           child: Card(
@@ -38,10 +38,10 @@ class LoginPage extends ConsumerWidget {
                   // メールアドレス入力
                   TextFormField(
                     controller: loginController.inputUserIdController,
-                    decoration: InputDecoration(labelText: 'メールアドレス'),
+                    decoration: const InputDecoration(labelText: 'メールアドレス'),
                     textInputAction: TextInputAction.next,
                   ),
-                  Gap(8),
+                  const Gap(8),
 
                   // パスワード入力
                   TextFormField(
@@ -49,13 +49,13 @@ class LoginPage extends ConsumerWidget {
                     decoration: InputDecoration(labelText: 'パスワード'),
                     obscureText: true,
                   ),
-                  Gap(16),
+                  const Gap(16),
 
                   // ログインボタン
                   Container(
                     width: double.infinity,
                     child: ElevatedButton(
-                      child: Text('ログイン'),
+                      child: const Text('ログイン'),
                       onPressed: () => _handleLogin(
                         context,
                         loginController,
@@ -63,13 +63,13 @@ class LoginPage extends ConsumerWidget {
                       ),
                     ),
                   ),
-                  Gap(16),
+                  const Gap(16),
 
                   // 新規登録
                   Container(
                     width: double.infinity,
                     child: ElevatedButton(
-                      child: Text('新規登録'),
+                      child: const Text('新規登録'),
                       onPressed: () => context.go('/registration'),
                     ),
                   ),
@@ -97,8 +97,8 @@ class LoginPage extends ConsumerWidget {
           context: context,
           builder: (context) {
             return AlertDialog(
-              title: Text('エラー'),
-              content: Text('ログインに失敗しました。もう一度お試しください。'),
+              title: const Text('エラー'),
+              content: const Text('ログインに失敗しました。\nもう一度お試しください。'),
               actions: [
                 TextButton(
                   onPressed: () {
