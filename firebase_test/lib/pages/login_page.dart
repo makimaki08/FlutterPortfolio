@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_test/models/controller/login/login_state.dart';
 import 'package:firebase_test/repositories/secure_storage_repository.dart';
 import 'package:firebase_test/style/color/app_colors.dart';
 import 'package:flutter/material.dart';
@@ -18,6 +19,9 @@ class LoginPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     // ログインFormの入力情報を管理
     final loginController = ref.watch(loginProvider.notifier);
+
+    // ログインの状態を監視
+    final loginState = ref.watch(loginProvider);
 
     return Scaffold(
       appBar: AppBar(title: Text('Firebase_Auto_app')),
@@ -52,10 +56,11 @@ class LoginPage extends ConsumerWidget {
                     width: double.infinity,
                     child: ElevatedButton(
                       child: Text('ログイン'),
-                      onPressed: () async {
-                        loginController.login();
-                        context.go('/top');
-                      },
+                      onPressed: () => _handleLogin(
+                        context,
+                        loginController,
+                        loginState,
+                      ),
                     ),
                   ),
                   Gap(16),
@@ -75,5 +80,39 @@ class LoginPage extends ConsumerWidget {
         ),
       ),
     );
+  }
+
+  // ログイン処理
+  void _handleLogin(
+    BuildContext context,
+    LoginController loginController,
+    LoginState loginState,
+  ) async {
+    try {
+      await loginController.login();
+      if (loginState.isAuth) {
+        context.go('/top');
+      } else {
+        showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              title: Text('エラー'),
+              content: Text('ログインに失敗しました。もう一度お試しください。'),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: Text('OK'),
+                )
+              ],
+            );
+          },
+        );
+      }
+    } catch (e) {
+      //
+    }
   }
 }
