@@ -1,4 +1,5 @@
 import 'package:firebase_test/pages/login_page.dart';
+import 'package:firebase_test/pages/registration_page.dart';
 import 'package:firebase_test/pages/top_page.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -17,6 +18,18 @@ final goRouter = GoRouter(
         return MaterialPage(
           key: state.pageKey,
           child: const LoginPage(),
+        );
+      },
+    ),
+
+    // 新規登録ページ
+    GoRoute(
+      path: '/registration',
+      name: 'registration',
+      pageBuilder: (context, state) {
+        return MaterialPage(
+          key: state.pageKey,
+          child: const RegistrationPage(),
         );
       },
     ),
