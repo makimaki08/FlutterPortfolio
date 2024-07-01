@@ -53,8 +53,6 @@ class LoginController extends StateNotifier<LoginState> {
       );
     } on FirebaseAuthException catch (e) {
       print('Firebase Auth Error: ${e.code} - ${e.message}');
-      // 例外を再スローする
-      rethrow;
     } finally {
       await Loading.dismiss();
     }
