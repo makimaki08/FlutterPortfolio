@@ -1,6 +1,6 @@
 import 'package:firebase_test/pages/login_page.dart';
 import 'package:firebase_test/pages/registration_page.dart';
-import 'package:firebase_test/pages/top_page.dart';
+import 'package:firebase_test/pages/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -36,12 +36,12 @@ final goRouter = GoRouter(
 
     // トップページ
     GoRoute(
-      path: '/top',
-      name: 'top',
+      path: '/home',
+      name: 'home',
       pageBuilder: (context, state) {
         return MaterialPage(
           key: state.pageKey,
-          child: TopPage(),
+          child: HomePage(),
         );
       },
     ),
