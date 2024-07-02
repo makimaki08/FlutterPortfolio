@@ -6,8 +6,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class TopPage extends HookConsumerWidget {
-  TopPage({super.key});
+class HomePage extends HookConsumerWidget {
+  HomePage({super.key});
 
   // ここでログイン中userの情報取得
   User? user = FirebaseAuth.instance.currentUser;
