@@ -6,11 +6,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class HomePage extends HookConsumerWidget {
-  HomePage({super.key});
-
-  // ここでログイン中userの情報取得
-  User? user = FirebaseAuth.instance.currentUser;
+class CalendarPage extends HookConsumerWidget {
+  CalendarPage({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -20,24 +17,11 @@ class HomePage extends HookConsumerWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Text('Home Page'),
-              Gap(20),
-              ElevatedButton(
-                child: Text('load'),
-                onPressed: () => _isLogin(user),
-              ),
-              Text(user!.uid),
+              Text('Calendar Page'),
             ],
           ),
         ),
       ),
     );
-  }
-}
-
-Future<void> _isLogin(User? user) async {
-  // ログイン中か確認するメソッド
-  if (user != null && !user!.emailVerified) {
-    await user!.sendEmailVerification();
   }
 }
