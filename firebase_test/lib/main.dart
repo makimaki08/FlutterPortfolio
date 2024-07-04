@@ -1,6 +1,5 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_test/firebase_options.dart';
-import 'package:firebase_test/pages/login_page.dart';
 import 'package:firebase_test/router/router.dart';
 import 'package:firebase_test/style/color/app_colors.dart';
 import 'package:flutter/material.dart';
@@ -31,7 +30,7 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       theme: ThemeData(
         useMaterial3: true,
-        appBarTheme: AppBarTheme(backgroundColor: AppColors.appBarTheme),
+        appBarTheme: const AppBarTheme(backgroundColor: AppColors.appBarTheme),
         // primarySwatch: Colors.amber,
       ),
 

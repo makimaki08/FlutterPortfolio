@@ -47,7 +47,7 @@ class RegistrationPage extends ConsumerWidget {
                       onPressed: () async {
                         if (registrationController.isRegistered == false) {
                           await registrationController.register();
-                          context.go('/top');
+                          context.go('/home');
                         } else {
                           // 既に登録済みの場合はダイアログを表示
                           showDialog(
