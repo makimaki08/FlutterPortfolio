@@ -1,43 +1,72 @@
+import 'dart:js';
+
 import 'package:firebase_test/models/entities/toolbar/tab_item.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class BottomNavigation extends HookConsumerWidget {
-  const BottomNavigation({
-    required this.currentTab,
-    required this.onSelectTab,
-    super.key,
-  });
-
-  /// 選択タブ
-  final TabItem currentTab;
-
-  /// タブ選択トリガー
-  final ValueChanged<TabItem> onSelectTab;
+  final Widget child;
+  BottomNavigation({required this.child, super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return BottomNavigationBar(
-      currentIndex: TabItem.values.indexOf(currentTab),
-      type: BottomNavigationBarType.fixed,
-      items: TabItem.values.map((e) => e.navigationItem).toList(),
-      onTap: (index) => onSelectTab(TabItem.values[index]),
+    return Scaffold(
+      body: child,
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _calculateSelectedIndex(context),
+        items: const <BottomNavigationBarItem>[
+          // home
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Home',
+          ),
+
+          // Calendar
+          BottomNavigationBarItem(
+            icon: Icon(Icons.calendar_month),
+            label: 'Calendar',
+          ),
+
+          // Setting
+          BottomNavigationBarItem(
+            icon: Icon(Icons.settings),
+            label: 'Setting',
+          ),
+        ],
+        onTap: (index) {
+          switch (index) {
+            case 0:
+              context.go('/home');
+              break;
+            case 1:
+              context.go('/calendar');
+              break;
+            case 2:
+              context.go('/settings');
+              break;
+          }
+        },
+      ),
     );
   }
-}
 
-/// [TabItem]に対応する[BottomNavigationBarItem]を返す関数
-extension _BottomNavigationBarItemExt on TabItem {
-  BottomNavigationBarItem get navigationItem => () {
-        final String label;
-        final IconData iconData;
+  int _calculateSelectedIndex(BuildContext context) {
+    final GoRouterState routerState = GoRouterState.of(context);
+    final String location = routerState.matchedLocation;
 
-        switch (this) {
-          case TabItem.home:
-            label = 'home';
-            iconData = Icons.home;
-            break;
-        }
-        return BottomNavigationBarItem(icon: Icon(iconData), label: label);
-      }();
+    switch (location) {
+      case '/home':
+        return 0;
+
+      case '/calendar':
+        return 1;
+
+      case '/settings':
+        return 2;
+
+      default:
+        return 0;
+    }
+  }
 }
