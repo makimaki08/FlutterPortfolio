@@ -91,7 +91,7 @@ class LoginPage extends ConsumerWidget {
     try {
       await loginController.login();
       if (loginState.isAuth) {
-        context.go('/top');
+        context.go('/home');
       } else {
         showDialog(
           context: context,
