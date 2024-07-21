@@ -15,6 +15,9 @@ class HomePage extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text('Home'),
+      ),
       body: SafeArea(
         child: Center(
           child: Column(

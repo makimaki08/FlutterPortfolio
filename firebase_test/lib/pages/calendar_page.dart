@@ -12,6 +12,9 @@ class CalendarPage extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text('Calendar'),
+      ),
       body: SafeArea(
         child: Center(
           child: Column(
