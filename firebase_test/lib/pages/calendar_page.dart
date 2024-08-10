@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_test/models/controller/calendar/calendar_controller.dart';
 import 'package:firebase_test/repositories/secure_storage_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -11,18 +12,33 @@ class CalendarPage extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final eventsAsyncValue = ref.watch(calendarProvider);
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Calendar'),
       ),
       body: SafeArea(
-        child: Center(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Text('Calendar Page'),
-            ],
+        child: eventsAsyncValue.when(
+          data: (events) {
+            return ListView.builder(
+              itemCount: events.length,
+              itemBuilder: (context, index) {
+                final event = events[index];
+                return ListTile(
+                  title: Text(event.summary),
+                  // リストタイル押下時の処理
+                  onTap: () {},
+                );
+              },
+            );
+          },
+          loading: () => Center(
+            child: CircularProgressIndicator(),
           ),
+          error: ((error, stackTrace) => Center(
+                child: Text('Error: $error'),
+              )),
         ),
       ),
     );
