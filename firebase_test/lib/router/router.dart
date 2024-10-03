@@ -1,5 +1,3 @@
-import 'dart:js';
-
 import 'package:firebase_test/pages/calendar_page.dart';
 import 'package:firebase_test/pages/login_page.dart';
 import 'package:firebase_test/pages/registration_page.dart';

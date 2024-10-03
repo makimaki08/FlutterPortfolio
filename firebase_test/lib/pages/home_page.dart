@@ -13,7 +13,7 @@ class HomePage extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Home'),
+        title: const Text('Home'),
       ),
       body: SafeArea(
         child: Center(
@@ -21,7 +21,7 @@ class HomePage extends HookConsumerWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               const Text('Home Page'),
-              Gap(20),
+              const Gap(20),
               ElevatedButton(
                 child: const Text('load'),
                 onPressed: () => _isLogin(user),

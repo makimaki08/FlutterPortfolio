@@ -40,7 +40,7 @@ class RegistrationPage extends ConsumerWidget {
                   const SizedBox(height: 16),
 
                   // 新規登録
-                  Container(
+                  SizedBox(
                     width: double.infinity,
                     child: ElevatedButton(
                       child: const Text('新規登録'),

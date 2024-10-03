@@ -1,14 +1,9 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_test/models/controller/calendar/calendar_controller.dart';
-import 'package:firebase_test/repositories/secure_storage_repository.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:gap/gap.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class CalendarPage extends HookConsumerWidget {
-  CalendarPage({super.key});
+  const CalendarPage({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -16,7 +11,7 @@ class CalendarPage extends HookConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Calendar'),
+        title: const Text('Calendar'),
       ),
       body: SafeArea(
         child: eventsAsyncValue.when(
@@ -33,7 +28,7 @@ class CalendarPage extends HookConsumerWidget {
               },
             );
           },
-          loading: () => Center(
+          loading: () => const Center(
             child: CircularProgressIndicator(),
           ),
           error: ((error, stackTrace) => Center(
