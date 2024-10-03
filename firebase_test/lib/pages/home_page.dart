@@ -1,8 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_test/repositories/secure_storage_repository.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -23,10 +20,10 @@ class HomePage extends HookConsumerWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Text('Home Page'),
+              const Text('Home Page'),
               Gap(20),
               ElevatedButton(
-                child: Text('load'),
+                child: const Text('load'),
                 onPressed: () => _isLogin(user),
               ),
               Text(user!.uid),
