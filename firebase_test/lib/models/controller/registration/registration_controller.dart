@@ -33,11 +33,6 @@ class RegistrationController extends StateNotifier<RegistrationState> {
     inputNameController = TextEditingController();
   }
 
-  Future<bool> isRegistered() async {
-    return await FirebaseAuth.instance
-        .isSignInWithEmailLink(inputUserIdController.text);
-  }
-
   /// 新規登録
   Future<void> register() async {
     await Loading.show();
