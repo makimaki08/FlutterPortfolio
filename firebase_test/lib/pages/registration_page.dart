@@ -40,31 +40,13 @@ class RegistrationPage extends ConsumerWidget {
                   const SizedBox(height: 16),
 
                   // 新規登録
-                  Container(
+                  SizedBox(
                     width: double.infinity,
                     child: ElevatedButton(
                       child: const Text('新規登録'),
                       onPressed: () async {
-                        if (registrationController.isRegistered == false) {
-                          await registrationController.register();
-                          context.go('/home');
-                        } else {
-                          // 既に登録済みの場合はダイアログを表示
-                          showDialog(
-                            context: context,
-                            builder: (context) => AlertDialog(
-                              title: const Text('エラー'),
-                              content: const Text(
-                                  'このメールアドレスは既に登録されています。\nログイン画面からログインしてください。'),
-                              actions: [
-                                TextButton(
-                                  onPressed: () => Navigator.pop(context),
-                                  child: const Text('OK'),
-                                ),
-                              ],
-                            ),
-                          );
-                        }
+                        await registrationController.register();
+                        context.go('/home');
                       },
                     ),
                   ),
