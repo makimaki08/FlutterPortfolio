@@ -1,4 +1,5 @@
 import 'package:firebase_test/models/controller/login/login_state.dart';
+import 'package:firebase_test/models/text_form_firld/password_form/password_form_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
@@ -40,11 +41,7 @@ class LoginPage extends ConsumerWidget {
                   const Gap(8),
 
                   // パスワード入力
-                  TextFormField(
-                    controller: loginController.inputPasswordController,
-                    decoration: InputDecoration(labelText: 'パスワード'),
-                    obscureText: true,
-                  ),
+                  PasswordFormField(),
                   const Gap(16),
 
                   // ログインボタン
