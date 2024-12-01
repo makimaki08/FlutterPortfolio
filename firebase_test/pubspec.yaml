@@ -1,10 +1,10 @@
 name: firebase_test
 description: "A new Flutter project."
-publish_to: 'none'
+publish_to: "none"
 version: 1.0.0+1
 
 environment:
-  sdk: '>=3.3.0 <4.0.0'
+  sdk: ">=3.4.0 <4.0.0"
 
 dependencies:
   flutter:
@@ -15,7 +15,8 @@ dependencies:
   cupertino_icons: ^1.0.6
   firebase_core: ^2.30.1
   cloud_firestore: ^4.17.2
-  flutter_riverpod: ^1.0.4
+  flutter_riverpod: ^2.5.1
+  riverpod_annotation: ^2.3.5
   provider: ^6.1.2
   freezed_annotation: ^2.2.1
   firebase_auth: ^4.19.4
@@ -23,9 +24,11 @@ dependencies:
   go_router: ^14.0.1
   flutter_easyloading: ^3.0.5
   flutter_secure_storage: ^4.2.1
-  hooks_riverpod: ^1.0.4
+  hooks_riverpod: ^2.6.1
+  http: ^1.2.2
   tuple: ^2.0.2
-
+  mockito: ^5.4.4
+  flutter_hooks: ^0.20.5
 
 dev_dependencies:
   flutter_test:
@@ -33,10 +36,10 @@ dev_dependencies:
   flutter_lints: ^3.0.0
 
   # freezed
+  build_runner: ^2.4.11
+  riverpod_generator: ^2.4.2
   freezed: ^2.2.1
-  build_runner: ^2.3.2
   json_serializable: ^6.5.4
-
 
 flutter:
   uses-material-design: true
