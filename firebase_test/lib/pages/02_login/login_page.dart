@@ -1,21 +1,22 @@
 import 'package:firebase_test/models/controller/login/login_state.dart';
 import 'package:firebase_test/models/text_form_firld/password_form/password_form_field.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 
-import '../models/controller/login/login_controller.dart';
+import '../../models/controller/login/login_controller.dart';
 
 class LoginPage extends ConsumerWidget {
   const LoginPage({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     // ログインFormの入力情報を管理
-    final loginController = ref.watch(loginProvider.notifier);
+    final controller = useTextEditingController();
 
     // ログインの状態を監視
     final loginState = ref.watch(loginProvider);
@@ -34,32 +35,33 @@ class LoginPage extends ConsumerWidget {
                 children: [
                   // メールアドレス入力
                   TextFormField(
-                    controller: loginController.inputUserIdController,
+                    controller: controller,
                     decoration: const InputDecoration(labelText: 'メールアドレス'),
                     textInputAction: TextInputAction.next,
                   ),
                   const Gap(8),
 
                   // パスワード入力
-                  PasswordFormField(),
+                  PasswordFormField(controller: controller),
                   const Gap(16),
 
                   // ログインボタン
-                  Container(
+                  SizedBox(
                     width: double.infinity,
                     child: ElevatedButton(
-                      child: const Text('ログイン'),
-                      onPressed: () => _handleLogin(
-                        context,
-                        loginController,
-                        loginState,
-                      ),
-                    ),
+                        child: const Text('ログイン'),
+                        onPressed: () {
+                          // return _handleLogin(
+                          //   context,
+                          //   controller,
+                          //   loginState,
+                          // );
+                        }),
                   ),
                   const Gap(16),
 
                   // 新規登録
-                  Container(
+                  SizedBox(
                     width: double.infinity,
                     child: ElevatedButton(
                       child: const Text('新規登録'),
@@ -97,7 +99,7 @@ class LoginPage extends ConsumerWidget {
                   onPressed: () {
                     Navigator.of(context).pop();
                   },
-                  child: Text('OK'),
+                  child: const Text('OK'),
                 )
               ],
             );

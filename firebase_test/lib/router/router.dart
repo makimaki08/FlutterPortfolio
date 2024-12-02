@@ -1,9 +1,9 @@
-import 'package:firebase_test/pages/calendar_page.dart';
-import 'package:firebase_test/pages/login_page.dart';
-import 'package:firebase_test/pages/registration_page.dart';
-import 'package:firebase_test/pages/home_page.dart';
-import 'package:firebase_test/pages/settings_page.dart';
-import 'package:firebase_test/pages/toolbarl/bottom_navigation.dart';
+import 'package:firebase_test/pages/04_calendar/calendar_page.dart';
+import 'package:firebase_test/pages/02_login/login_page.dart';
+import 'package:firebase_test/pages/01_registration/registration_page.dart';
+import 'package:firebase_test/pages/03_home/home_page.dart';
+import 'package:firebase_test/pages/05_settings/settings_page.dart';
+import 'package:firebase_test/pages/99_toolbarl/bottom_navigation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -65,7 +65,7 @@ final goRouter = GoRouter(
           pageBuilder: (context, state) {
             return MaterialPage(
               key: state.pageKey,
-              child: CalendarPage(),
+              child: const CalendarPage(),
             );
           },
         ),
@@ -77,7 +77,7 @@ final goRouter = GoRouter(
           pageBuilder: (context, state) {
             return MaterialPage(
               key: state.pageKey,
-              child: SettingsPage(),
+              child: const SettingsPage(),
             );
           },
         ),

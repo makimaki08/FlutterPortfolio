@@ -37,7 +37,7 @@ class HomePage extends HookConsumerWidget {
 
 Future<void> _isLogin(User? user) async {
   // ログイン中か確認するメソッド
-  if (user != null && !user!.emailVerified) {
-    await user!.sendEmailVerification();
+  if (user != null && !user.emailVerified) {
+    await user.sendEmailVerification();
   }
 }

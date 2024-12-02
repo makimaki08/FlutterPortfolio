@@ -1,15 +1,18 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_test/models/text_form_firld/password_form/password_form_field.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import '../models/controller/registration/registration_controller.dart';
+import '../../models/controller/registration/registration_controller.dart';
 
 class RegistrationPage extends ConsumerWidget {
-  const RegistrationPage({Key? key}) : super(key: key);
+  const RegistrationPage({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final registrationController = ref.watch(registrationProvider.notifier);
+    final controller = useTextEditingController();
 
     return Scaffold(
       appBar: AppBar(title: const Text('新規登録ページ')),
@@ -25,18 +28,14 @@ class RegistrationPage extends ConsumerWidget {
                 children: [
                   // メールアドレス入力
                   TextFormField(
-                    controller: registrationController.inputUserIdController,
+                    controller: controller,
                     decoration: const InputDecoration(labelText: 'メールアドレス'),
                     textInputAction: TextInputAction.next,
                   ),
                   const SizedBox(height: 8),
 
                   // パスワード入力
-                  TextFormField(
-                    controller: registrationController.inputPasswordController,
-                    decoration: const InputDecoration(labelText: 'パスワード'),
-                    obscureText: true,
-                  ),
+                  PasswordFormField(controller: controller),
                   const SizedBox(height: 16),
 
                   // 新規登録
@@ -45,8 +44,8 @@ class RegistrationPage extends ConsumerWidget {
                     child: ElevatedButton(
                       child: const Text('新規登録'),
                       onPressed: () async {
-                        await registrationController.register();
-                        context.go('/home');
+                        // await registrationController.register();
+                        // context.go('/home');
                       },
                     ),
                   ),
