@@ -1,3 +1,4 @@
+import 'package:firebase_test/validator/validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -28,6 +29,8 @@ class RegistrationPage extends ConsumerWidget {
                     controller: registrationController.inputUserIdController,
                     decoration: const InputDecoration(labelText: 'メールアドレス'),
                     textInputAction: TextInputAction.next,
+                    validator: ValidateText().emailValidator,
+                    autovalidateMode: AutovalidateMode.onUnfocus,
                   ),
                   const SizedBox(height: 8),
 
@@ -36,6 +39,8 @@ class RegistrationPage extends ConsumerWidget {
                     controller: registrationController.inputPasswordController,
                     decoration: const InputDecoration(labelText: 'パスワード'),
                     obscureText: true,
+                    validator: ValidateText().passwordValidator,
+                    autovalidateMode: AutovalidateMode.onUnfocus,
                   ),
                   const SizedBox(height: 16),
 
