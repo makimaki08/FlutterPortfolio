@@ -1,4 +1,5 @@
 import 'package:firebase_test/models/controller/login/login_state.dart';
+import 'package:firebase_test/validator/validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
@@ -36,14 +37,18 @@ class LoginPage extends ConsumerWidget {
                     controller: loginController.inputUserIdController,
                     decoration: const InputDecoration(labelText: 'メールアドレス'),
                     textInputAction: TextInputAction.next,
+                    validator: ValidateText().emailValidator,
+                    autovalidateMode: AutovalidateMode.onUnfocus,
                   ),
                   const Gap(8),
 
                   // パスワード入力
                   TextFormField(
                     controller: loginController.inputPasswordController,
-                    decoration: InputDecoration(labelText: 'パスワード'),
+                    decoration: const InputDecoration(labelText: 'パスワード'),
                     obscureText: true,
+                    validator: ValidateText().passwordValidator,
+                    autovalidateMode: AutovalidateMode.onUnfocus,
                   ),
                   const Gap(16),
 
