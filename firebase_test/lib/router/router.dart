@@ -65,7 +65,7 @@ final goRouter = GoRouter(
           pageBuilder: (context, state) {
             return MaterialPage(
               key: state.pageKey,
-              child: CalendarPage(),
+              child: const CalendarPage(),
             );
           },
         ),
@@ -77,7 +77,7 @@ final goRouter = GoRouter(
           pageBuilder: (context, state) {
             return MaterialPage(
               key: state.pageKey,
-              child: SettingsPage(),
+              child: const SettingsPage(),
             );
           },
         ),

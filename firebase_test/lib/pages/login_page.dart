@@ -12,8 +12,8 @@ import '../models/controller/login/login_controller.dart';
 
 class LoginPage extends ConsumerWidget {
   const LoginPage({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -46,13 +46,13 @@ class LoginPage extends ConsumerWidget {
                   // パスワード入力
                   TextFormField(
                     controller: loginController.inputPasswordController,
-                    decoration: InputDecoration(labelText: 'パスワード'),
+                    decoration: const InputDecoration(labelText: 'パスワード'),
                     obscureText: true,
                   ),
                   const Gap(16),
 
                   // ログインボタン
-                  Container(
+                  SizedBox(
                     width: double.infinity,
                     child: ElevatedButton(
                       child: const Text('ログイン'),
@@ -66,7 +66,7 @@ class LoginPage extends ConsumerWidget {
                   const Gap(16),
 
                   // 新規登録
-                  Container(
+                  SizedBox(
                     width: double.infinity,
                     child: ElevatedButton(
                       child: const Text('新規登録'),
@@ -104,7 +104,7 @@ class LoginPage extends ConsumerWidget {
                   onPressed: () {
                     Navigator.of(context).pop();
                   },
-                  child: Text('OK'),
+                  child: const Text('OK'),
                 )
               ],
             );
