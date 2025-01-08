@@ -1,5 +1,8 @@
+import 'dart:math';
+
 import 'package:firebase_test/models/controller/calendar/calendar_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class CalendarPage extends HookConsumerWidget {
@@ -32,7 +35,20 @@ class CalendarPage extends HookConsumerWidget {
             child: CircularProgressIndicator(),
           ),
           error: ((error, stackTrace) => Center(
-                child: Text('Error: $error'),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'エラーが発生しました: $error',
+                      style: const TextStyle(color: Colors.red),
+                    ),
+                    const Gap(16),
+                    ElevatedButton(
+                      onPressed: () => ref.refresh(calendarProvider),
+                      child: const Text('リロード'),
+                    ),
+                  ],
+                ),
               )),
         ),
       ),
