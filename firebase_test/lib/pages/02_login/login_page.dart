@@ -42,7 +42,11 @@ class LoginPage extends ConsumerWidget {
                   const Gap(8),
 
                   // パスワード入力
-                  PasswordFormField(controller: controller),
+                  TextFormField(
+                    controller: loginController.inputPasswordController,
+                    decoration: const InputDecoration(labelText: 'パスワード'),
+                    obscureText: true,
+                  ),
                   const Gap(16),
 
                   // ログインボタン

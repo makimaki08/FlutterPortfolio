@@ -1,13 +1,13 @@
+import 'package:firebase_test/models/controller/calendar/calendar_state.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-// https://www.googleapis.com/calendar/v3/calendars/{calendarId}/events?key={yourApiKey}
 
-// const String calendarUrl =
-//     'https://calendar.google.com/calendar/embed?src=c_vtiq1pc1t2mjt53ku34onjshhc%40group.calendar.google.com&ctz=Asia%2FTokyo';
-
+const String calendarId =
+    'c_vtiq1pc1t2mjt53ku34onjshhc@group.calendar.google.com';
+const String apiKey = 'AIzaSyCNIVV2aeurzvWEILynOzvJeX0nfDRaSN0';
 const String calendarUrl =
-    'https://www.googleapis.com/calendar/v3/calendars/c_vtiq1pc1t2mjt53ku34onjshhc@group.calendar.google.com/events?key=AIzaSyAr9OvW3Pr0_JMv9FOPGQf_1JhZmucwFlM}';
+    'https://www.googleapis.com/calendar/v3/calendars/$calendarId/events?key=$apiKey';
 
 final calendarProvider = FutureProvider<List<Event>>((ref) async {
   final response = await http.get(Uri.parse(calendarUrl));
@@ -17,9 +17,17 @@ final calendarProvider = FutureProvider<List<Event>>((ref) async {
     final events = data['items'] as List;
     return events.map((event) => Event.fromJson(event)).toList();
   } else {
+    print("response = ${response}, ${response.statusCode}");
     throw Exception('Failed to load events');
   }
 });
+
+class CalendarController extends StateNotifier<CalendarState> {
+  CalendarController(this._ref) : super(const CalendarState());
+  final Ref _ref;
+
+  Future<void> reload() async {}
+}
 
 class Event {
   final String id;
@@ -38,7 +46,7 @@ class Event {
 
   factory Event.fromJson(Map<String, dynamic> json) {
     return Event(
-      id: json['id'],
+      id: json['id'] ?? 'No id',
       summary: json['summary'] ?? 'No title',
       description: json['description'] ?? '',
       start: DateTime.parse(json['start']['dateTime']),

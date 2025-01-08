@@ -32,8 +32,12 @@ class LoginController extends StateNotifier<LoginState> {
 
     try {
       final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: inputUserIdController.text,
-        password: inputPasswordController.text,
+        // email: inputUserIdController.text,
+        // password: inputPasswordController.text,
+
+        // for Dev
+        email: "test@test23156789.com",
+        password: "Pass12345678901",
       );
 
       if (credential.user == null) {
