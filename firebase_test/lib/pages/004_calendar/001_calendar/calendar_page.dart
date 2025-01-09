@@ -3,7 +3,6 @@ import 'package:firebase_test/pages/999_other/event/calendar_event.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import '/Users/kobayashimasasue/Flutter/FlutterPortfolio/firebase_test/test/demo_data/calendar_demo_data.dart';
 
 class CalendarPage extends HookConsumerWidget {
   const CalendarPage({super.key});
