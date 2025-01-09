@@ -1,9 +1,11 @@
-import 'package:firebase_test/pages/calendar_page.dart';
-import 'package:firebase_test/pages/login_page.dart';
-import 'package:firebase_test/pages/registration_page.dart';
-import 'package:firebase_test/pages/home_page.dart';
-import 'package:firebase_test/pages/settings_page.dart';
-import 'package:firebase_test/pages/toolbarl/bottom_navigation.dart';
+import 'package:firebase_test/pages/004_calendar/001_calendar/calendar_page.dart';
+import 'package:firebase_test/pages/001_login/login_page.dart';
+import 'package:firebase_test/pages/002_registration/registration_page.dart';
+import 'package:firebase_test/pages/003_home/home_page.dart';
+import 'package:firebase_test/pages/004_calendar/002_detail/calendar_detail_page.dart';
+import 'package:firebase_test/pages/005_settings/settings_page.dart';
+import 'package:firebase_test/pages/999_other/event/calendar_event.dart';
+import 'package:firebase_test/pages/999_other/toolbarl/bottom_navigation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -65,9 +67,21 @@ final goRouter = GoRouter(
           pageBuilder: (context, state) {
             return MaterialPage(
               key: state.pageKey,
-              child: CalendarPage(),
+              child: const CalendarPage(),
             );
           },
+          routes: [
+            GoRoute(
+              path: 'detail',
+              name: 'detail',
+              pageBuilder: (context, state) {
+                final extra = state.extra as CalendarEvent;
+                return MaterialPage(
+                  child: CalendarDetailPage(event: extra),
+                );
+              },
+            )
+          ],
         ),
 
         // Settings
@@ -77,7 +91,7 @@ final goRouter = GoRouter(
           pageBuilder: (context, state) {
             return MaterialPage(
               key: state.pageKey,
-              child: SettingsPage(),
+              child: const SettingsPage(),
             );
           },
         ),

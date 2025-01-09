@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import '../models/controller/registration/registration_controller.dart';
+import '../../models/controller/registration/registration_controller.dart';
 
 class RegistrationPage extends ConsumerWidget {
   const RegistrationPage({Key? key}) : super(key: key);

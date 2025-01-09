@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_test/style/color/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -22,21 +23,33 @@ class HomePage extends HookConsumerWidget {
         body: SafeArea(
           child: Center(
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                const Text('Home Page'),
-                const Gap(20),
-                ElevatedButton(
-                  child: const Text('load'),
-                  onPressed: () => _isLogin(user),
+                const Gap(8),
+                Text("${DateTime.now().year}年${DateTime.now().month}月"),
+                const Gap(8),
+
+                // TODO: 以下Demo版のため、修正必要
+                const Text(
+                  "田中太郎",
+                  textAlign: TextAlign.start,
+                  style: TextStyle(
+                    decoration: TextDecoration.underline,
+                  ),
                 ),
-                ElevatedButton(
-                  onPressed: () async {
-                    fetchGoogleCalendarEvents();
-                  },
-                  child: const Text("Googleカレンダー情報取得"),
-                ),
-                Text(user!.uid),
+                const Gap(4),
+
+                Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(5),
+                    color: AppColors.appBarTheme,
+                  ),
+                  child: const Column(
+                    children: [
+                      Text("16:30~19:00"),
+                      Text("4~6年生"),
+                    ],
+                  ),
+                )
               ],
             ),
           ),
@@ -57,8 +70,16 @@ Future<void> fetchGoogleCalendarEvents() async {
   const String calendarId =
       "c_vtiq1pc1t2mjt53ku34onjshhc@group.calendar.google.com";
   const String apiKey = "AIzaSyCNIVV2aeurzvWEILynOzvJeX0nfDRaSN0";
-  const String url =
-      'https://www.googleapis.com/calendar/v3/calendars/$calendarId/events?key=$apiKey';
+
+  final now = DateTime.now();
+  final oneWeekAgo = now.subtract(const Duration(days: 7)).toUtc();
+  final threeWeeksLater = now.add(const Duration(days: 21)).toUtc();
+
+  final timeMin = oneWeekAgo.toIso8601String();
+  final timeMax = threeWeeksLater.toIso8601String();
+
+  final url =
+      'https://www.googleapis.com/calendar/v3/calendars/$calendarId/events?key=$apiKey&timeMin=$timeMin&timeMax=$timeMax';
 
   try {
     final response = await http.get(Uri.parse(url));

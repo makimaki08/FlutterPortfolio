@@ -7,5 +7,5 @@ class AppColors {
   static const black = Color(0xFF000000);
 
   // 薄オレンジ
-  static const appBarTheme = Color(0xFFdda0dd);
+  static const appBarTheme = Color(0xFFdeb887);
 }

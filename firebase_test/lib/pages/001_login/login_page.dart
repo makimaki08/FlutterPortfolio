@@ -5,7 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 
-import '../models/controller/login/login_controller.dart';
+import '../../models/controller/login/login_controller.dart';
 
 class LoginPage extends ConsumerWidget {
   const LoginPage({
