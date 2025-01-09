@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import '../models/controller/registration/registration_controller.dart';
+import '../../models/controller/registration/registration_controller.dart';
 
 class RegistrationPage extends ConsumerWidget {
   const RegistrationPage({Key? key}) : super(key: key);
@@ -11,6 +11,10 @@ class RegistrationPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final registrationController = ref.watch(registrationProvider.notifier);
+    TextEditingController inputEmailController = TextEditingController();
+
+    /// パスワード
+    TextEditingController inputPasswordController = TextEditingController();
 
     return Scaffold(
       appBar: AppBar(title: const Text('新規登録ページ')),
@@ -26,7 +30,7 @@ class RegistrationPage extends ConsumerWidget {
                 children: [
                   // メールアドレス入力
                   TextFormField(
-                    controller: registrationController.inputUserIdController,
+                    controller: inputEmailController,
                     decoration: const InputDecoration(labelText: 'メールアドレス'),
                     textInputAction: TextInputAction.next,
                     validator: ValidateText().emailValidator,
@@ -36,7 +40,7 @@ class RegistrationPage extends ConsumerWidget {
 
                   // パスワード入力
                   TextFormField(
-                    controller: registrationController.inputPasswordController,
+                    controller: inputPasswordController,
                     decoration: const InputDecoration(labelText: 'パスワード'),
                     obscureText: true,
                     validator: ValidateText().passwordValidator,
@@ -50,7 +54,10 @@ class RegistrationPage extends ConsumerWidget {
                     child: ElevatedButton(
                       child: const Text('新規登録'),
                       onPressed: () async {
-                        await registrationController.register();
+                        await registrationController.register(
+                          inputEmailController.text,
+                          inputPasswordController.text,
+                        );
                         context.go('/home');
                       },
                     ),

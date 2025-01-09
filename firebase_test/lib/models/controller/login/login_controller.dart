@@ -16,28 +16,14 @@ class LoginController extends StateNotifier<LoginState> {
   LoginController(this._ref) : super(const LoginState());
   final Ref _ref;
 
-  /* --- コントローラー --- */
-  /// ユーザーID
-  TextEditingController inputUserIdController = TextEditingController();
-
-  /// パスワード
-  TextEditingController inputPasswordController = TextEditingController();
-
-  /* --- メソッド --- */
-  /// フォームリセット
-  Future<void> resetForm() async {
-    inputUserIdController = TextEditingController();
-    inputPasswordController = TextEditingController();
-  }
-
   /// ログイン
-  Future<void> login() async {
+  Future<void> login(String email, String password) async {
     await Loading.show();
 
     try {
       final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: inputUserIdController.text,
-        password: inputPasswordController.text,
+        email: email,
+        password: password,
       );
 
       if (credential.user == null) {

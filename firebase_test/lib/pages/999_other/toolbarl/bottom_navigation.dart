@@ -57,6 +57,7 @@ class BottomNavigation extends HookConsumerWidget {
         return 0;
 
       case '/calendar':
+      case '/calendar/detail':
         return 1;
 
       case '/settings':
