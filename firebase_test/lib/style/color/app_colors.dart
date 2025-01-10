@@ -3,9 +3,12 @@ import 'package:flutter/widgets.dart';
 class AppColors {
   AppColors._();
 
-  // 黒
+  // black
   static const black = Color(0xFF000000);
 
-  // 薄オレンジ
-  static const appBarTheme = Color(0xFFdeb887);
+  // burlywood
+  static const burlywood = Color(0xFFdeb887);
+
+  // royalblue
+  static const blue = Color(0xFF4169e1);
 }

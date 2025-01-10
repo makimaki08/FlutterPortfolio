@@ -1,5 +1,5 @@
 import 'package:firebase_test/models/controller/calendar/calendar_controller.dart';
-import 'package:firebase_test/pages/999_other/event/calendar_event.dart';
+import 'package:firebase_test/models/entities/event/calendar_event.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -11,7 +11,7 @@ class CalendarPage extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Calendar'),
+        title: const Text('カレンダー'),
       ),
       body: SafeArea(
         child: ListView.builder(
@@ -33,7 +33,7 @@ class CalendarPage extends HookConsumerWidget {
   }
 }
 
-/// Demo用のイベントのため、APIから情報を取得できるようになれば削除
+// TODO: Demo用のイベントのため、APIから情報を取得できるようになれば削除
 final List<CalendarEvent> sampleEvents = [
   CalendarEvent(
     id: 'event1',

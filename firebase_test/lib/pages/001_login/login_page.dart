@@ -63,6 +63,7 @@ class LoginPage extends ConsumerWidget {
                     width: double.infinity,
                     child: ElevatedButton(
                       child: const Text('ログイン'),
+                      // TODO: 固定値でログインさせているため、コントローラーから取得した値でログインできるように変更させる
                       onPressed: () => _handleLogin(
                         context,
                         loginState,
@@ -81,7 +82,7 @@ class LoginPage extends ConsumerWidget {
                     width: double.infinity,
                     child: ElevatedButton(
                       child: const Text('新規登録'),
-                      onPressed: () => context.go('/registration'),
+                      onPressed: () => context.push('/registration'),
                     ),
                   ),
                 ],
