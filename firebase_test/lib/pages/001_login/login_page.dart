@@ -1,7 +1,6 @@
 import 'package:firebase_test/models/controller/login/login_state.dart';
-import 'package:firebase_test/models/text_form_firld/password_form/password_form_field.dart';
+import 'package:firebase_test/validator/validator.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
@@ -10,16 +9,22 @@ import '../../models/controller/login/login_controller.dart';
 
 class LoginPage extends ConsumerWidget {
   const LoginPage({
-    super.key,
-  });
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // ログインFormの入力情報を管理
-    final controller = useTextEditingController();
+    /* --- コントローラー --- */
+    /// ユーザーID
+    TextEditingController inputEmailController = TextEditingController();
+
+    /// パスワード
+    TextEditingController inputPasswordController = TextEditingController();
 
     // ログインの状態を監視
     final loginState = ref.watch(loginProvider);
+
+    final loginController = ref.watch(loginProvider.notifier);
 
     return Scaffold(
       appBar: AppBar(title: const Text('Firebase_Auto_app')),
@@ -35,33 +40,44 @@ class LoginPage extends ConsumerWidget {
                 children: [
                   // メールアドレス入力
                   TextFormField(
-                    controller: controller,
+                    controller: inputEmailController,
                     decoration: const InputDecoration(labelText: 'メールアドレス'),
                     textInputAction: TextInputAction.next,
+                    validator: ValidateText().emailValidator,
+                    autovalidateMode: AutovalidateMode.onUnfocus,
                   ),
                   const Gap(8),
 
                   // パスワード入力
-                  PasswordFormField(controller: controller),
+                  TextFormField(
+                    controller: inputPasswordController,
+                    decoration: const InputDecoration(labelText: 'パスワード'),
+                    obscureText: true,
+                    validator: ValidateText().passwordValidator,
+                    autovalidateMode: AutovalidateMode.onUnfocus,
+                  ),
                   const Gap(16),
 
                   // ログインボタン
-                  SizedBox(
+                  Container(
                     width: double.infinity,
                     child: ElevatedButton(
-                        child: const Text('ログイン'),
-                        onPressed: () {
-                          // return _handleLogin(
-                          //   context,
-                          //   controller,
-                          //   loginState,
-                          // );
-                        }),
+                      child: const Text('ログイン'),
+                      onPressed: () => _handleLogin(
+                        context,
+                        loginState,
+                        loginController,
+                        // inputEmailController.text,
+                        "login_address@test.com",
+                        // inputPasswordController.text,
+                        "Password1234",
+                      ),
+                    ),
                   ),
                   const Gap(16),
 
                   // 新規登録
-                  SizedBox(
+                  Container(
                     width: double.infinity,
                     child: ElevatedButton(
                       child: const Text('新規登録'),
@@ -80,11 +96,13 @@ class LoginPage extends ConsumerWidget {
   // ログイン処理
   void _handleLogin(
     BuildContext context,
-    LoginController loginController,
     LoginState loginState,
+    LoginController loginController,
+    String email,
+    String password,
   ) async {
     try {
-      await loginController.login();
+      await loginController.login(email, password);
       if (loginState.isAuth) {
         context.go('/home');
       } else {
@@ -99,7 +117,7 @@ class LoginPage extends ConsumerWidget {
                   onPressed: () {
                     Navigator.of(context).pop();
                   },
-                  child: const Text('OK'),
+                  child: Text('OK'),
                 )
               ],
             );

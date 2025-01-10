@@ -4,7 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class BottomNavigation extends HookConsumerWidget {
   final Widget child;
-  const BottomNavigation({required this.child, super.key});
+  BottomNavigation({required this.child, super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -57,6 +57,7 @@ class BottomNavigation extends HookConsumerWidget {
         return 0;
 
       case '/calendar':
+      case '/calendar/detail':
         return 1;
 
       case '/settings':

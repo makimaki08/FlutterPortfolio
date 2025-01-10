@@ -1,5 +1,4 @@
 /// BottomNavigationで利用するタブの要素
-library;
 
 enum TabItem {
   /// home

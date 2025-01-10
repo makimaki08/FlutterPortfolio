@@ -1,18 +1,20 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_test/models/text_form_firld/password_form/password_form_field.dart';
+import 'package:firebase_test/validator/validator.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../models/controller/registration/registration_controller.dart';
 
 class RegistrationPage extends ConsumerWidget {
-  const RegistrationPage({super.key});
+  const RegistrationPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final controller = useTextEditingController();
+    final registrationController = ref.watch(registrationProvider.notifier);
+    TextEditingController inputEmailController = TextEditingController();
+
+    /// パスワード
+    TextEditingController inputPasswordController = TextEditingController();
 
     return Scaffold(
       appBar: AppBar(title: const Text('新規登録ページ')),
@@ -28,14 +30,22 @@ class RegistrationPage extends ConsumerWidget {
                 children: [
                   // メールアドレス入力
                   TextFormField(
-                    controller: controller,
+                    controller: inputEmailController,
                     decoration: const InputDecoration(labelText: 'メールアドレス'),
                     textInputAction: TextInputAction.next,
+                    validator: ValidateText().emailValidator,
+                    autovalidateMode: AutovalidateMode.onUnfocus,
                   ),
                   const SizedBox(height: 8),
 
                   // パスワード入力
-                  PasswordFormField(controller: controller),
+                  TextFormField(
+                    controller: inputPasswordController,
+                    decoration: const InputDecoration(labelText: 'パスワード'),
+                    obscureText: true,
+                    validator: ValidateText().passwordValidator,
+                    autovalidateMode: AutovalidateMode.onUnfocus,
+                  ),
                   const SizedBox(height: 16),
 
                   // 新規登録
@@ -44,8 +54,11 @@ class RegistrationPage extends ConsumerWidget {
                     child: ElevatedButton(
                       child: const Text('新規登録'),
                       onPressed: () async {
-                        // await registrationController.register();
-                        // context.go('/home');
+                        await registrationController.register(
+                          inputEmailController.text,
+                          inputPasswordController.text,
+                        );
+                        context.go('/home');
                       },
                     ),
                   ),
