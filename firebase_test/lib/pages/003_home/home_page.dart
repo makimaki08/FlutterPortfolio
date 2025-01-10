@@ -18,7 +18,7 @@ class HomePage extends HookConsumerWidget {
       canPop: false,
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('Home'),
+          title: const Text('ホーム'),
         ),
         body: SafeArea(
           child: Center(
@@ -41,7 +41,7 @@ class HomePage extends HookConsumerWidget {
                 Container(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(5),
-                    color: AppColors.appBarTheme,
+                    color: AppColors.burlywood,
                   ),
                   child: const Column(
                     children: [
