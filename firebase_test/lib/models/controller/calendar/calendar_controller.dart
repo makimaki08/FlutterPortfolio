@@ -1,4 +1,5 @@
 import 'package:firebase_test/models/entities/event/calendar_event.dart';
+import 'package:firebase_test/widgets/loading.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -21,12 +22,19 @@ final calendarUrl =
     'https://www.googleapis.com/calendar/v3/calendars/$calendarId/events?key=$apiKey&timeMin=$timeMin&timeMax=$timeMax';
 
 final calendarProvider = FutureProvider<List<CalendarEvent>>((ref) async {
+  await Loading.show();
+
   final response = await http.get(Uri.parse(calendarUrl));
+
+  await Loading.dismiss();
 
   if (response.statusCode == 200) {
     final data = json.decode(response.body);
     final events = data['items'] as List;
-    return events.map((event) => CalendarEvent.fromJson(event)).toList();
+    return events
+        .map((event) => CalendarEvent.fromJson(event))
+        .where((event) => event.duration != null)
+        .toList();
   } else {
     throw Exception('Failed to load events');
   }
