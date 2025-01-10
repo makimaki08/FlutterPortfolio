@@ -1,3 +1,4 @@
+import 'package:firebase_test/models/entities/event/calendar_event.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -19,40 +20,14 @@ final timeMax = threeWeeksLater.toIso8601String();
 final calendarUrl =
     'https://www.googleapis.com/calendar/v3/calendars/$calendarId/events?key=$apiKey&timeMin=$timeMin&timeMax=$timeMax';
 
-final calendarProvider = FutureProvider<List<Event>>((ref) async {
+final calendarProvider = FutureProvider<List<CalendarEvent>>((ref) async {
   final response = await http.get(Uri.parse(calendarUrl));
 
   if (response.statusCode == 200) {
     final data = json.decode(response.body);
     final events = data['items'] as List;
-    return events.map((event) => Event.fromJson(event)).toList();
+    return events.map((event) => CalendarEvent.fromJson(event)).toList();
   } else {
     throw Exception('Failed to load events');
   }
 });
-
-class Event {
-  final String id;
-  final String summary;
-  final String description;
-  final DateTime start;
-  final DateTime end;
-
-  Event({
-    required this.id,
-    required this.summary,
-    required this.description,
-    required this.start,
-    required this.end,
-  });
-
-  factory Event.fromJson(Map<String, dynamic> json) {
-    return Event(
-      id: json['id'],
-      summary: json['summary'] ?? 'No title',
-      description: json['description'] ?? '',
-      start: DateTime.parse(json['start']['dateTime']),
-      end: DateTime.parse(json['end']['dateTime']),
-    );
-  }
-}
