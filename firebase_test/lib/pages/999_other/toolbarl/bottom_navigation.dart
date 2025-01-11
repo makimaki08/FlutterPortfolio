@@ -4,7 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class BottomNavigation extends HookConsumerWidget {
   final Widget child;
-  BottomNavigation({required this.child, super.key});
+  const BottomNavigation({required this.child, super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
