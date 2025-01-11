@@ -1,5 +1,4 @@
 import 'package:firebase_test/models/controller/calendar/calendar_controller.dart';
-import 'package:firebase_test/models/entities/event/calendar_event.dart';
 import 'package:firebase_test/style/color/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
@@ -50,12 +49,15 @@ class CalendarPage extends HookConsumerWidget {
               error: (error, stack) => Center(
                 child: Text('Error: $error'),
               ),
-              loading: () => const Center(
-                child: Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: CircularProgressIndicator(),
-                ),
-              ),
+              loading: () {
+                return null;
+              },
+              // loading: () => const Center(
+              //   child: Padding(
+              //     padding: EdgeInsets.all(8.0),
+              //     child: CircularProgressIndicator(),
+              //   ),
+              // ),
             );
           },
         ),

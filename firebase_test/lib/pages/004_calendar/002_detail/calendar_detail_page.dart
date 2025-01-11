@@ -1,6 +1,8 @@
+import 'dart:math';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_test/models/entities/event/calendar_event.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:gap/gap.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -22,13 +24,24 @@ class CalendarDetailPage extends HookConsumerWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text(event.id),
+            Text(event.summary),
             const Gap(12),
-            Text(event.description),
+            Text(event.duration.toString()),
             const Gap(40),
             ElevatedButton(
-              // TODO: ボタン押下で、このイベントに対して欠席情報を登録できるようにする
-              onPressed: () {},
+              onPressed: () {
+                // TODO: 下記で登録できるようになったが、ユーザーと紐付けがうまくできていない。
+                FirebaseFirestore.instance.collection('collectionPath').add(
+                  {
+                    'id': event.id,
+                    'summary': event.summary,
+                    'description': event.description,
+                    'start': event.start,
+                    'end': event.end,
+                    'duration': event.duration,
+                  },
+                );
+              },
               child: const Text("欠席登録"),
             ),
           ],
