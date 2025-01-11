@@ -1,6 +1,5 @@
 import 'package:firebase_test/pages/005_settings/004_logout_modal/logout_modal.dart';
 import 'package:firebase_test/pages/005_settings/005_delete_account_modal/delete_account_modal.dart';
-import 'package:firebase_test/router/router.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
