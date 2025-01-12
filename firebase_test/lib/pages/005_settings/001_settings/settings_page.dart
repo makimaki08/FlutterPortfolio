@@ -26,7 +26,7 @@ class SettingsPage extends HookConsumerWidget {
               ),
               const Gap(12),
               ElevatedButton(
-                onPressed: () {},
+                onPressed: () => context.go('/settings/account_info_edit'),
                 child: const Text("お子様情報変更"),
               ),
               const Gap(12),

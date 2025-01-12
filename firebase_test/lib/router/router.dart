@@ -6,6 +6,7 @@ import 'package:firebase_test/pages/004_calendar/002_detail/calendar_detail_page
 import 'package:firebase_test/pages/005_settings/001_settings/settings_page.dart';
 import 'package:firebase_test/pages/005_settings/002_account_info_edit/account_info_edit.dart';
 import 'package:firebase_test/models/entities/event/calendar_event.dart';
+import 'package:firebase_test/pages/005_settings/003_children_info_edit/children_info_edit_page.dart';
 import 'package:firebase_test/pages/999_other/toolbarl/bottom_navigation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -87,25 +88,35 @@ final goRouter = GoRouter(
 
         // Settings
         GoRoute(
-            path: '/settings',
-            name: 'settings',
-            pageBuilder: (context, state) {
-              return MaterialPage(
-                key: state.pageKey,
-                child: const SettingsPage(),
-              );
-            },
-            routes: [
-              GoRoute(
-                path: 'mail_password_edit',
-                name: 'mail_password_edit',
-                pageBuilder: (context, state) {
-                  return const MaterialPage(
-                    child: MailPasswordEditPage(),
-                  );
-                },
-              )
-            ]),
+          path: '/settings',
+          name: 'settings',
+          pageBuilder: (context, state) {
+            return MaterialPage(
+              key: state.pageKey,
+              child: const SettingsPage(),
+            );
+          },
+          routes: [
+            GoRoute(
+              path: 'mail_password_edit',
+              name: 'mail_password_edit',
+              pageBuilder: (context, state) {
+                return const MaterialPage(
+                  child: MailPasswordEditPage(),
+                );
+              },
+            ),
+            GoRoute(
+              path: 'account_info_edit',
+              name: 'account_info_edit',
+              pageBuilder: (context, state) {
+                return const MaterialPage(
+                  child: ChildrenInfoEditPage(),
+                );
+              },
+            ),
+          ],
+        ),
       ],
     ),
   ],
