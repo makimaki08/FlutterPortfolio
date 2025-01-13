@@ -17,6 +17,9 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$ChildrenInfoEditState {
   bool get haveRegistration => throw _privateConstructorUsedError;
+  String? get name => throw _privateConstructorUsedError;
+  int? get gender => throw _privateConstructorUsedError;
+  int? get age => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $ChildrenInfoEditStateCopyWith<ChildrenInfoEditState> get copyWith =>
@@ -29,7 +32,7 @@ abstract class $ChildrenInfoEditStateCopyWith<$Res> {
           $Res Function(ChildrenInfoEditState) then) =
       _$ChildrenInfoEditStateCopyWithImpl<$Res, ChildrenInfoEditState>;
   @useResult
-  $Res call({bool haveRegistration});
+  $Res call({bool haveRegistration, String? name, int? gender, int? age});
 }
 
 /// @nodoc
@@ -47,12 +50,27 @@ class _$ChildrenInfoEditStateCopyWithImpl<$Res,
   @override
   $Res call({
     Object? haveRegistration = null,
+    Object? name = freezed,
+    Object? gender = freezed,
+    Object? age = freezed,
   }) {
     return _then(_value.copyWith(
       haveRegistration: null == haveRegistration
           ? _value.haveRegistration
           : haveRegistration // ignore: cast_nullable_to_non_nullable
               as bool,
+      name: freezed == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String?,
+      gender: freezed == gender
+          ? _value.gender
+          : gender // ignore: cast_nullable_to_non_nullable
+              as int?,
+      age: freezed == age
+          ? _value.age
+          : age // ignore: cast_nullable_to_non_nullable
+              as int?,
     ) as $Val);
   }
 }
@@ -66,7 +84,7 @@ abstract class _$$ChildrenInfoEditStateImplCopyWith<$Res>
       __$$ChildrenInfoEditStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({bool haveRegistration});
+  $Res call({bool haveRegistration, String? name, int? gender, int? age});
 }
 
 /// @nodoc
@@ -82,12 +100,27 @@ class __$$ChildrenInfoEditStateImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? haveRegistration = null,
+    Object? name = freezed,
+    Object? gender = freezed,
+    Object? age = freezed,
   }) {
     return _then(_$ChildrenInfoEditStateImpl(
       haveRegistration: null == haveRegistration
           ? _value.haveRegistration
           : haveRegistration // ignore: cast_nullable_to_non_nullable
               as bool,
+      name: freezed == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String?,
+      gender: freezed == gender
+          ? _value.gender
+          : gender // ignore: cast_nullable_to_non_nullable
+              as int?,
+      age: freezed == age
+          ? _value.age
+          : age // ignore: cast_nullable_to_non_nullable
+              as int?,
     ));
   }
 }
@@ -95,16 +128,23 @@ class __$$ChildrenInfoEditStateImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$ChildrenInfoEditStateImpl extends _ChildrenInfoEditState {
-  const _$ChildrenInfoEditStateImpl({this.haveRegistration = false})
+  const _$ChildrenInfoEditStateImpl(
+      {this.haveRegistration = false, this.name, this.gender, this.age})
       : super._();
 
   @override
   @JsonKey()
   final bool haveRegistration;
+  @override
+  final String? name;
+  @override
+  final int? gender;
+  @override
+  final int? age;
 
   @override
   String toString() {
-    return 'ChildrenInfoEditState(haveRegistration: $haveRegistration)';
+    return 'ChildrenInfoEditState(haveRegistration: $haveRegistration, name: $name, gender: $gender, age: $age)';
   }
 
   @override
@@ -113,11 +153,15 @@ class _$ChildrenInfoEditStateImpl extends _ChildrenInfoEditState {
         (other.runtimeType == runtimeType &&
             other is _$ChildrenInfoEditStateImpl &&
             (identical(other.haveRegistration, haveRegistration) ||
-                other.haveRegistration == haveRegistration));
+                other.haveRegistration == haveRegistration) &&
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.gender, gender) || other.gender == gender) &&
+            (identical(other.age, age) || other.age == age));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, haveRegistration);
+  int get hashCode =>
+      Object.hash(runtimeType, haveRegistration, name, gender, age);
 
   @JsonKey(ignore: true)
   @override
@@ -128,12 +172,21 @@ class _$ChildrenInfoEditStateImpl extends _ChildrenInfoEditState {
 }
 
 abstract class _ChildrenInfoEditState extends ChildrenInfoEditState {
-  const factory _ChildrenInfoEditState({final bool haveRegistration}) =
-      _$ChildrenInfoEditStateImpl;
+  const factory _ChildrenInfoEditState(
+      {final bool haveRegistration,
+      final String? name,
+      final int? gender,
+      final int? age}) = _$ChildrenInfoEditStateImpl;
   const _ChildrenInfoEditState._() : super._();
 
   @override
   bool get haveRegistration;
+  @override
+  String? get name;
+  @override
+  int? get gender;
+  @override
+  int? get age;
   @override
   @JsonKey(ignore: true)
   _$$ChildrenInfoEditStateImplCopyWith<_$ChildrenInfoEditStateImpl>
