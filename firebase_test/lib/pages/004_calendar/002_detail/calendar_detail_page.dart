@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_test/models/entities/event/calendar_event.dart';
 import 'package:flutter/material.dart';
