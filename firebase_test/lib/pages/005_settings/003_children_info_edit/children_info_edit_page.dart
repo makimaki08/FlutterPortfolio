@@ -2,7 +2,6 @@ import 'package:firebase_test/models/controller/children_info_edit/children_info
 import 'package:firebase_test/models/controller/children_info_edit/children_info_edit_state.dart';
 import 'package:firebase_test/models/controller/login/login_controller.dart';
 import 'package:firebase_test/models/controller/login/login_state.dart';
-import 'package:firebase_test/models/entities/children_info/gender_enum.dart';
 import 'package:firebase_test/pages/005_settings/003_children_info_edit/children_widgets/children_info_age.dart';
 import 'package:firebase_test/pages/005_settings/003_children_info_edit/children_widgets/children_info_gender.dart';
 import 'package:firebase_test/pages/005_settings/003_children_info_edit/children_widgets/children_info_name.dart';
@@ -112,10 +111,48 @@ class AddInformation extends StatelessWidget {
                     Align(
                       alignment: Alignment.center,
                       child: ElevatedButton(
-                        // TODO: 登録できるようになったが、押下しただけだと反応がない
-                        // 登録が本当にできたかわかるようにUIを修正する
-                        onPressed: () =>
-                            controller.addNewChild(uid, nameController.text),
+                        onPressed: () {
+                          showDialog(
+                              context: context,
+                              builder: (context) {
+                                return AlertDialog(
+                                  title: const Text('内容を確認してください'),
+                                  content: SizedBox(
+                                    height: 150,
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                        horizontal: 16.0,
+                                        vertical: 8.0,
+                                      ),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text('名前：${nameController.text}'),
+                                          Text('性別：${state.gender}'),
+                                          Text('年齢：${state.age}'),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                  actions: [
+                                    ElevatedButton(
+                                      onPressed: () {
+                                        controller.addNewChild(
+                                            uid, nameController.text);
+                                        Navigator.of(context).pop();
+                                      },
+                                      child: const Text('送信'),
+                                    ),
+                                    ElevatedButton(
+                                      onPressed: () =>
+                                          Navigator.of(context).pop(),
+                                      child: const Text('キャンセル'),
+                                    ),
+                                  ],
+                                );
+                              });
+                        },
                         child: const Text('送信'),
                       ),
                     ),

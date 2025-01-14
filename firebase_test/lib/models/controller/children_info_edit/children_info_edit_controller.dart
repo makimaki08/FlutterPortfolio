@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_test/models/controller/children_info_edit/children_info_edit_state.dart';
+import 'package:firebase_test/widgets/loading.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 final childrenInfoEditProvider =
@@ -11,6 +12,7 @@ class ChildrenInfoEditController extends StateNotifier<ChildrenInfoEditState> {
   final Ref _ref;
 
   void addNewChild(String uid, String name) {
+    Loading.show();
     FirebaseFirestore.instance.collection('children').add(
       {
         'uid': uid,
@@ -19,6 +21,8 @@ class ChildrenInfoEditController extends StateNotifier<ChildrenInfoEditState> {
         'age': state.age,
       },
     );
+    state = state.copyWith(haveRegistration: true);
+    Loading.dismiss();
   }
 
   void onChangedGender(int value) {
