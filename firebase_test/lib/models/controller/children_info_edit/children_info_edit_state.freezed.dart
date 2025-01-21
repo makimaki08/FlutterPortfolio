@@ -17,9 +17,7 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$ChildrenInfoEditState {
   bool get haveRegistration => throw _privateConstructorUsedError;
-  String? get name => throw _privateConstructorUsedError;
-  int? get gender => throw _privateConstructorUsedError;
-  int? get age => throw _privateConstructorUsedError;
+  List<ChildInfoState> get children => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $ChildrenInfoEditStateCopyWith<ChildrenInfoEditState> get copyWith =>
@@ -32,7 +30,7 @@ abstract class $ChildrenInfoEditStateCopyWith<$Res> {
           $Res Function(ChildrenInfoEditState) then) =
       _$ChildrenInfoEditStateCopyWithImpl<$Res, ChildrenInfoEditState>;
   @useResult
-  $Res call({bool haveRegistration, String? name, int? gender, int? age});
+  $Res call({bool haveRegistration, List<ChildInfoState> children});
 }
 
 /// @nodoc
@@ -50,27 +48,17 @@ class _$ChildrenInfoEditStateCopyWithImpl<$Res,
   @override
   $Res call({
     Object? haveRegistration = null,
-    Object? name = freezed,
-    Object? gender = freezed,
-    Object? age = freezed,
+    Object? children = null,
   }) {
     return _then(_value.copyWith(
       haveRegistration: null == haveRegistration
           ? _value.haveRegistration
           : haveRegistration // ignore: cast_nullable_to_non_nullable
               as bool,
-      name: freezed == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
-              as String?,
-      gender: freezed == gender
-          ? _value.gender
-          : gender // ignore: cast_nullable_to_non_nullable
-              as int?,
-      age: freezed == age
-          ? _value.age
-          : age // ignore: cast_nullable_to_non_nullable
-              as int?,
+      children: null == children
+          ? _value.children
+          : children // ignore: cast_nullable_to_non_nullable
+              as List<ChildInfoState>,
     ) as $Val);
   }
 }
@@ -84,7 +72,7 @@ abstract class _$$ChildrenInfoEditStateImplCopyWith<$Res>
       __$$ChildrenInfoEditStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({bool haveRegistration, String? name, int? gender, int? age});
+  $Res call({bool haveRegistration, List<ChildInfoState> children});
 }
 
 /// @nodoc
@@ -100,27 +88,17 @@ class __$$ChildrenInfoEditStateImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? haveRegistration = null,
-    Object? name = freezed,
-    Object? gender = freezed,
-    Object? age = freezed,
+    Object? children = null,
   }) {
     return _then(_$ChildrenInfoEditStateImpl(
       haveRegistration: null == haveRegistration
           ? _value.haveRegistration
           : haveRegistration // ignore: cast_nullable_to_non_nullable
               as bool,
-      name: freezed == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
-              as String?,
-      gender: freezed == gender
-          ? _value.gender
-          : gender // ignore: cast_nullable_to_non_nullable
-              as int?,
-      age: freezed == age
-          ? _value.age
-          : age // ignore: cast_nullable_to_non_nullable
-              as int?,
+      children: null == children
+          ? _value._children
+          : children // ignore: cast_nullable_to_non_nullable
+              as List<ChildInfoState>,
     ));
   }
 }
@@ -129,22 +107,25 @@ class __$$ChildrenInfoEditStateImplCopyWithImpl<$Res>
 
 class _$ChildrenInfoEditStateImpl extends _ChildrenInfoEditState {
   const _$ChildrenInfoEditStateImpl(
-      {this.haveRegistration = false, this.name, this.gender, this.age})
-      : super._();
+      {this.haveRegistration = false,
+      required final List<ChildInfoState> children})
+      : _children = children,
+        super._();
 
   @override
   @JsonKey()
   final bool haveRegistration;
+  final List<ChildInfoState> _children;
   @override
-  final String? name;
-  @override
-  final int? gender;
-  @override
-  final int? age;
+  List<ChildInfoState> get children {
+    if (_children is EqualUnmodifiableListView) return _children;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_children);
+  }
 
   @override
   String toString() {
-    return 'ChildrenInfoEditState(haveRegistration: $haveRegistration, name: $name, gender: $gender, age: $age)';
+    return 'ChildrenInfoEditState(haveRegistration: $haveRegistration, children: $children)';
   }
 
   @override
@@ -154,14 +135,12 @@ class _$ChildrenInfoEditStateImpl extends _ChildrenInfoEditState {
             other is _$ChildrenInfoEditStateImpl &&
             (identical(other.haveRegistration, haveRegistration) ||
                 other.haveRegistration == haveRegistration) &&
-            (identical(other.name, name) || other.name == name) &&
-            (identical(other.gender, gender) || other.gender == gender) &&
-            (identical(other.age, age) || other.age == age));
+            const DeepCollectionEquality().equals(other._children, _children));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, haveRegistration, name, gender, age);
+  int get hashCode => Object.hash(runtimeType, haveRegistration,
+      const DeepCollectionEquality().hash(_children));
 
   @JsonKey(ignore: true)
   @override
@@ -173,20 +152,15 @@ class _$ChildrenInfoEditStateImpl extends _ChildrenInfoEditState {
 
 abstract class _ChildrenInfoEditState extends ChildrenInfoEditState {
   const factory _ChildrenInfoEditState(
-      {final bool haveRegistration,
-      final String? name,
-      final int? gender,
-      final int? age}) = _$ChildrenInfoEditStateImpl;
+          {final bool haveRegistration,
+          required final List<ChildInfoState> children}) =
+      _$ChildrenInfoEditStateImpl;
   const _ChildrenInfoEditState._() : super._();
 
   @override
   bool get haveRegistration;
   @override
-  String? get name;
-  @override
-  int? get gender;
-  @override
-  int? get age;
+  List<ChildInfoState> get children;
   @override
   @JsonKey(ignore: true)
   _$$ChildrenInfoEditStateImplCopyWith<_$ChildrenInfoEditStateImpl>

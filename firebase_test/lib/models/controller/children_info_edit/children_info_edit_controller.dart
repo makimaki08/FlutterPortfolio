@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_test/models/controller/child_info/child_info_state.dart';
 import 'package:firebase_test/models/controller/children_info_edit/children_info_edit_state.dart';
 import 'package:firebase_test/widgets/loading.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -8,28 +9,40 @@ final childrenInfoEditProvider =
         ChildrenInfoEditController.new);
 
 class ChildrenInfoEditController extends StateNotifier<ChildrenInfoEditState> {
-  ChildrenInfoEditController(this._ref) : super(const ChildrenInfoEditState());
+  ChildrenInfoEditController(this._ref)
+      : super(const ChildrenInfoEditState(children: [ChildInfoState()]));
   final Ref _ref;
 
-  void addNewChild(String uid, String name) {
+  void addNewChild(String uid, ChildInfoState value) {
     Loading.show();
     FirebaseFirestore.instance.collection('children').add(
       {
         'uid': uid,
-        'name': name,
-        'gender': state.gender,
-        'age': state.age,
+        'name': value.name,
+        'gender': value.gender,
+        'age': value.age,
       },
     );
-    state = state.copyWith(haveRegistration: true);
+    state = state.copyWith(
+      haveRegistration: true,
+      children: [...state.children, value],
+    );
     Loading.dismiss();
   }
 
-  void onChangedGender(int value) {
-    state = state.copyWith(gender: value);
-  }
+  // memo: uidを元にして、firebaseから情報を取得する
+  void fetchChildrenInfo() {
+    FirebaseFirestore.instance
+        .collection('children')
+        .get()
+        .then((QuerySnapshot snapshot) {
+      snapshot.docs.forEach((doc) {
+        /// usersコレクションのドキュメントIDを取得する
+        print(doc.id);
 
-  void onChangedAge(int value) {
-    state = state.copyWith(age: value);
+        /// 取得したドキュメントIDのフィールド値nameの値を取得する
+        print(doc.get('name'));
+      });
+    });
   }
 }

@@ -1,10 +1,10 @@
+import 'package:firebase_test/models/controller/child_info/child_info_state.dart';
 import 'package:firebase_test/models/controller/children_info_edit/children_info_edit_controller.dart';
 import 'package:firebase_test/models/controller/children_info_edit/children_info_edit_state.dart';
 import 'package:firebase_test/models/controller/login/login_controller.dart';
 import 'package:firebase_test/models/controller/login/login_state.dart';
-import 'package:firebase_test/pages/005_settings/003_children_info_edit/children_widgets/children_info_age.dart';
-import 'package:firebase_test/pages/005_settings/003_children_info_edit/children_widgets/children_info_gender.dart';
-import 'package:firebase_test/pages/005_settings/003_children_info_edit/children_widgets/children_info_name.dart';
+import 'package:firebase_test/pages/005_settings/003_children_info_edit/add_child_info.dart';
+import 'package:firebase_test/pages/005_settings/003_children_info_edit/edit_child_info.dart';
 import 'package:firebase_test/style/color/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
@@ -15,9 +15,8 @@ class ChildrenInfoEditPage extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final ChildrenInfoEditState childrenInfoEditState =
-        ref.watch(childrenInfoEditProvider);
-    final ChildrenInfoEditController childrenInfoEditController =
+    final ChildrenInfoEditState state = ref.watch(childrenInfoEditProvider);
+    final ChildrenInfoEditController controller =
         ref.watch(childrenInfoEditProvider.notifier);
     final LoginState loginState = ref.watch(loginProvider);
 
@@ -26,227 +25,20 @@ class ChildrenInfoEditPage extends HookConsumerWidget {
         title: const Text('お子様情報変更'),
       ),
       body: SafeArea(
-          child: (!childrenInfoEditState.haveRegistration)
-              ? AddInformation(
-                  state: childrenInfoEditState,
-                  controller: childrenInfoEditController,
+          child: (!state.haveRegistration)
+              ? AddChildInfo(
                   uid: loginState.uid,
+                  childrenInfoEditController: controller,
                 )
-              : ChangeInformation(
+              : EditChildInfo(
                   name: '田中太郎',
-                  state: childrenInfoEditState,
-                  controller: childrenInfoEditController,
+                  state: state,
+                  controller: controller,
                 )),
       floatingActionButton: FloatingActionButton(
         backgroundColor: AppColors.burlywood,
-        onPressed: () => childrenInfoEditController.addNewChild,
+        onPressed: () => controller.fetchChildrenInfo(),
         child: const Icon(Icons.add_sharp),
-      ),
-    );
-  }
-}
-
-class AddInformation extends StatelessWidget {
-  AddInformation({
-    super.key,
-    required this.state,
-    required this.controller,
-    required this.uid,
-  });
-  final ChildrenInfoEditState state;
-  final ChildrenInfoEditController controller;
-  final String uid;
-
-  final nameController = TextEditingController();
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(
-        horizontal: 8.0,
-        vertical: 16.0,
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          children: [
-            /// TOP
-            Container(
-              padding: const EdgeInsets.only(bottom: 4.0),
-              decoration: const BoxDecoration(
-                border: Border(
-                  bottom: BorderSide(
-                    width: 2,
-                    color: AppColors.darkgray,
-                  ),
-                ),
-              ),
-              child: const Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text('お子様の情報を登録してください'),
-                ],
-              ),
-            ),
-            const Gap(8.0),
-
-            Card(
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    /// 名前
-                    ChildrenInfoName(nameController: nameController),
-                    const Gap(16),
-
-                    /// 性別
-                    ChildrenInfoGender(state: state, controller: controller),
-                    const Gap(16),
-
-                    /// 年齢
-                    ChildrenInfoAge(state: state, controller: controller),
-
-                    /// 送信ボタン
-                    Align(
-                      alignment: Alignment.center,
-                      child: ElevatedButton(
-                        onPressed: () {
-                          showDialog(
-                              context: context,
-                              builder: (context) {
-                                return AlertDialog(
-                                  title: const Text('内容を確認してください'),
-                                  content: SizedBox(
-                                    height: 150,
-                                    child: Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                        horizontal: 16.0,
-                                        vertical: 8.0,
-                                      ),
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text('名前：${nameController.text}'),
-                                          Text('性別：${state.gender}'),
-                                          Text('年齢：${state.age}'),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                  actions: [
-                                    ElevatedButton(
-                                      onPressed: () {
-                                        controller.addNewChild(
-                                            uid, nameController.text);
-                                        Navigator.of(context).pop();
-                                      },
-                                      child: const Text('送信'),
-                                    ),
-                                    ElevatedButton(
-                                      onPressed: () =>
-                                          Navigator.of(context).pop(),
-                                      child: const Text('キャンセル'),
-                                    ),
-                                  ],
-                                );
-                              });
-                        },
-                        child: const Text('送信'),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class ChangeInformation extends StatelessWidget {
-  ChangeInformation({
-    super.key,
-    required this.name,
-    required this.state,
-    required this.controller,
-  });
-  final String name;
-  final ChildrenInfoEditState state;
-  final ChildrenInfoEditController controller;
-
-  final nameController = TextEditingController();
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(
-        horizontal: 8.0,
-        vertical: 16.0,
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          children: [
-            /// TOP
-            Container(
-              padding: const EdgeInsets.only(bottom: 4.0),
-              decoration: const BoxDecoration(
-                border: Border(
-                  bottom: BorderSide(
-                    width: 2,
-                    color: AppColors.darkgray,
-                  ),
-                ),
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(name),
-                  ElevatedButton(
-                    onPressed: () {},
-                    child: const Text("削除"),
-                  )
-                ],
-              ),
-            ),
-            const Gap(8.0),
-
-            Card(
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    /// 名前
-                    ChildrenInfoName(nameController: nameController),
-                    const Gap(16),
-
-                    /// 性別
-                    ChildrenInfoGender(state: state, controller: controller),
-                    const Gap(16),
-
-                    /// 年齢
-                    ChildrenInfoAge(state: state, controller: controller),
-
-                    /// 送信ボタン
-                    //　TODO: 新規追加のWidgetとは別で、更新する処理を追加する
-                    Align(
-                      alignment: Alignment.center,
-                      child: ElevatedButton(
-                        onPressed: () {},
-                        child: const Text('送信'),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ],
-        ),
       ),
     );
   }
