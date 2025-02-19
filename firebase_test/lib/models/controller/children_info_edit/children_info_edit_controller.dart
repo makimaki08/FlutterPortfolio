@@ -36,13 +36,22 @@ class ChildrenInfoEditController extends StateNotifier<ChildrenInfoEditState> {
         .collection('children')
         .get()
         .then((QuerySnapshot snapshot) {
+      List<ChildInfoState> newChildren = [];
       snapshot.docs.forEach((doc) {
-        /// usersコレクションのドキュメントIDを取得する
-        print(doc.id);
+        // /// usersコレクションのドキュメントIDを取得する
+        // print(doc.id);
+        var child = ChildInfoState(
+          name: doc.get('name'),
+          gender: doc.get('gender'),
+          age: doc.get('age'),
+        );
 
-        /// 取得したドキュメントIDのフィールド値nameの値を取得する
-        print(doc.get('name'));
+        newChildren.add(child);
       });
+      state = state.copyWith(
+        children: newChildren,
+        haveRegistration: true,
+      );
     });
   }
 }

@@ -9,6 +9,7 @@ import 'package:firebase_test/style/color/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 
 class ChildrenInfoEditPage extends HookConsumerWidget {
   const ChildrenInfoEditPage({super.key});
@@ -19,6 +20,11 @@ class ChildrenInfoEditPage extends HookConsumerWidget {
     final ChildrenInfoEditController controller =
         ref.watch(childrenInfoEditProvider.notifier);
     final LoginState loginState = ref.watch(loginProvider);
+
+    useEffect(() {
+      controller.fetchChildrenInfo();
+      return null;
+    }, const []);
 
     return Scaffold(
       appBar: AppBar(
