@@ -28,6 +28,7 @@ dependencies:
   tuple: ^2.0.2
   mockito: ^5.4.4
   intl: ^0.20.0
+  flutter_hooks: ^0.18.6
   
 
 
