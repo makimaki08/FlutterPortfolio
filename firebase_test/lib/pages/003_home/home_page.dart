@@ -9,7 +9,7 @@ import 'package:http/http.dart' as http;
 class HomePage extends HookConsumerWidget {
   HomePage({super.key});
 
-  // ここでログイン中userの情報取得
+  // ログイン中userの情報取得
   User? user = FirebaseAuth.instance.currentUser;
 
   @override
