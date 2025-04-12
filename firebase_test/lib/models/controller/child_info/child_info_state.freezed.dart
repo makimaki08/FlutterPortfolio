@@ -16,9 +16,11 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$ChildInfoState {
+  String? get docId => throw _privateConstructorUsedError;
   String? get name => throw _privateConstructorUsedError;
   int? get gender => throw _privateConstructorUsedError;
   int? get age => throw _privateConstructorUsedError;
+  bool get isEditable => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $ChildInfoStateCopyWith<ChildInfoState> get copyWith =>
@@ -31,7 +33,8 @@ abstract class $ChildInfoStateCopyWith<$Res> {
           ChildInfoState value, $Res Function(ChildInfoState) then) =
       _$ChildInfoStateCopyWithImpl<$Res, ChildInfoState>;
   @useResult
-  $Res call({String? name, int? gender, int? age});
+  $Res call(
+      {String? docId, String? name, int? gender, int? age, bool isEditable});
 }
 
 /// @nodoc
@@ -47,11 +50,17 @@ class _$ChildInfoStateCopyWithImpl<$Res, $Val extends ChildInfoState>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? docId = freezed,
     Object? name = freezed,
     Object? gender = freezed,
     Object? age = freezed,
+    Object? isEditable = null,
   }) {
     return _then(_value.copyWith(
+      docId: freezed == docId
+          ? _value.docId
+          : docId // ignore: cast_nullable_to_non_nullable
+              as String?,
       name: freezed == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -64,6 +73,10 @@ class _$ChildInfoStateCopyWithImpl<$Res, $Val extends ChildInfoState>
           ? _value.age
           : age // ignore: cast_nullable_to_non_nullable
               as int?,
+      isEditable: null == isEditable
+          ? _value.isEditable
+          : isEditable // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 }
@@ -76,7 +89,8 @@ abstract class _$$ChildInfoStateImplCopyWith<$Res>
       __$$ChildInfoStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String? name, int? gender, int? age});
+  $Res call(
+      {String? docId, String? name, int? gender, int? age, bool isEditable});
 }
 
 /// @nodoc
@@ -90,11 +104,17 @@ class __$$ChildInfoStateImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? docId = freezed,
     Object? name = freezed,
     Object? gender = freezed,
     Object? age = freezed,
+    Object? isEditable = null,
   }) {
     return _then(_$ChildInfoStateImpl(
+      docId: freezed == docId
+          ? _value.docId
+          : docId // ignore: cast_nullable_to_non_nullable
+              as String?,
       name: freezed == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -107,6 +127,10 @@ class __$$ChildInfoStateImplCopyWithImpl<$Res>
           ? _value.age
           : age // ignore: cast_nullable_to_non_nullable
               as int?,
+      isEditable: null == isEditable
+          ? _value.isEditable
+          : isEditable // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -114,18 +138,25 @@ class __$$ChildInfoStateImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$ChildInfoStateImpl extends _ChildInfoState {
-  const _$ChildInfoStateImpl({this.name, this.gender, this.age}) : super._();
+  const _$ChildInfoStateImpl(
+      {this.docId, this.name, this.gender, this.age, this.isEditable = false})
+      : super._();
 
+  @override
+  final String? docId;
   @override
   final String? name;
   @override
   final int? gender;
   @override
   final int? age;
+  @override
+  @JsonKey()
+  final bool isEditable;
 
   @override
   String toString() {
-    return 'ChildInfoState(name: $name, gender: $gender, age: $age)';
+    return 'ChildInfoState(docId: $docId, name: $name, gender: $gender, age: $age, isEditable: $isEditable)';
   }
 
   @override
@@ -133,13 +164,17 @@ class _$ChildInfoStateImpl extends _ChildInfoState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ChildInfoStateImpl &&
+            (identical(other.docId, docId) || other.docId == docId) &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.gender, gender) || other.gender == gender) &&
-            (identical(other.age, age) || other.age == age));
+            (identical(other.age, age) || other.age == age) &&
+            (identical(other.isEditable, isEditable) ||
+                other.isEditable == isEditable));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, name, gender, age);
+  int get hashCode =>
+      Object.hash(runtimeType, docId, name, gender, age, isEditable);
 
   @JsonKey(ignore: true)
   @override
@@ -151,17 +186,23 @@ class _$ChildInfoStateImpl extends _ChildInfoState {
 
 abstract class _ChildInfoState extends ChildInfoState {
   const factory _ChildInfoState(
-      {final String? name,
+      {final String? docId,
+      final String? name,
       final int? gender,
-      final int? age}) = _$ChildInfoStateImpl;
+      final int? age,
+      final bool isEditable}) = _$ChildInfoStateImpl;
   const _ChildInfoState._() : super._();
 
+  @override
+  String? get docId;
   @override
   String? get name;
   @override
   int? get gender;
   @override
   int? get age;
+  @override
+  bool get isEditable;
   @override
   @JsonKey(ignore: true)
   _$$ChildInfoStateImplCopyWith<_$ChildInfoStateImpl> get copyWith =>

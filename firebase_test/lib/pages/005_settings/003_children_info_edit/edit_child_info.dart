@@ -9,11 +9,9 @@ import 'package:gap/gap.dart';
 class EditChildInfo extends StatelessWidget {
   EditChildInfo({
     super.key,
-    required this.name,
     required this.state,
     required this.controller,
   });
-  final String name;
   final ChildrenInfoEditState state;
   final ChildrenInfoEditController controller;
 
@@ -22,12 +20,16 @@ class EditChildInfo extends StatelessWidget {
     return ListView.builder(
       itemCount: state.children.length,
       itemBuilder: (context, index) {
-        return EditChild(state.children[index]);
+        return EditChild(index, controller, state.children[index]);
       },
     );
   }
 
-  Widget EditChild(ChildInfoState state) {
+  Widget EditChild(
+    int index,
+    ChildrenInfoEditController controller,
+    ChildInfoState state,
+  ) {
     final nameController = TextEditingController(text: state.name);
 
     return Padding(
@@ -53,11 +55,34 @@ class EditChildInfo extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(name),
-                  ElevatedButton(
-                    onPressed: () {},
-                    child: const Text("削除"),
-                  )
+                  Text(nameController.text),
+                  Row(
+                    children: [
+                      Visibility(
+                        visible: state.isEditable,
+                        child: ElevatedButton(
+                          onPressed: () {
+                            controller.updateIsEditable(index, false);
+                          },
+                          child: const Text("取消"),
+                        ),
+                      ),
+                      Visibility(
+                        visible: !state.isEditable,
+                        child: ElevatedButton(
+                          onPressed: () {
+                            controller.updateIsEditable(index, true);
+                          },
+                          child: const Text("編集"),
+                        ),
+                      ),
+                      const Gap(16),
+                      ElevatedButton(
+                        onPressed: () {},
+                        child: const Text("削除"),
+                      )
+                    ],
+                  ),
                 ],
               ),
             ),
@@ -78,73 +103,140 @@ class EditChildInfo extends StatelessWidget {
                         ),
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                          child: TextFormField(
-                            controller: nameController,
-                            textInputAction: TextInputAction.next,
-                            autovalidateMode: AutovalidateMode.onUnfocus,
-                            decoration: InputDecoration(
-                              hintText: '例：田中太郎',
-                              border: InputBorder.none,
-                            ),
-                          ),
+                          child: state.isEditable
+                              ? TextFormField(
+                                  controller: nameController,
+                                  textInputAction: TextInputAction.next,
+                                  autovalidateMode: AutovalidateMode.onUnfocus,
+                                  decoration: const InputDecoration(
+                                    hintText: '例：田中太郎',
+                                    border: InputBorder.none,
+                                  ),
+                                )
+                              : Container(
+                                  alignment: Alignment.centerLeft,
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(top: 8.0),
+                                    child: Text(
+                                      nameController.text,
+                                      style: const TextStyle(fontSize: 16),
+                                    ),
+                                  ),
+                                ),
                         ),
                       ],
                     ),
                     const Gap(16),
 
                     /// 性別
-                    //FIXME: stateの持ち方直す。。
-                    // このままだとstateは子供単体しか見ておらず、複数名の子供Stateに対して、正しく修正をすることができない。
-                    // Column(
-                    //   children: [
-                    //     const Align(
-                    //       alignment: Alignment.centerLeft,
-                    //       child: Text("性別"),
-                    //     ),
-                    //     Row(
-                    //       children: [
-                    //         Flexible(
-                    //           child: RadioListTile(
-                    //             title: const Text('男'),
-                    //             value: Gender.man.value,
-                    //             groupValue: state.gender,
-                    //             onChanged: (value) {
-                    //               if (value != null) {
-                    //                 childInfoController
-                    //                     .onChangedGender(Gender.man.value);
-                    //               }
-                    //             },
-                    //           ),
-                    //         ),
-                    //         Flexible(
-                    //           child: RadioListTile(
-                    //             title: const Text('女'),
-                    //             value: Gender.woman.value,
-                    //             groupValue: state.gender,
-                    //             onChanged: (value) {
-                    //               if (value != null) {
-                    //                 childInfoController
-                    //                     .onChangedGender(Gender.woman.value);
-                    //               }
-                    //             },
-                    //           ),
-                    //         ),
-                    //       ],
-                    //     ),
-                    //   ],
-                    // ),
+                    Column(
+                      children: [
+                        const Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text("性別"),
+                        ),
+                        state.isEditable
+                            ? Row(
+                                children: [
+                                  Flexible(
+                                    child: RadioListTile(
+                                      title: const Text('男'),
+                                      value: Gender.man.value,
+                                      groupValue: state.gender,
+                                      onChanged: (value) {
+                                        if (value != null) {
+                                          controller.updateChildGender(
+                                              index, value);
+                                        }
+                                      },
+                                    ),
+                                  ),
+                                  Flexible(
+                                    child: RadioListTile(
+                                      title: const Text('女'),
+                                      value: Gender.woman.value,
+                                      groupValue: state.gender,
+                                      onChanged: (value) {
+                                        if (value != null) {
+                                          controller.updateChildGender(
+                                              index, value);
+                                        }
+                                      },
+                                    ),
+                                  ),
+                                ],
+                              )
+                            : Container(
+                                alignment: Alignment.centerLeft,
+                                child: Padding(
+                                  padding: const EdgeInsets.only(
+                                    left: 16.0,
+                                    top: 8.0,
+                                  ),
+                                  child: Text(
+                                    state.gender == 1 ? "男" : "女",
+                                    style: const TextStyle(fontSize: 16),
+                                  ),
+                                ),
+                              ),
+                      ],
+                    ),
                     const Gap(16),
 
                     /// 年齢
-                    // ChildrenInfoAge(state: state, controller: controller),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text("年齢"),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                          child: state.isEditable
+                              ? DropdownButton(
+                                  items: List.generate(10, (index) {
+                                    final age = 6 + index;
+                                    return DropdownMenuItem(
+                                      value: age,
+                                      child: Text('$age歳'),
+                                    );
+                                  }),
+                                  onChanged: (value) {
+                                    if (value != null) {
+                                      controller.updateChildAge(index, value);
+                                    }
+                                  },
+                                  value: state.age,
+                                )
+                              : Container(
+                                  alignment: Alignment.centerLeft,
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(top: 8.0),
+                                    child: Text(
+                                      "${state.age}歳",
+                                      style: const TextStyle(fontSize: 16),
+                                    ),
+                                  ),
+                                ),
+                        ),
+                      ],
+                    ),
 
                     /// 送信ボタン
-                    //　TODO: 新規追加のWidgetとは別で、更新する処理を追加する
-                    Align(
-                      alignment: Alignment.center,
-                      child: ElevatedButton(
-                        onPressed: () {},
-                        child: const Text('送信'),
+                    Visibility(
+                      visible: state.isEditable,
+                      child: Align(
+                        alignment: Alignment.center,
+                        child: ElevatedButton(
+                          onPressed: () {
+                            final uploadValue = ChildInfoState(
+                              name: nameController.text,
+                              gender: state.gender,
+                              age: state.age,
+                              isEditable: false,
+                            );
+                            controller.updateChildInfo(index, uploadValue);
+                          },
+                          child: const Text('更新'),
+                        ),
                       ),
                     ),
                   ],
