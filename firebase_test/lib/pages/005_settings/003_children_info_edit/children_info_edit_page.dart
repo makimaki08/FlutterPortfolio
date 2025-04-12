@@ -37,12 +37,12 @@ class ChildrenInfoEditPage extends HookConsumerWidget {
                   childrenInfoEditController: controller,
                 )
               : EditChildInfo(
-                  name: '田中太郎',
                   state: state,
                   controller: controller,
                 )),
       floatingActionButton: FloatingActionButton(
         backgroundColor: AppColors.burlywood,
+        // TODO:新規追加ようの動線追加
         onPressed: () => controller.fetchChildrenInfo(),
         child: const Icon(Icons.add_sharp),
       ),
