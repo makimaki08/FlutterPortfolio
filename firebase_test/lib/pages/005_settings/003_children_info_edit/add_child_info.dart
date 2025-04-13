@@ -6,6 +6,7 @@ import 'package:firebase_test/models/entities/children_info/gender_enum.dart';
 import 'package:firebase_test/style/color/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class AddChildInfo extends HookConsumerWidget {
@@ -180,7 +181,7 @@ class AddChildInfo extends HookConsumerWidget {
                                   ),
                                   actions: [
                                     ElevatedButton(
-                                      onPressed: () {
+                                      onPressed: () async {
                                         if (state.gender != null &&
                                             state.age != null) {
                                           final value = ChildInfoState(
@@ -188,13 +189,14 @@ class AddChildInfo extends HookConsumerWidget {
                                             gender: state.gender,
                                             age: state.age,
                                           );
-                                          childrenInfoEditController
+                                          await childrenInfoEditController
                                               .addNewChild(
                                             uid,
                                             value,
                                           );
                                         }
                                         Navigator.of(context).pop();
+                                        context.pop();
                                       },
                                       child: const Text('送信'),
                                     ),

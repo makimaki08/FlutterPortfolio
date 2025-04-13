@@ -63,6 +63,7 @@ class BottomNavigation extends HookConsumerWidget {
       case '/settings':
       case '/settings/mail_password_edit':
       case '/settings/account_info_edit':
+      case '/settings/account_info_edit/account_info_add':
         return 2;
 
       default:

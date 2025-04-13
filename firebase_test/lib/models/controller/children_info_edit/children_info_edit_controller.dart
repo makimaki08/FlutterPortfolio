@@ -13,7 +13,7 @@ class ChildrenInfoEditController extends StateNotifier<ChildrenInfoEditState> {
       : super(const ChildrenInfoEditState(children: [ChildInfoState()]));
   final Ref _ref;
 
-  void addNewChild(String uid, ChildInfoState value) {
+  Future<void> addNewChild(String uid, ChildInfoState value) async {
     Loading.show();
     FirebaseFirestore.instance.collection('children').add(
       {
@@ -27,6 +27,7 @@ class ChildrenInfoEditController extends StateNotifier<ChildrenInfoEditState> {
       haveRegistration: true,
       children: [...state.children, value],
     );
+    await Future.delayed(const Duration(seconds: 1));
     Loading.dismiss();
   }
 
@@ -67,7 +68,7 @@ class ChildrenInfoEditController extends StateNotifier<ChildrenInfoEditState> {
 
   Future<void> updateChildInfo(int index, ChildInfoState updatedChild) async {
     Loading.show();
-    await Future.delayed(Duration(seconds: 1));
+    await Future.delayed(const Duration(seconds: 1));
     FirebaseFirestore.instance
         .collection('children')
         .doc(state.children[index].docId)
@@ -87,6 +88,23 @@ class ChildrenInfoEditController extends StateNotifier<ChildrenInfoEditState> {
     Loading.dismiss();
   }
 
+  Future<void> deleteChildInfo(int index) async {
+    Loading.show();
+
+    final docId = state.children[index].docId;
+    try {
+      await FirebaseFirestore.instance
+          .collection('children')
+          .doc(docId)
+          .delete();
+      fetchChildrenInfo();
+      print("TEST");
+    } catch (e) {
+      print(e);
+    }
+    Loading.dismiss();
+  }
+
   // memo: uidを元にして、firebaseから情報を取得する
   void fetchChildrenInfo() {
     FirebaseFirestore.instance
@@ -95,7 +113,7 @@ class ChildrenInfoEditController extends StateNotifier<ChildrenInfoEditState> {
         .then((QuerySnapshot snapshot) {
       List<ChildInfoState> newChildren = [];
       snapshot.docs.forEach((doc) {
-        // /// usersコレクションのドキュメントIDを取得する
+        /// usersコレクションのドキュメントIDを取得する
         var child = ChildInfoState(
           docId: doc.id,
           name: doc.get('name'),
@@ -107,7 +125,7 @@ class ChildrenInfoEditController extends StateNotifier<ChildrenInfoEditState> {
       });
       state = state.copyWith(
         children: newChildren,
-        haveRegistration: true,
+        haveRegistration: newChildren.isNotEmpty,
       );
     });
   }

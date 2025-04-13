@@ -2,6 +2,7 @@ import 'package:firebase_test/models/controller/child_info/child_info_state.dart
 import 'package:firebase_test/models/controller/children_info_edit/children_info_edit_controller.dart';
 import 'package:firebase_test/models/controller/children_info_edit/children_info_edit_state.dart';
 import 'package:firebase_test/models/entities/children_info/gender_enum.dart';
+import 'package:firebase_test/pages/005_settings/003_children_info_edit/01_components/confirm_delete_dialog.dart';
 import 'package:firebase_test/style/color/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
@@ -20,12 +21,13 @@ class EditChildInfo extends StatelessWidget {
     return ListView.builder(
       itemCount: state.children.length,
       itemBuilder: (context, index) {
-        return EditChild(index, controller, state.children[index]);
+        return EditChild(context, index, controller, state.children[index]);
       },
     );
   }
 
   Widget EditChild(
+    BuildContext context,
     int index,
     ChildrenInfoEditController controller,
     ChildInfoState state,
@@ -78,7 +80,13 @@ class EditChildInfo extends StatelessWidget {
                       ),
                       const Gap(16),
                       ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          showDialog(
+                            context: context,
+                            builder: (context) => ConfirmDeleteDialog(
+                                index: index, controller: controller),
+                          );
+                        },
                         child: const Text("削除"),
                       )
                     ],
