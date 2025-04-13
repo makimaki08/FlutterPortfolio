@@ -7,6 +7,7 @@ import 'package:firebase_test/pages/005_settings/001_settings/settings_page.dart
 import 'package:firebase_test/pages/005_settings/002_account_info_edit/account_info_edit.dart';
 import 'package:firebase_test/models/entities/event/calendar_event.dart';
 import 'package:firebase_test/pages/005_settings/003_children_info_edit/children_info_edit_page.dart';
+import 'package:firebase_test/pages/005_settings/006_add_child_info/add_child_info_page.dart';
 import 'package:firebase_test/pages/999_other/toolbarl/bottom_navigation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -114,6 +115,17 @@ final goRouter = GoRouter(
                   child: ChildrenInfoEditPage(),
                 );
               },
+              routes: [
+                GoRoute(
+                  path: 'account_info_add',
+                  name: 'account_info_add',
+                  pageBuilder: (context, state) {
+                    return const MaterialPage(
+                      child: AddChildInfoPage(),
+                    );
+                  },
+                ),
+              ],
             ),
           ],
         ),

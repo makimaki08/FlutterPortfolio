@@ -8,12 +8,11 @@ import 'package:firebase_test/pages/005_settings/003_children_info_edit/edit_chi
 import 'package:firebase_test/style/color/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 
-class ChildrenInfoEditPage extends HookConsumerWidget {
-  const ChildrenInfoEditPage({super.key});
+class AddChildInfoPage extends HookConsumerWidget {
+  const AddChildInfoPage({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -29,25 +28,13 @@ class ChildrenInfoEditPage extends HookConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('お子様情報変更'),
+        title: const Text('お子様情報追加'),
       ),
       body: SafeArea(
-          child: (!state.haveRegistration)
-              ? Container(
-                  alignment: Alignment.center,
-                  child: const Padding(
-                      padding: EdgeInsets.all(32.0),
-                      child: Text("右下のアイコンをタップして、お子様の情報を新規追加してください。")),
-                )
-              : EditChildInfo(
-                  state: state,
-                  controller: controller,
-                )),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: AppColors.burlywood,
-        onPressed: () =>
-            context.go('/settings/account_info_edit/account_info_add'),
-        child: const Icon(Icons.add_sharp),
+        child: AddChildInfo(
+          uid: loginState.uid,
+          childrenInfoEditController: controller,
+        ),
       ),
     );
   }

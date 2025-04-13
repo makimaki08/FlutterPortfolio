@@ -13,7 +13,7 @@ class ChildrenInfoEditController extends StateNotifier<ChildrenInfoEditState> {
       : super(const ChildrenInfoEditState(children: [ChildInfoState()]));
   final Ref _ref;
 
-  void addNewChild(String uid, ChildInfoState value) {
+  Future<void> addNewChild(String uid, ChildInfoState value) async {
     Loading.show();
     FirebaseFirestore.instance.collection('children').add(
       {
@@ -27,6 +27,7 @@ class ChildrenInfoEditController extends StateNotifier<ChildrenInfoEditState> {
       haveRegistration: true,
       children: [...state.children, value],
     );
+    await Future.delayed(const Duration(seconds: 1));
     Loading.dismiss();
   }
 
@@ -67,7 +68,7 @@ class ChildrenInfoEditController extends StateNotifier<ChildrenInfoEditState> {
 
   Future<void> updateChildInfo(int index, ChildInfoState updatedChild) async {
     Loading.show();
-    await Future.delayed(Duration(seconds: 1));
+    await Future.delayed(const Duration(seconds: 1));
     FirebaseFirestore.instance
         .collection('children')
         .doc(state.children[index].docId)
