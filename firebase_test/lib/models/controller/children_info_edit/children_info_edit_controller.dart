@@ -88,6 +88,23 @@ class ChildrenInfoEditController extends StateNotifier<ChildrenInfoEditState> {
     Loading.dismiss();
   }
 
+  Future<void> deleteChildInfo(int index) async {
+    Loading.show();
+
+    final docId = state.children[index].docId;
+    try {
+      await FirebaseFirestore.instance
+          .collection('children')
+          .doc(docId)
+          .delete();
+      fetchChildrenInfo();
+      print("TEST");
+    } catch (e) {
+      print(e);
+    }
+    Loading.dismiss();
+  }
+
   // memo: uidを元にして、firebaseから情報を取得する
   void fetchChildrenInfo() {
     FirebaseFirestore.instance
@@ -96,7 +113,7 @@ class ChildrenInfoEditController extends StateNotifier<ChildrenInfoEditState> {
         .then((QuerySnapshot snapshot) {
       List<ChildInfoState> newChildren = [];
       snapshot.docs.forEach((doc) {
-        // /// usersコレクションのドキュメントIDを取得する
+        /// usersコレクションのドキュメントIDを取得する
         var child = ChildInfoState(
           docId: doc.id,
           name: doc.get('name'),
@@ -108,7 +125,7 @@ class ChildrenInfoEditController extends StateNotifier<ChildrenInfoEditState> {
       });
       state = state.copyWith(
         children: newChildren,
-        haveRegistration: true,
+        haveRegistration: newChildren.isNotEmpty,
       );
     });
   }
