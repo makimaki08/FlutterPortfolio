@@ -1,6 +1,6 @@
 import 'package:firebase_test/models/controller/child_info/child_info_state.dart';
-import 'package:firebase_test/models/controller/children_info_edit/children_info_edit_controller.dart';
-import 'package:firebase_test/models/controller/children_info_edit/children_info_edit_state.dart';
+import 'package:firebase_test/models/controller/children_info/children_info_controller.dart';
+import 'package:firebase_test/models/controller/children_info/children_info_state.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 final childInfoProvider =
