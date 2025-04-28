@@ -1,6 +1,6 @@
 import 'package:firebase_test/models/controller/child_info/child_info_state.dart';
-import 'package:firebase_test/models/controller/children_info_edit/children_info_edit_controller.dart';
-import 'package:firebase_test/models/controller/children_info_edit/children_info_edit_state.dart';
+import 'package:firebase_test/models/controller/children_info/children_info_controller.dart';
+import 'package:firebase_test/models/controller/children_info/children_info_state.dart';
 import 'package:firebase_test/models/controller/login/login_controller.dart';
 import 'package:firebase_test/models/controller/login/login_state.dart';
 import 'package:firebase_test/pages/005_settings/003_children_info_edit/add_child_info.dart';
@@ -17,8 +17,8 @@ class ChildrenInfoEditPage extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final ChildrenInfoEditState state = ref.watch(childrenInfoEditProvider);
-    final ChildrenInfoEditController controller =
+    final ChildrenInfoState state = ref.watch(childrenInfoEditProvider);
+    final ChildrenInfoController controller =
         ref.watch(childrenInfoEditProvider.notifier);
     final LoginState loginState = ref.watch(loginProvider);
 
