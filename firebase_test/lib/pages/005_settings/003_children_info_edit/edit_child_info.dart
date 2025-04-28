@@ -1,6 +1,6 @@
 import 'package:firebase_test/models/controller/child_info/child_info_state.dart';
-import 'package:firebase_test/models/controller/children_info_edit/children_info_edit_controller.dart';
-import 'package:firebase_test/models/controller/children_info_edit/children_info_edit_state.dart';
+import 'package:firebase_test/models/controller/children_info/children_info_controller.dart';
+import 'package:firebase_test/models/controller/children_info/children_info_state.dart';
 import 'package:firebase_test/models/entities/children_info/gender_enum.dart';
 import 'package:firebase_test/pages/005_settings/003_children_info_edit/01_components/confirm_delete_dialog.dart';
 import 'package:firebase_test/style/color/app_colors.dart';
@@ -13,8 +13,8 @@ class EditChildInfo extends StatelessWidget {
     required this.state,
     required this.controller,
   });
-  final ChildrenInfoEditState state;
-  final ChildrenInfoEditController controller;
+  final ChildrenInfoState state;
+  final ChildrenInfoController controller;
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +29,7 @@ class EditChildInfo extends StatelessWidget {
   Widget EditChild(
     BuildContext context,
     int index,
-    ChildrenInfoEditController controller,
+    ChildrenInfoController controller,
     ChildInfoState state,
   ) {
     final nameController = TextEditingController(text: state.name);

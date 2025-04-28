@@ -1,16 +1,16 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_test/models/controller/child_info/child_info_state.dart';
-import 'package:firebase_test/models/controller/children_info_edit/children_info_edit_state.dart';
+import 'package:firebase_test/models/controller/children_info/children_info_state.dart';
 import 'package:firebase_test/widgets/loading.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 final childrenInfoEditProvider =
-    StateNotifierProvider<ChildrenInfoEditController, ChildrenInfoEditState>(
-        ChildrenInfoEditController.new);
+    StateNotifierProvider<ChildrenInfoController, ChildrenInfoState>(
+        ChildrenInfoController.new);
 
-class ChildrenInfoEditController extends StateNotifier<ChildrenInfoEditState> {
-  ChildrenInfoEditController(this._ref)
-      : super(const ChildrenInfoEditState(children: [ChildInfoState()]));
+class ChildrenInfoController extends StateNotifier<ChildrenInfoState> {
+  ChildrenInfoController(this._ref)
+      : super(const ChildrenInfoState(children: [ChildInfoState()]));
   final Ref _ref;
 
   Future<void> addNewChild(String uid, ChildInfoState value) async {

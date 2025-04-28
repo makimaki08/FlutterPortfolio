@@ -1,9 +1,9 @@
-import 'package:firebase_test/models/controller/children_info_edit/children_info_edit_controller.dart';
+import 'package:firebase_test/models/controller/children_info/children_info_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 class ConfirmDeleteDialog extends StatelessWidget {
-  final ChildrenInfoEditController controller;
+  final ChildrenInfoController controller;
   final int index;
 
   const ConfirmDeleteDialog(

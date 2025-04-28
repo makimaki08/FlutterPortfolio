@@ -1,7 +1,7 @@
 import 'package:firebase_test/models/controller/child_info/child_info_controller.dart';
 import 'package:firebase_test/models/controller/child_info/child_info_state.dart';
-import 'package:firebase_test/models/controller/children_info_edit/children_info_edit_controller.dart';
-import 'package:firebase_test/models/controller/children_info_edit/children_info_edit_state.dart';
+import 'package:firebase_test/models/controller/children_info/children_info_controller.dart';
+import 'package:firebase_test/models/controller/children_info/children_info_state.dart';
 import 'package:firebase_test/models/entities/children_info/gender_enum.dart';
 import 'package:firebase_test/style/color/app_colors.dart';
 import 'package:flutter/material.dart';
@@ -13,12 +13,12 @@ class AddChildInfo extends HookConsumerWidget {
   AddChildInfo({
     super.key,
     required this.uid,
-    required this.childrenInfoEditController,
+    required this.childrenInfoController,
   });
   final String uid;
 
   final nameController = TextEditingController();
-  final ChildrenInfoEditController childrenInfoEditController;
+  final ChildrenInfoController childrenInfoController;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -189,7 +189,7 @@ class AddChildInfo extends HookConsumerWidget {
                                             gender: state.gender,
                                             age: state.age,
                                           );
-                                          await childrenInfoEditController
+                                          await childrenInfoController
                                               .addNewChild(
                                             uid,
                                             value,
