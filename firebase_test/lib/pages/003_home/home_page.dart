@@ -22,6 +22,7 @@ class HomePage extends HookConsumerWidget {
     final ChildrenInfoState state = ref.watch(childrenInfoEditProvider);
     final ChildrenInfoController controller =
         ref.watch(childrenInfoEditProvider.notifier);
+    final screenSize = MediaQuery.of(context).size;
 
     useEffect(() {
       controller.fetchChildrenInfo();
@@ -46,7 +47,10 @@ class HomePage extends HookConsumerWidget {
                 : ListView.builder(
                     itemCount: state.children.length,
                     itemBuilder: (context, index) {
-                      return Tmp(state.children[index]);
+                      return ChildAttendCard(
+                        state.children[index],
+                        screenSize,
+                      );
                     },
                   )),
       ),
@@ -54,8 +58,9 @@ class HomePage extends HookConsumerWidget {
   }
 }
 
-Widget Tmp(
+Widget ChildAttendCard(
   ChildInfoState state,
+  Size screenSize,
 ) {
   return Padding(
     padding: const EdgeInsets.symmetric(
@@ -69,6 +74,7 @@ Widget Tmp(
         children: [
           /// TOP
           Container(
+            width: screenSize.width * 0.65,
             padding: const EdgeInsets.only(bottom: 4.0),
             decoration: const BoxDecoration(
               border: Border(
@@ -80,18 +86,23 @@ Widget Tmp(
             ),
             child: Text(state.name ?? ''),
           ),
-          const Gap(8.0),
+          // const Gap(4.0),
 
-          const Card(
+          Card(
             child: Padding(
-              padding: EdgeInsets.all(16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text('2025/04/28'),
-                  Gap(4),
-                  Text('男女4~6年'),
-                ],
+              padding: const EdgeInsets.all(16.0),
+              child: SizedBox(
+                width: screenSize.width * 0.6,
+                height: 50,
+                child: const Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Text('2025/04/28 男女4~6'),
+                    Gap(4),
+                    Text('欠席理由：'),
+                  ],
+                ),
               ),
             ),
           ),
