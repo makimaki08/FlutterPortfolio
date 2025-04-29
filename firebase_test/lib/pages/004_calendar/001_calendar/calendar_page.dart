@@ -1,5 +1,6 @@
 import 'package:firebase_test/models/controller/calendar/calendar_controller.dart';
 import 'package:firebase_test/style/color/app_colors.dart';
+import 'package:firebase_test/widgets/calendar_event_card.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
@@ -36,13 +37,11 @@ class CalendarPage extends HookConsumerWidget {
                   );
                 }
                 final event = calendarEvent[index];
-                return Card(
-                  child: ListTile(
-                    title: Text('''${event.duration}\n${event.summary}'''),
-                    onTap: () => context.go(
-                      '/calendar/detail',
-                      extra: event,
-                    ),
+                return GestureDetector(
+                  child: CalendarEventCard(event: event),
+                  onTap: () => context.go(
+                    '/calendar/detail',
+                    extra: event,
                   ),
                 );
               },
