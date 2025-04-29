@@ -29,6 +29,7 @@ dependencies:
   mockito: ^5.4.4
   intl: ^0.20.0
   flutter_hooks: ^0.18.6
+  shared_preferences: ^2.5.3
   
 
 

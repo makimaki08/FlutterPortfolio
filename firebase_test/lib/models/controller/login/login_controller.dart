@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_test/models/controller/login/login_state.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../widgets/loading.dart';
 
@@ -27,6 +28,9 @@ class LoginController extends StateNotifier<LoginState> {
           message: 'The user does not exist.',
         );
       }
+
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setString('user_uid', state.uid);
 
       state = state.copyWith(
         isAuth: true,
