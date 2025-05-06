@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_test/models/controller/login/login_state.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../widgets/loading.dart';
 
@@ -12,22 +13,8 @@ class LoginController extends StateNotifier<LoginState> {
   LoginController(this._ref) : super(const LoginState());
   final Ref _ref;
 
-  /* --- コントローラー --- */
-  /// ユーザーID
-  TextEditingController inputUserIdController = TextEditingController();
-
-  /// パスワード
-  TextEditingController inputPasswordController = TextEditingController();
-
-  /* --- メソッド --- */
-  /// フォームリセット
-  Future<void> resetForm() async {
-    inputUserIdController = TextEditingController();
-    inputPasswordController = TextEditingController();
-  }
-
   /// ログイン
-  Future<void> login() async {
+  Future<void> login(String email, String password) async {
     await Loading.show();
 
     try {
@@ -46,6 +33,9 @@ class LoginController extends StateNotifier<LoginState> {
           message: 'The user does not exist.',
         );
       }
+
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setString('user_uid', state.uid);
 
       state = state.copyWith(
         isAuth: true,
