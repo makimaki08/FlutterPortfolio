@@ -1,14 +1,11 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_test/models/controller/login/login_state.dart';
-import 'package:firebase_test/repositories/secure_storage_repository.dart';
-import 'package:firebase_test/style/color/app_colors.dart';
+import 'package:firebase_test/validator/validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 
-import '../models/controller/login/login_controller.dart';
+import '../../models/controller/login/login_controller.dart';
 
 class LoginPage extends ConsumerWidget {
   const LoginPage({
@@ -17,11 +14,17 @@ class LoginPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // ログインFormの入力情報を管理
-    final loginController = ref.watch(loginProvider.notifier);
+    /* --- コントローラー --- */
+    /// ユーザーID
+    TextEditingController inputEmailController = TextEditingController();
+
+    /// パスワード
+    TextEditingController inputPasswordController = TextEditingController();
 
     // ログインの状態を監視
     final loginState = ref.watch(loginProvider);
+
+    final loginController = ref.watch(loginProvider.notifier);
 
     return Scaffold(
       appBar: AppBar(title: const Text('Firebase_Auto_app')),
@@ -37,17 +40,21 @@ class LoginPage extends ConsumerWidget {
                 children: [
                   // メールアドレス入力
                   TextFormField(
-                    controller: loginController.inputUserIdController,
+                    controller: inputEmailController,
                     decoration: const InputDecoration(labelText: 'メールアドレス'),
                     textInputAction: TextInputAction.next,
+                    validator: ValidateText().emailValidator,
+                    autovalidateMode: AutovalidateMode.onUnfocus,
                   ),
                   const Gap(8),
 
                   // パスワード入力
                   TextFormField(
-                    controller: loginController.inputPasswordController,
+                    controller: inputPasswordController,
                     decoration: const InputDecoration(labelText: 'パスワード'),
                     obscureText: true,
+                    validator: ValidateText().passwordValidator,
+                    autovalidateMode: AutovalidateMode.onUnfocus,
                   ),
                   const Gap(16),
 
@@ -56,10 +63,15 @@ class LoginPage extends ConsumerWidget {
                     width: double.infinity,
                     child: ElevatedButton(
                       child: const Text('ログイン'),
+                      // TODO: 固定値でログインさせているため、コントローラーから取得した値でログインできるように変更させる
                       onPressed: () => _handleLogin(
                         context,
-                        loginController,
                         loginState,
+                        loginController,
+                        // inputEmailController.text,
+                        "login_address@test.com",
+                        // inputPasswordController.text,
+                        "Password1234",
                       ),
                     ),
                   ),
@@ -70,7 +82,7 @@ class LoginPage extends ConsumerWidget {
                     width: double.infinity,
                     child: ElevatedButton(
                       child: const Text('新規登録'),
-                      onPressed: () => context.go('/registration'),
+                      onPressed: () => context.push('/registration'),
                     ),
                   ),
                 ],
@@ -85,11 +97,13 @@ class LoginPage extends ConsumerWidget {
   // ログイン処理
   void _handleLogin(
     BuildContext context,
-    LoginController loginController,
     LoginState loginState,
+    LoginController loginController,
+    String email,
+    String password,
   ) async {
     try {
-      await loginController.login();
+      await loginController.login(email, password);
       if (loginState.isAuth) {
         context.go('/home');
       } else {

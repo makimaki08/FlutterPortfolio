@@ -16,19 +16,19 @@ class BottomNavigation extends HookConsumerWidget {
           // home
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
-            label: 'Home',
+            label: 'ホーム',
           ),
 
           // Calendar
           BottomNavigationBarItem(
             icon: Icon(Icons.calendar_month),
-            label: 'Calendar',
+            label: 'カレンダー',
           ),
 
           // Setting
           BottomNavigationBarItem(
             icon: Icon(Icons.settings),
-            label: 'Setting',
+            label: '設定',
           ),
         ],
         onTap: (index) {
@@ -57,9 +57,13 @@ class BottomNavigation extends HookConsumerWidget {
         return 0;
 
       case '/calendar':
+      case '/calendar/detail':
         return 1;
 
       case '/settings':
+      case '/settings/mail_password_edit':
+      case '/settings/account_info_edit':
+      case '/settings/account_info_edit/account_info_add':
         return 2;
 
       default:
