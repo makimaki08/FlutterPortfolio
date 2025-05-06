@@ -20,6 +20,8 @@ class CalendarDetailPage extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final controller = ref.watch(calendarDetailProvider);
     final LoginState loginState = ref.watch(loginProvider);
+    final users = ["user1", "user2"];
+    final selectedUids = ["user1"];
 
     return Scaffold(
       appBar: AppBar(
@@ -55,6 +57,49 @@ class CalendarDetailPage extends HookConsumerWidget {
                 style: Theme.of(context).textTheme.bodyMedium,
               ),
               const Divider(height: 32),
+              Expanded(
+                child: ListView.builder(
+                  itemCount: users.length,
+                  itemBuilder: (context, index) {
+                    final user = users[index];
+                    final isSelected = selectedUids.contains(user);
+
+                    return Card(
+                      margin: const EdgeInsets.symmetric(vertical: 6),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      elevation: 2,
+                      child: ListTile(
+                        contentPadding: const EdgeInsets.symmetric(
+                            horizontal: 16, vertical: 8),
+                        leading: const CircleAvatar(
+                          backgroundColor: AppColors.whitesmoke,
+                          child: Icon(Icons.person, color: AppColors.darkgray),
+                        ),
+                        title: Text(
+                          user,
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w500,
+                            color: isSelected ? AppColors.blue : Colors.black87,
+                          ),
+                        ),
+                        trailing: Checkbox(
+                          value: isSelected,
+                          activeColor: AppColors.blue,
+                          onChanged: (isChecked) {
+                            // controller.toggleUserSelection(user); // ← 実装予定
+                          },
+                        ),
+                        onTap: () {
+                          // controller.toggleUserSelection(user); // ← 実装予定
+                        },
+                      ),
+                    );
+                  },
+                ),
+              ),
               const Spacer(),
               SizedBox(
                 width: double.infinity,
@@ -87,7 +132,7 @@ class CalendarDetailPage extends HookConsumerWidget {
                   label: const Text('欠席する'),
                   style: ElevatedButton.styleFrom(
                     foregroundColor: AppColors.whitesmoke,
-                    backgroundColor: AppColors.firebrick,
+                    backgroundColor: AppColors.blue,
                     padding: const EdgeInsets.symmetric(vertical: 16),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12),
