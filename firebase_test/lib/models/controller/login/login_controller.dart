@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_test/models/controller/login/login_state.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -18,8 +19,12 @@ class LoginController extends StateNotifier<LoginState> {
 
     try {
       final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: email,
-        password: password,
+        // email: inputUserIdController.text,
+        // password: inputPasswordController.text,
+
+        // for Dev
+        email: "test@test23156789.com",
+        password: "Pass12345678901",
       );
 
       if (credential.user == null) {
