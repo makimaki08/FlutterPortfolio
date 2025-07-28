@@ -10,6 +10,7 @@ import 'package:firebase_test/widgets/calendar_event_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:gap/gap.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class CalendarDetailPage extends HookConsumerWidget {
@@ -152,6 +153,7 @@ class CalendarDetailPage extends HookConsumerWidget {
                         const SnackBar(content: Text('欠席を登録しました')),
                       );
                     }
+                    context.pop();
                   },
                   icon: const Icon(
                     Icons.cancel,
