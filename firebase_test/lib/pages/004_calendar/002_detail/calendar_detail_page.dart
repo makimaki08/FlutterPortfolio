@@ -1,11 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_test/models/controller/calendar_detail/calendar_detail_controller.dart';
+import 'package:firebase_test/models/controller/children_info/children_info_controller.dart';
+import 'package:firebase_test/models/controller/children_info/children_info_state.dart';
 import 'package:firebase_test/models/controller/login/login_controller.dart';
 import 'package:firebase_test/models/controller/login/login_state.dart';
 import 'package:firebase_test/models/entities/event/calendar_event.dart';
 import 'package:firebase_test/style/color/app_colors.dart';
 import 'package:firebase_test/widgets/calendar_event_card.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:gap/gap.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -20,8 +23,12 @@ class CalendarDetailPage extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final controller = ref.watch(calendarDetailProvider);
     final LoginState loginState = ref.watch(loginProvider);
-    final users = ["user1", "user2"];
-    final selectedUids = ["user1"];
+    final ChildrenInfoState childrenInfoState =
+        ref.watch(childrenInfoEditProvider);
+    final ChildrenInfoController childrenInfoController =
+        ref.watch(childrenInfoEditProvider.notifier);
+    final users = childrenInfoState.children;
+    final selectedUids = useState<List<String>>([]);
 
     return Scaffold(
       appBar: AppBar(
@@ -62,7 +69,8 @@ class CalendarDetailPage extends HookConsumerWidget {
                   itemCount: users.length,
                   itemBuilder: (context, index) {
                     final user = users[index];
-                    final isSelected = selectedUids.contains(user);
+                    final uid = user.docId;
+                    final isSelected = selectedUids.value.contains(uid);
 
                     return Card(
                       margin: const EdgeInsets.symmetric(vertical: 6),
@@ -78,7 +86,7 @@ class CalendarDetailPage extends HookConsumerWidget {
                           child: Icon(Icons.person, color: AppColors.darkgray),
                         ),
                         title: Text(
-                          user,
+                          user.name ?? '',
                           style: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.w500,
@@ -89,11 +97,35 @@ class CalendarDetailPage extends HookConsumerWidget {
                           value: isSelected,
                           activeColor: AppColors.blue,
                           onChanged: (isChecked) {
-                            // controller.toggleUserSelection(user); // ← 実装予定
+                            if (uid == null) return;
+                            if (isChecked == true) {
+                              // 選択リストに追加
+                              selectedUids.value = [
+                                ...selectedUids.value,
+                                uid,
+                              ];
+                            } else {
+                              // 選択リストから削除
+                              selectedUids.value = selectedUids.value
+                                  .where((id) => id != uid)
+                                  .toList();
+                            }
                           },
                         ),
                         onTap: () {
-                          // controller.toggleUserSelection(user); // ← 実装予定
+                          if (uid == null) return;
+                          if (isSelected) {
+                            // すでに選択されていれば解除
+                            selectedUids.value = selectedUids.value
+                                .where((id) => id != uid)
+                                .toList();
+                          } else {
+                            // 未選択なら追加
+                            selectedUids.value = [
+                              ...selectedUids.value,
+                              uid,
+                            ];
+                          }
                         },
                       ),
                     );
