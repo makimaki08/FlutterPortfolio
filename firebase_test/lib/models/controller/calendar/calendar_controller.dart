@@ -1,3 +1,4 @@
+import 'package:firebase_test/models/controller/calendar/calendar_state.dart';
 import 'package:firebase_test/models/entities/event/calendar_event.dart';
 import 'package:firebase_test/widgets/loading.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -33,6 +34,40 @@ final calendarProvider = FutureProvider<List<CalendarEvent>>((ref) async {
         .where((event) => event.duration != null)
         .toList();
   } else {
+    print("response = ${response}, ${response.statusCode}");
     throw Exception('Failed to load events');
   }
 });
+
+class CalendarController extends StateNotifier<CalendarState> {
+  CalendarController(this._ref) : super(const CalendarState());
+  final Ref _ref;
+
+  Future<void> reload() async {}
+}
+
+class Event {
+  final String id;
+  final String summary;
+  final String description;
+  final DateTime start;
+  final DateTime end;
+
+  Event({
+    required this.id,
+    required this.summary,
+    required this.description,
+    required this.start,
+    required this.end,
+  });
+
+  factory Event.fromJson(Map<String, dynamic> json) {
+    return Event(
+      id: json['id'] ?? 'No id',
+      summary: json['summary'] ?? 'No title',
+      description: json['description'] ?? '',
+      start: DateTime.parse(json['start']['dateTime']),
+      end: DateTime.parse(json['end']['dateTime']),
+    );
+  }
+}

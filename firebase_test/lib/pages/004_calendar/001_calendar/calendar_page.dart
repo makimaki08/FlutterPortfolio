@@ -51,12 +51,6 @@ class CalendarPage extends HookConsumerWidget {
               loading: () {
                 return null;
               },
-              // loading: () => const Center(
-              //   child: Padding(
-              //     padding: EdgeInsets.all(8.0),
-              //     child: CircularProgressIndicator(),
-              //   ),
-              // ),
             );
           },
         ),
