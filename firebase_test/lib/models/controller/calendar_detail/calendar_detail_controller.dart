@@ -13,7 +13,7 @@ class CalendarDetailController {
   Future<void> addAttendanceInfo(CalendarEvent event, String uid) async {
     DateTime now = DateTime.now();
     final prefs = await SharedPreferences.getInstance();
-    final user_uid = prefs.getString('user_id');
+    final userUid = prefs.getString('user_id');
 
     FirebaseFirestore.instance.collection('collectionPath').add(
       {
@@ -23,7 +23,7 @@ class CalendarDetailController {
         'start': event.start,
         'end': event.end,
         'duration': event.duration,
-        'uid': user_uid,
+        'uid': userUid,
         'uploadTime': now,
       },
     );

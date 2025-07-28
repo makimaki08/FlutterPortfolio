@@ -27,8 +27,14 @@ class CalendarDetailPage extends HookConsumerWidget {
         ref.watch(childrenInfoEditProvider);
     final ChildrenInfoController childrenInfoController =
         ref.watch(childrenInfoEditProvider.notifier);
+
     final users = childrenInfoState.children;
     final selectedUids = useState<List<String>>([]);
+
+    useEffect(() {
+      childrenInfoController.fetchChildrenInfo();
+      return null;
+    }, const []);
 
     return Scaffold(
       appBar: AppBar(
@@ -136,27 +142,17 @@ class CalendarDetailPage extends HookConsumerWidget {
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton.icon(
-                  onPressed: () => controller.addAttendanceInfo(
-                    event,
-                    loginState.uid,
-                  ),
-                  // onPressed: () async {
-                  //   await FirebaseFirestore.instance
-                  //       .collection('absences')
-                  //       .add({
-                  //     // 'scheduleId': scheduleId,
-                  //     // 'title': title,
-                  //     // 'start': startTime,
-                  //     // 'end': endTime,
-                  //     // 'createdAt': DateTime.now(),
-                  //   });
-
-                  //   if (context.mounted) {
-                  //     ScaffoldMessenger.of(context).showSnackBar(
-                  //       const SnackBar(content: Text('欠席を登録しました')),
-                  //     );
-                  //   }
-                  // },
+                  onPressed: () {
+                    controller.addAttendanceInfo(
+                      event,
+                      loginState.uid,
+                    );
+                    if (context.mounted) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text('欠席を登録しました')),
+                      );
+                    }
+                  },
                   icon: const Icon(
                     Icons.cancel,
                     color: AppColors.whitesmoke,

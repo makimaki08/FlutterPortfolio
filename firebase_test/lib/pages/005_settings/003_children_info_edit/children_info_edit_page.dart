@@ -20,7 +20,6 @@ class ChildrenInfoEditPage extends HookConsumerWidget {
     final ChildrenInfoState state = ref.watch(childrenInfoEditProvider);
     final ChildrenInfoController controller =
         ref.watch(childrenInfoEditProvider.notifier);
-    final LoginState loginState = ref.watch(loginProvider);
 
     useEffect(() {
       controller.fetchChildrenInfo();
