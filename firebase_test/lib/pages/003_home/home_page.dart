@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_test/models/controller/child_info/child_info_state.dart';
 import 'package:firebase_test/models/controller/children_info/children_info_controller.dart';
@@ -10,6 +11,9 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:firebase_test/utils/date_format_util.dart';
+import 'package:go_router/go_router.dart';
+
+import '../../models/entities/event/calendar_event.dart';
 
 class HomePage extends HookConsumerWidget {
   HomePage({super.key});
@@ -133,66 +137,87 @@ class _ChildAttendCard extends HookConsumerWidget {
                         final description = absence['description'] ?? '';
                         final start = formatTimestamp(absence['start']);
                         final end = formatTimestamp(absence['end']);
-                        return Container(
-                          width: double.infinity,
-                          margin: const EdgeInsets.symmetric(vertical: 8.0),
-                          padding: const EdgeInsets.all(18.0),
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(16),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.black12,
-                                blurRadius: 8,
-                                offset: const Offset(0, 2),
-                              ),
-                            ],
-                            border:
-                                Border.all(color: AppColors.darkgray, width: 1),
-                          ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                children: [
-                                  const Icon(Icons.event_busy,
-                                      color: AppColors.blue, size: 28),
-                                  const SizedBox(width: 8),
-                                  Expanded(
-                                    child: Text(
-                                      summary,
-                                      style: const TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 18,
+                        // カレンダーイベント情報を作成
+                        final calendarEvent = CalendarEvent(
+                          id: absence['id'] ?? '',
+                          summary: summary,
+                          description: description,
+                          start: (absence['start'] is Timestamp)
+                              ? (absence['start'] as Timestamp).toDate()
+                              : absence['start'],
+                          end: (absence['end'] is Timestamp)
+                              ? (absence['end'] as Timestamp).toDate()
+                              : absence['end'],
+                          duration: absence['duration'],
+                        );
+                        return GestureDetector(
+                          onTap: () {
+                            context.go(
+                              '/calendar/detail',
+                              extra: calendarEvent,
+                            );
+                          },
+                          child: Container(
+                            width: double.infinity,
+                            margin: const EdgeInsets.symmetric(vertical: 8.0),
+                            padding: const EdgeInsets.all(18.0),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(16),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black12,
+                                  blurRadius: 8,
+                                  offset: const Offset(0, 2),
+                                ),
+                              ],
+                              border: Border.all(
+                                  color: AppColors.darkgray, width: 1),
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  children: [
+                                    const Icon(Icons.event_busy,
+                                        color: AppColors.blue, size: 28),
+                                    const SizedBox(width: 8),
+                                    Expanded(
+                                      child: Text(
+                                        summary,
+                                        style: const TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 18,
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                ],
-                              ),
-                              const SizedBox(height: 8),
-                              if (description.isNotEmpty)
-                                Text(
-                                  description,
-                                  style: const TextStyle(
-                                      fontSize: 15, color: Colors.black87),
+                                  ],
                                 ),
-                              const SizedBox(height: 8),
-                              Row(
-                                children: [
-                                  const Icon(Icons.calendar_today,
-                                      size: 18, color: Colors.grey),
-                                  const SizedBox(width: 4),
-                                  Text('開始: $start',
-                                      style: const TextStyle(fontSize: 14)),
-                                  const SizedBox(width: 12),
-                                  const Icon(Icons.calendar_today,
-                                      size: 18, color: Colors.grey),
-                                  const SizedBox(width: 4),
-                                  Text('終了: $end',
-                                      style: const TextStyle(fontSize: 14)),
-                                ],
-                              ),
-                            ],
+                                const SizedBox(height: 8),
+                                if (description.isNotEmpty)
+                                  Text(
+                                    description,
+                                    style: const TextStyle(
+                                        fontSize: 15, color: Colors.black87),
+                                  ),
+                                const SizedBox(height: 8),
+                                Row(
+                                  children: [
+                                    const Icon(Icons.calendar_today,
+                                        size: 18, color: Colors.grey),
+                                    const SizedBox(width: 4),
+                                    Text('開始: $start',
+                                        style: const TextStyle(fontSize: 14)),
+                                    const SizedBox(width: 12),
+                                    const Icon(Icons.calendar_today,
+                                        size: 18, color: Colors.grey),
+                                    const SizedBox(width: 4),
+                                    Text('終了: $end',
+                                        style: const TextStyle(fontSize: 14)),
+                                  ],
+                                ),
+                              ],
+                            ),
                           ),
                         );
                       }).toList(),
