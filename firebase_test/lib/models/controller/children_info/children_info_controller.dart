@@ -31,6 +31,7 @@ class ChildrenInfoController extends StateNotifier<ChildrenInfoState> {
     Loading.dismiss();
   }
 
+  // childrenの名前を更新する
   void updateChildName(int index, String name) {
     final updateChild = state.children[index].copyWith(name: name);
     final updateChildren = [...state.children];
@@ -40,6 +41,7 @@ class ChildrenInfoController extends StateNotifier<ChildrenInfoState> {
     state = state.copyWith(children: updateChildren);
   }
 
+  // childrenの性別を更新する
   void updateChildGender(int index, int gender) {
     final updatedChild = state.children[index].copyWith(gender: gender);
 
@@ -49,6 +51,7 @@ class ChildrenInfoController extends StateNotifier<ChildrenInfoState> {
     state = state.copyWith(children: updatedChildren);
   }
 
+  // childrenの年齢を更新する
   void updateChildAge(int index, int value) {
     final updatedChild = state.children[index].copyWith(age: value);
 
@@ -58,6 +61,7 @@ class ChildrenInfoController extends StateNotifier<ChildrenInfoState> {
     state = state.copyWith(children: updatedChildren);
   }
 
+  // childrenのisEditableを更新する（isEditableは、編集可能かどうかを示すフラグ）
   void updateIsEditable(int index, bool value) {
     final updatedChild = state.children[index].copyWith(isEditable: value);
     final updatedChildren = [...state.children];
@@ -66,6 +70,7 @@ class ChildrenInfoController extends StateNotifier<ChildrenInfoState> {
     state = state.copyWith(children: updatedChildren);
   }
 
+  // childrenの情報を更新する
   Future<void> updateChildInfo(int index, ChildInfoState updatedChild) async {
     Loading.show();
     await Future.delayed(const Duration(seconds: 1));
@@ -88,6 +93,7 @@ class ChildrenInfoController extends StateNotifier<ChildrenInfoState> {
     Loading.dismiss();
   }
 
+  // childrenの情報を削除する
   Future<void> deleteChildInfo(int index) async {
     Loading.show();
 
@@ -128,5 +134,15 @@ class ChildrenInfoController extends StateNotifier<ChildrenInfoState> {
         haveRegistration: newChildren.isNotEmpty,
       );
     });
+  }
+
+  // 欠席情報を取得
+  Future<List<Map<String, dynamic>>> fetchAbsenceInfo(String uid) async {
+    final snapshot = await FirebaseFirestore.instance
+        .collection('collectionPath')
+        .where('uid', isEqualTo: uid)
+        .get();
+
+    return snapshot.docs.map((doc) => doc.data()).toList();
   }
 }

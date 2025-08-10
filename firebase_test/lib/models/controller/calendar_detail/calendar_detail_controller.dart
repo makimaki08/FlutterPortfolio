@@ -11,28 +11,25 @@ class CalendarDetailController {
   CalendarDetailController(this._ref);
   final Ref _ref;
 
-  Future<void> addAttendanceInfo(CalendarEvent event, String uid) async {
+  Future<void> addAttendanceInfo(CalendarEvent event, List<String> uids) async {
     Loading.show();
     DateTime now = DateTime.now();
-    // FIXME: uidがnullになっているので、その対応を追加する。
     final prefs = await SharedPreferences.getInstance();
     final userUid = prefs.getString('user_id');
 
-    // FIXME: この場合だとuidは単体の場合しか対応できず、2名以上を一緒のタイミングで登録することができない。
-    // for文を回すなどして、複数のuidを登録できるようにする必要がある。
-    FirebaseFirestore.instance.collection('collectionPath').add(
-      // FIXME: 子供のuidを登録する必要あり。
-      {
+    for (final uid in uids) {
+      await FirebaseFirestore.instance.collection('collectionPath').add({
         'id': event.id,
         'summary': event.summary,
         'description': event.description,
         'start': event.start,
         'end': event.end,
         'duration': event.duration,
-        'uid': userUid,
+        'uid': uid,
+        'registeredBy': userUid,
         'uploadTime': now,
-      },
-    );
+      });
+    }
     Loading.dismiss();
   }
 }

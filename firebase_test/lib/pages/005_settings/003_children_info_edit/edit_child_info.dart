@@ -35,223 +35,245 @@ class EditChildInfo extends StatelessWidget {
     final nameController = TextEditingController(text: state.name);
 
     return Padding(
-      padding: const EdgeInsets.symmetric(
-        horizontal: 8.0,
-        vertical: 16.0,
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          children: [
-            /// TOP
-            Container(
-              padding: const EdgeInsets.only(bottom: 4.0),
-              decoration: const BoxDecoration(
-                border: Border(
-                  bottom: BorderSide(
-                    width: 2,
-                    color: AppColors.darkgray,
-                  ),
-                ),
-              ),
-              child: Row(
+      padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 16.0),
+      child: Card(
+        elevation: 4,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        child: Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Column(
+            children: [
+              // タイトルと操作ボタン
+              Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(nameController.text),
+                  Text(
+                    nameController.text,
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
                   Row(
                     children: [
                       Visibility(
                         visible: state.isEditable,
-                        child: ElevatedButton(
-                          onPressed: () {
-                            controller.updateIsEditable(index, false);
-                          },
-                          child: const Text("取消"),
+                        child: IconButton(
+                          icon: Icon(Icons.cancel, color: Colors.orange),
+                          tooltip: "取消",
+                          onPressed: () =>
+                              controller.updateIsEditable(index, false),
                         ),
                       ),
                       Visibility(
                         visible: !state.isEditable,
-                        child: ElevatedButton(
-                          onPressed: () {
-                            controller.updateIsEditable(index, true);
-                          },
-                          child: const Text("編集"),
+                        child: IconButton(
+                          icon: Icon(Icons.edit, color: Colors.blue),
+                          tooltip: "編集",
+                          onPressed: () =>
+                              controller.updateIsEditable(index, true),
                         ),
                       ),
-                      const Gap(16),
-                      ElevatedButton(
+                      IconButton(
+                        icon: Icon(Icons.delete, color: Colors.red),
+                        tooltip: "削除",
                         onPressed: () {
                           showDialog(
                             context: context,
                             builder: (context) => ConfirmDeleteDialog(
-                                index: index, controller: controller),
+                              index: index,
+                              controller: controller,
+                            ),
                           );
                         },
-                        child: const Text("削除"),
-                      )
+                      ),
                     ],
                   ),
                 ],
               ),
-            ),
-            const Gap(8.0),
+              const Gap(8.0),
 
-            Card(
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    /// 名前
-                    Column(
-                      children: [
-                        const Align(
-                          alignment: Alignment.centerLeft,
-                          child: Text("名前"),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                          child: state.isEditable
-                              ? TextFormField(
-                                  controller: nameController,
-                                  textInputAction: TextInputAction.next,
-                                  autovalidateMode: AutovalidateMode.onUnfocus,
-                                  decoration: const InputDecoration(
-                                    hintText: '例：田中太郎',
-                                    border: InputBorder.none,
-                                  ),
-                                )
-                              : Container(
-                                  alignment: Alignment.centerLeft,
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(top: 8.0),
-                                    child: Text(
-                                      nameController.text,
-                                      style: const TextStyle(fontSize: 16),
-                                    ),
-                                  ),
-                                ),
-                        ),
-                      ],
-                    ),
-                    const Gap(16),
-
-                    /// 性別
-                    Column(
-                      children: [
-                        const Align(
-                          alignment: Alignment.centerLeft,
-                          child: Text("性別"),
-                        ),
-                        state.isEditable
-                            ? Row(
-                                children: [
-                                  Flexible(
-                                    child: RadioListTile(
-                                      title: const Text('男'),
-                                      value: Gender.man.value,
-                                      groupValue: state.gender,
-                                      onChanged: (value) {
-                                        if (value != null) {
-                                          controller.updateChildGender(
-                                              index, value);
-                                        }
-                                      },
-                                    ),
-                                  ),
-                                  Flexible(
-                                    child: RadioListTile(
-                                      title: const Text('女'),
-                                      value: Gender.woman.value,
-                                      groupValue: state.gender,
-                                      onChanged: (value) {
-                                        if (value != null) {
-                                          controller.updateChildGender(
-                                              index, value);
-                                        }
-                                      },
-                                    ),
-                                  ),
-                                ],
-                              )
-                            : Container(
-                                alignment: Alignment.centerLeft,
-                                child: Padding(
-                                  padding: const EdgeInsets.only(
-                                    left: 16.0,
-                                    top: 8.0,
-                                  ),
-                                  child: Text(
-                                    state.gender == 1 ? "男" : "女",
-                                    style: const TextStyle(fontSize: 16),
-                                  ),
-                                ),
-                              ),
-                      ],
-                    ),
-                    const Gap(16),
-
-                    /// 年齢
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Text("年齢"),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                          child: state.isEditable
-                              ? DropdownButton(
-                                  items: List.generate(10, (index) {
-                                    final age = 6 + index;
-                                    return DropdownMenuItem(
-                                      value: age,
-                                      child: Text('$age歳'),
-                                    );
-                                  }),
-                                  onChanged: (value) {
-                                    if (value != null) {
-                                      controller.updateChildAge(index, value);
-                                    }
-                                  },
-                                  value: state.age,
-                                )
-                              : Container(
-                                  alignment: Alignment.centerLeft,
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(top: 8.0),
-                                    child: Text(
-                                      "${state.age}歳",
-                                      style: const TextStyle(fontSize: 16),
-                                    ),
-                                  ),
-                                ),
-                        ),
-                      ],
-                    ),
-
-                    /// 送信ボタン
-                    Visibility(
-                      visible: state.isEditable,
-                      child: Align(
-                        alignment: Alignment.center,
-                        child: ElevatedButton(
-                          onPressed: () {
-                            final uploadValue = ChildInfoState(
-                              name: nameController.text,
-                              gender: state.gender,
-                              age: state.age,
-                              isEditable: false,
-                            );
-                            controller.updateChildInfo(index, uploadValue);
-                          },
-                          child: const Text('更新'),
+              // 名前
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Text.rich(
+                  TextSpan(
+                    text: "お子様のお名前",
+                    children: [
+                      TextSpan(text: " *", style: TextStyle(color: Colors.red)),
+                    ],
+                  ),
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                ),
+              ),
+              const SizedBox(height: 4),
+              state.isEditable
+                  ? TextFormField(
+                      controller: nameController,
+                      decoration: InputDecoration(
+                        hintText: '例：田中太郎',
+                        border: OutlineInputBorder(),
+                        filled: true,
+                        fillColor: Colors.grey[50],
+                      ),
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                      validator: (v) => (v == null || v.trim().isEmpty)
+                          ? '名前を入力してください'
+                          : null,
+                    )
+                  : Container(
+                      alignment: Alignment.centerLeft,
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 8.0),
+                        child: Text(
+                          nameController.text,
+                          style: const TextStyle(fontSize: 16),
                         ),
                       ),
                     ),
-                  ],
+              const Gap(16),
+
+              // 性別
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Text.rich(
+                  TextSpan(
+                    text: "性別",
+                    children: [
+                      TextSpan(text: " *", style: TextStyle(color: Colors.red)),
+                    ],
+                  ),
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                 ),
               ),
-            ),
-          ],
+              const SizedBox(height: 4),
+              state.isEditable
+                  ? Row(
+                      children: [
+                        Expanded(
+                          child: ElevatedButton.icon(
+                            icon: Icon(Icons.male, color: Colors.blue),
+                            label: Text('男の子'),
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: state.gender == Gender.man.value
+                                  ? Colors.blue[100]
+                                  : Colors.white,
+                              foregroundColor: Colors.black,
+                              side: BorderSide(color: Colors.blue),
+                            ),
+                            onPressed: () => controller.updateChildGender(
+                                index, Gender.man.value),
+                          ),
+                        ),
+                        const Gap(8),
+                        Expanded(
+                          child: ElevatedButton.icon(
+                            icon: Icon(Icons.female, color: Colors.pink),
+                            label: Text('女の子'),
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor:
+                                  state.gender == Gender.woman.value
+                                      ? Colors.pink[100]
+                                      : Colors.white,
+                              foregroundColor: Colors.black,
+                              side: BorderSide(color: Colors.pink),
+                            ),
+                            onPressed: () => controller.updateChildGender(
+                                index, Gender.woman.value),
+                          ),
+                        ),
+                      ],
+                    )
+                  : Container(
+                      alignment: Alignment.centerLeft,
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 16.0, top: 8.0),
+                        child: Text(
+                          state.gender == 1 ? "男の子" : "女の子",
+                          style: const TextStyle(fontSize: 16),
+                        ),
+                      ),
+                    ),
+              const Gap(16),
+
+              // 年齢
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Text.rich(
+                  TextSpan(
+                    text: "年齢",
+                    children: [
+                      TextSpan(text: " *", style: TextStyle(color: Colors.red)),
+                    ],
+                  ),
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                ),
+              ),
+              const SizedBox(height: 4),
+              state.isEditable
+                  ? DropdownButtonFormField<int>(
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(),
+                        filled: true,
+                        fillColor: Colors.grey[50],
+                      ),
+                      hint: Text('年齢を選択してください'),
+                      items: List.generate(10, (index) {
+                        final age = 6 + index;
+                        return DropdownMenuItem(
+                          value: age,
+                          child: Text('$age歳'),
+                        );
+                      }),
+                      value: state.age,
+                      onChanged: (value) {
+                        if (value != null) {
+                          controller.updateChildAge(index, value);
+                        }
+                      },
+                      validator: (v) => v == null ? '年齢を選択してください' : null,
+                    )
+                  : Container(
+                      alignment: Alignment.centerLeft,
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 8.0),
+                        child: Text(
+                          "${state.age}歳",
+                          style: const TextStyle(fontSize: 16),
+                        ),
+                      ),
+                    ),
+              const Gap(32),
+
+              // 更新ボタン
+              Visibility(
+                visible: state.isEditable,
+                child: SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton.icon(
+                    icon: Icon(Icons.save, color: Colors.white),
+                    label: Text('更新する', style: TextStyle(fontSize: 18)),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.green,
+                      foregroundColor: Colors.white,
+                      padding: EdgeInsets.symmetric(vertical: 16),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12)),
+                    ),
+                    onPressed: () {
+                      final uploadValue = ChildInfoState(
+                        name: nameController.text,
+                        gender: state.gender,
+                        age: state.age,
+                        isEditable: false,
+                      );
+                      controller.updateChildInfo(index, uploadValue);
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text('更新が完了しました')),
+                      );
+                    },
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

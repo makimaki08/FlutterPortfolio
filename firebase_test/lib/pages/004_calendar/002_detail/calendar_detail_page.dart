@@ -32,8 +32,21 @@ class CalendarDetailPage extends HookConsumerWidget {
     final users = childrenInfoState.children;
     final selectedUids = useState<List<String>>([]);
 
+    // 欠席済みUIDリストを取得してselectedUidsにセット
     useEffect(() {
       childrenInfoController.fetchChildrenInfo();
+
+      Future<void> fetchAbsenceUids() async {
+        final snapshot = await FirebaseFirestore.instance
+            .collection('collectionPath')
+            .where('id', isEqualTo: event.id)
+            .get();
+        final absenceUids =
+            snapshot.docs.map((doc) => doc['uid'] as String).toList();
+        selectedUids.value = absenceUids;
+      }
+
+      fetchAbsenceUids();
       return null;
     }, const []);
 
@@ -146,7 +159,7 @@ class CalendarDetailPage extends HookConsumerWidget {
                   onPressed: () {
                     controller.addAttendanceInfo(
                       event,
-                      loginState.uid,
+                      selectedUids.value,
                     );
                     if (context.mounted) {
                       ScaffoldMessenger.of(context).showSnackBar(

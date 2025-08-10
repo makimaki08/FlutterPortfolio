@@ -40,11 +40,26 @@ class LoginController extends StateNotifier<LoginState> {
       state = state.copyWith(
         isAuth: true,
         uid: credential.user!.uid,
+        email: credential.user!.email ?? '',
       );
     } on FirebaseAuthException catch (e) {
       print('Firebase Auth Error: ${e.code} - ${e.message}');
     } finally {
       await Loading.dismiss();
     }
+  }
+
+  Future<void> logout() async {
+    try {
+      await FirebaseAuth.instance.signOut();
+    } finally {
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.remove('user_uid');
+      state = const LoginState(); // isAuth=false等の初期状態へ
+    }
+  }
+
+  void reset() {
+    state = const LoginState();
   }
 }
