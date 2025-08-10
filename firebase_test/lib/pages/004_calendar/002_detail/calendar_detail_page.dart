@@ -146,7 +146,7 @@ class CalendarDetailPage extends HookConsumerWidget {
                   onPressed: () {
                     controller.addAttendanceInfo(
                       event,
-                      loginState.uid,
+                      selectedUids.value,
                     );
                     if (context.mounted) {
                       ScaffoldMessenger.of(context).showSnackBar(
