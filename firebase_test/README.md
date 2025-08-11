@@ -64,4 +64,14 @@ Flutter プロジェクトに、Firebasen の設定追加
 
 ### コード生成
 
-flutter pub run build_runner build --delete-conflicting-outputs
+- flutter pub run build_runner build --delete-conflicting-outputs
+
+### Firebase ビルド
+
+Firebase にデプロイする前に、Flutter Web アプリケーションをビルドする必要があります。以下のコマンドを使用して、最適化されたビルドを作成します。
+
+- flutter build web --release
+
+ビルドが完了し、Firebase 設定が済んだら、以下のコマンドでデプロイします。
+
+- firebase deploy
