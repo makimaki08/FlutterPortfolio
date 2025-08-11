@@ -77,63 +77,82 @@ class CalendarDetailBody extends HookConsumerWidget {
       return null;
     }, const []);
 
-    return SafeArea(
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Text(
-              event.summary,
-              style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                    fontWeight: FontWeight.bold,
-                  ),
-            ),
-            const SizedBox(height: 16),
-            Row(
-              children: [
-                const Icon(Icons.access_time, color: Colors.grey),
-                const SizedBox(width: 8),
-                Text(
-                  '${event.duration}',
-                  style: Theme.of(context).textTheme.bodyLarge,
-                ),
-              ],
-            ),
-            const SizedBox(height: 12),
-            Text(event.description,
-                style: Theme.of(context).textTheme.bodyMedium),
-            const Divider(height: 32),
+    final insetsBottom = MediaQuery.of(context).viewInsets.bottom;
 
-            // ステータス切替（このステータスでチェックを付ける）
-            Text('登録ステータス', style: Theme.of(context).textTheme.titleMedium),
-            const SizedBox(height: 8),
-            Wrap(
-              spacing: 8,
-              children: [
-                ChoiceChip(
-                  label: const Text('欠席'),
-                  selected: status.value == AttendanceStatus.absent,
-                  onSelected: (_) => status.value = AttendanceStatus.absent,
-                ),
-                ChoiceChip(
-                  label: const Text('遅刻'),
-                  selected: status.value == AttendanceStatus.late,
-                  onSelected: (_) => status.value = AttendanceStatus.late,
-                ),
-                ChoiceChip(
-                  label: const Text('早退'),
-                  selected: status.value == AttendanceStatus.early,
-                  onSelected: (_) => status.value = AttendanceStatus.early,
-                ),
-              ],
-            ),
-            const Gap(12),
+    // どこでもタップでキーボードを閉じる
+    return GestureDetector(
+      behavior: HitTestBehavior.translucent,
+      onTap: () => FocusScope.of(context).unfocus(),
+      child: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: CustomScrollView(
+            keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+            slivers: [
+              // ヘッダー
+              SliverToBoxAdapter(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Text(
+                      event.summary,
+                      style:
+                          Theme.of(context).textTheme.headlineMedium?.copyWith(
+                                fontWeight: FontWeight.bold,
+                              ),
+                    ),
+                    const SizedBox(height: 16),
+                    Row(
+                      children: [
+                        const Icon(Icons.access_time, color: Colors.grey),
+                        const SizedBox(width: 8),
+                        Text(
+                          '${event.duration}',
+                          style: Theme.of(context).textTheme.bodyLarge,
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 12),
+                    Text(event.description,
+                        style: Theme.of(context).textTheme.bodyMedium),
+                    const Divider(height: 32),
 
-            Expanded(
-              child: ListView.builder(
+                    // ステータス切替（このステータスでチェックを付ける）
+                    Text('登録ステータス',
+                        style: Theme.of(context).textTheme.titleMedium),
+                    const SizedBox(height: 8),
+                    Wrap(
+                      spacing: 8,
+                      children: [
+                        ChoiceChip(
+                          label: const Text('欠席'),
+                          selected: status.value == AttendanceStatus.absent,
+                          onSelected: (_) =>
+                              status.value = AttendanceStatus.absent,
+                        ),
+                        ChoiceChip(
+                          label: const Text('遅刻'),
+                          selected: status.value == AttendanceStatus.late,
+                          onSelected: (_) =>
+                              status.value = AttendanceStatus.late,
+                        ),
+                        ChoiceChip(
+                          label: const Text('早退'),
+                          selected: status.value == AttendanceStatus.early,
+                          onSelected: (_) =>
+                              status.value = AttendanceStatus.early,
+                        ),
+                      ],
+                    ),
+                    const Gap(12),
+                  ],
+                ),
+              ),
+
+              // リスト
+              SliverList.separated(
                 itemCount: users.length,
-                padding: const EdgeInsets.only(bottom: 160),
+                separatorBuilder: (_, __) => const SizedBox(height: 12),
                 itemBuilder: (context, index) {
                   final user = users[index];
                   final uid = user.docId;
@@ -143,7 +162,7 @@ class CalendarDetailBody extends HookConsumerWidget {
                       uid != null ? selections.value[uid] : null;
 
                   return Card(
-                    margin: const EdgeInsets.symmetric(vertical: 6),
+                    margin: EdgeInsets.zero,
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12)),
                     elevation: 2,
@@ -202,6 +221,8 @@ class CalendarDetailBody extends HookConsumerWidget {
                               maxLines: 3,
                               minLines: 1,
                               textInputAction: TextInputAction.newline,
+                              scrollPadding:
+                                  EdgeInsets.only(bottom: insetsBottom + 200),
                               decoration: InputDecoration(
                                 labelText: '理由（任意）',
                                 hintText:
@@ -226,8 +247,13 @@ class CalendarDetailBody extends HookConsumerWidget {
                   );
                 },
               ),
-            ),
-          ],
+
+              // 末尾余白: ボトムバー高さ + 画面下SafeArea + キーボード分
+              SliverPadding(
+                padding: EdgeInsets.only(bottom: insetsBottom + 88),
+              ),
+            ],
+          ),
         ),
       ),
     );

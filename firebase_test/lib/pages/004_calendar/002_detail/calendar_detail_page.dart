@@ -35,6 +35,7 @@ class CalendarDetailPage extends HookConsumerWidget {
     final reasons = useValueNotifier<Map<String, String>>({});
 
     return Scaffold(
+      resizeToAvoidBottomInset: true,
       appBar: const CalendarDetailAppBar(title: 'Calendar Detail'),
       body: CalendarDetailBody(
         event: event,
