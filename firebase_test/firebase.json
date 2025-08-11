@@ -39,11 +39,17 @@
     }
   },
   "hosting": {
+    "site": "fir-temp-69b7c",
     "public": "build/web",
-    "ignore": [
-      "firebase.json",
-      "**/.*",
-      "**/node_modules/**"
+    "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
     ]
+  },
+  "projects": {
+    "default": "fir-temp-69b7c"
   }
 }

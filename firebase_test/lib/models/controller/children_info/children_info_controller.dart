@@ -139,7 +139,7 @@ class ChildrenInfoController extends StateNotifier<ChildrenInfoState> {
   // 欠席情報を取得
   Future<List<Map<String, dynamic>>> fetchAbsenceInfo(String uid) async {
     final snapshot = await FirebaseFirestore.instance
-        .collection('collectionPath')
+        .collection('attendances')
         .where('uid', isEqualTo: uid)
         .get();
 
