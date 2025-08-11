@@ -137,6 +137,8 @@ class _ChildAttendCard extends HookConsumerWidget {
                         final description = absence['description'] ?? '';
                         final start = formatTimestamp(absence['start']);
                         final end = formatTimestamp(absence['end']);
+                        final reason =
+                            (absence['reason'] as String?)?.trim() ?? ''; // 追加
                         // カレンダーイベント情報を作成
                         final calendarEvent = CalendarEvent(
                           id: absence['id'] ?? '',
@@ -200,6 +202,30 @@ class _ChildAttendCard extends HookConsumerWidget {
                                     style: const TextStyle(
                                         fontSize: 15, color: Colors.black87),
                                   ),
+                                // 追加: 理由（あれば表示）
+                                if (reason.isNotEmpty) ...[
+                                  const SizedBox(height: 8),
+                                  Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      const Icon(
+                                        Icons.sticky_note_2_outlined,
+                                        size: 18,
+                                        color: Colors.grey,
+                                      ),
+                                      const SizedBox(width: 4),
+                                      Expanded(
+                                        child: Text(
+                                          '理由: $reason',
+                                          style: const TextStyle(
+                                              fontSize: 14,
+                                              color: Colors.black87),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
                                 const SizedBox(height: 8),
                                 Row(
                                   children: [
@@ -208,7 +234,10 @@ class _ChildAttendCard extends HookConsumerWidget {
                                     const SizedBox(width: 4),
                                     Text('開始: $start',
                                         style: const TextStyle(fontSize: 14)),
-                                    const SizedBox(width: 12),
+                                  ],
+                                ),
+                                Row(
+                                  children: [
                                     const Icon(Icons.calendar_today,
                                         size: 18, color: Colors.grey),
                                     const SizedBox(width: 4),

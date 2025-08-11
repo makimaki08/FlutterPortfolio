@@ -54,7 +54,7 @@ class CalendarDetailBody extends HookConsumerWidget {
       childrenInfoController.fetchChildrenInfo();
       Future<void> fetchExisting() async {
         final snapshot = await FirebaseFirestore.instance
-            .collection('collectionPath')
+            .collection('attendances')
             .where('id', isEqualTo: event.id)
             .get();
 

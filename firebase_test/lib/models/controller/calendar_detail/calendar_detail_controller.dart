@@ -18,7 +18,7 @@ class CalendarDetailController {
     required String uid,
   }) {
     return FirebaseFirestore.instance
-        .collection('collectionPath')
+        .collection('attendances')
         .doc('${eventId}_$uid');
   }
 
