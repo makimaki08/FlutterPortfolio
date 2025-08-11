@@ -81,7 +81,7 @@ class DeleteAccountModal {
                       ref.read(loginProvider.notifier).reset();
 
                       // ログイン画面へ
-                      context.go('/login');
+                      context.go('/');
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(content: Text(error)),

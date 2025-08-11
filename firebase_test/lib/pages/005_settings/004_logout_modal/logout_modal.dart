@@ -59,7 +59,7 @@ class LogoutModal {
                     // ダイアログを閉じる
                     Navigator.of(context, rootNavigator: true).pop();
                     // ログイン画面へ
-                    context.go('/login');
+                    context.go('/');
                   },
                 ),
               ],
