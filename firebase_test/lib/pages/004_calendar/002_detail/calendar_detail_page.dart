@@ -87,6 +87,7 @@ class CalendarDetailPage extends HookConsumerWidget {
               Expanded(
                 child: ListView.builder(
                   itemCount: users.length,
+                  padding: const EdgeInsets.only(bottom: 120), // フッター分の余白を確保
                   itemBuilder: (context, index) {
                     final user = users[index];
                     final uid = user.docId;
@@ -100,7 +101,7 @@ class CalendarDetailPage extends HookConsumerWidget {
                       elevation: 2,
                       child: ListTile(
                         contentPadding: const EdgeInsets.symmetric(
-                            horizontal: 16, vertical: 8),
+                            horizontal: 16, vertical: 12),
                         leading: const CircleAvatar(
                           backgroundColor: AppColors.whitesmoke,
                           child: Icon(Icons.person, color: AppColors.darkgray),
@@ -113,38 +114,30 @@ class CalendarDetailPage extends HookConsumerWidget {
                             color: isSelected ? AppColors.blue : Colors.black87,
                           ),
                         ),
-                        trailing: Checkbox(
-                          value: isSelected,
-                          activeColor: AppColors.blue,
-                          onChanged: (isChecked) {
-                            if (uid == null) return;
-                            if (isChecked == true) {
-                              // 選択リストに追加
-                              selectedUids.value = [
-                                ...selectedUids.value,
-                                uid,
-                              ];
-                            } else {
-                              // 選択リストから削除
-                              selectedUids.value = selectedUids.value
-                                  .where((id) => id != uid)
-                                  .toList();
-                            }
-                          },
+                        trailing: Transform.scale(
+                          scale: 1.2, // チェックボックスを少し大きく
+                          child: Checkbox(
+                            value: isSelected,
+                            materialTapTargetSize: MaterialTapTargetSize.padded,
+                            activeColor: AppColors.blue,
+                            onChanged: (isChecked) {
+                              if (uid == null) return;
+                              if (isChecked == true) {
+                                selectedUids.value = [...selectedUids.value, uid];
+                              } else {
+                                selectedUids.value =
+                                    selectedUids.value.where((id) => id != uid).toList();
+                              }
+                            },
+                          ),
                         ),
                         onTap: () {
                           if (uid == null) return;
                           if (isSelected) {
-                            // すでに選択されていれば解除
-                            selectedUids.value = selectedUids.value
-                                .where((id) => id != uid)
-                                .toList();
+                            selectedUids.value =
+                                selectedUids.value.where((id) => id != uid).toList();
                           } else {
-                            // 未選択なら追加
-                            selectedUids.value = [
-                              ...selectedUids.value,
-                              uid,
-                            ];
+                            selectedUids.value = [...selectedUids.value, uid];
                           }
                         },
                       ),
@@ -152,40 +145,34 @@ class CalendarDetailPage extends HookConsumerWidget {
                   },
                 ),
               ),
-              const Spacer(),
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton.icon(
-                  onPressed: () {
-                    controller.addAttendanceInfo(
-                      event,
-                      selectedUids.value,
-                    );
-                    if (context.mounted) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('欠席を登録しました')),
-                      );
-                    }
-                    context.pop();
-                  },
-                  icon: const Icon(
-                    Icons.cancel,
-                    color: AppColors.whitesmoke,
-                  ),
-                  label: const Text('欠席する'),
-                  style: ElevatedButton.styleFrom(
-                    foregroundColor: AppColors.whitesmoke,
-                    backgroundColor: AppColors.blue,
-                    padding: const EdgeInsets.symmetric(vertical: 16),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    textStyle: const TextStyle(fontSize: 16),
-                  ),
-                ),
-              ),
-              const Gap(16),
             ],
+          ),
+        ),
+      ),
+      bottomNavigationBar: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: SizedBox(
+            height: 56,
+            width: double.infinity,
+            child: ElevatedButton.icon(
+              onPressed: () {
+                controller.addAttendanceInfo(event, selectedUids.value);
+                if (context.mounted) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('欠席を登録しました')),
+                  );
+                }
+                context.pop();
+              },
+              icon: const Icon(Icons.cancel, color: AppColors.whitesmoke),
+              label: const Text('欠席する'),
+              style: ElevatedButton.styleFrom(
+                foregroundColor: AppColors.whitesmoke,
+                backgroundColor: AppColors.blue,
+                textStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+              ),
+            ),
           ),
         ),
       ),
