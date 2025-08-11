@@ -8,6 +8,7 @@ import 'package:firebase_test/pages/005_settings/002_account_info_edit/account_i
 import 'package:firebase_test/models/entities/event/calendar_event.dart';
 import 'package:firebase_test/pages/005_settings/003_children_info_edit/children_info_edit_page.dart';
 import 'package:firebase_test/pages/005_settings/006_add_child_info/add_child_info_page.dart';
+import 'package:firebase_test/pages/006_admin/attendance_admin_page.dart';
 import 'package:firebase_test/pages/999_other/toolbarl/bottom_navigation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -130,6 +131,11 @@ final goRouter = GoRouter(
           ],
         ),
       ],
+    ),
+
+    GoRoute(
+      path: '/admin/attendance',
+      builder: (context, state) => const AttendanceAdminPage(),
     ),
   ],
 
