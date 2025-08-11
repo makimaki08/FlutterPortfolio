@@ -35,21 +35,32 @@ class CalendarDetailPage extends HookConsumerWidget {
     final reasons = useValueNotifier<Map<String, String>>({});
 
     return Scaffold(
-      resizeToAvoidBottomInset: true,
+      resizeToAvoidBottomInset: false,
       appBar: const CalendarDetailAppBar(title: 'Calendar Detail'),
-      body: CalendarDetailBody(
-        event: event,
-        users: users,
-        status: status,
-        selections: selections,
-        initialSelectionsRef: initialSelectionsRef,
-        reasons: reasons,
-      ),
-      bottomNavigationBar: CalendarDetailBottomBar(
-        event: event,
-        selections: selections,
-        initialSelectionsRef: initialSelectionsRef,
-        reasons: reasons,
+      body: Stack(
+        children: [
+          // スクロールする本文（全体スクロール）
+          CalendarDetailBody(
+            event: event,
+            users: users,
+            status: status,
+            selections: selections,
+            initialSelectionsRef: initialSelectionsRef,
+            reasons: reasons,
+          ),
+          // 画面下に重ねる更新ボタン（キーボードの後ろに隠れる）
+          Positioned(
+            left: 16,
+            right: 16,
+            bottom: 16 + MediaQuery.of(context).padding.bottom,
+            child: CalendarDetailBottomBar(
+              event: event,
+              selections: selections,
+              initialSelectionsRef: initialSelectionsRef,
+              reasons: reasons,
+            ),
+          ),
+        ],
       ),
     );
   }

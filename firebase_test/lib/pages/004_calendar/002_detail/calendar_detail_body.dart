@@ -4,6 +4,7 @@ import 'package:firebase_test/constants/attendance_status.dart';
 import 'package:firebase_test/models/controller/calendar_detail/calendar_detail_controller.dart';
 import 'package:firebase_test/models/controller/children_info/children_info_controller.dart';
 import 'package:firebase_test/models/entities/event/calendar_event.dart';
+import 'package:firebase_test/pages/004_calendar/002_detail/clendar_detail_bottom_bar.dart';
 import 'package:firebase_test/style/color/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -78,6 +79,9 @@ class CalendarDetailBody extends HookConsumerWidget {
     }, const []);
 
     final insetsBottom = MediaQuery.of(context).viewInsets.bottom;
+    final safeBottom = MediaQuery.of(context).padding.bottom;
+    const bottomBarHeight = 48.0;
+    const bottomBarMargin = 16.0;
 
     // どこでもタップでキーボードを閉じる
     return GestureDetector(
@@ -148,7 +152,6 @@ class CalendarDetailBody extends HookConsumerWidget {
                   ],
                 ),
               ),
-
               // リスト
               SliverList.separated(
                 itemCount: users.length,
@@ -247,10 +250,11 @@ class CalendarDetailBody extends HookConsumerWidget {
                   );
                 },
               ),
-
-              // 末尾余白: ボトムバー高さ + 画面下SafeArea + キーボード分
+              // 末尾余白: ボタンの高さ + 余白 + セーフエリア分を常に確保
               SliverPadding(
-                padding: EdgeInsets.only(bottom: insetsBottom + 88),
+                padding: EdgeInsets.only(
+                  bottom: bottomBarHeight + bottomBarMargin + safeBottom,
+                ),
               ),
             ],
           ),
