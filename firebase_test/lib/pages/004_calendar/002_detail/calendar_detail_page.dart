@@ -36,7 +36,6 @@ class CalendarDetailPage extends HookConsumerWidget {
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      appBar: const CalendarDetailAppBar(title: 'Calendar Detail'),
       body: Stack(
         children: [
           // スクロールする本文（全体スクロール）
