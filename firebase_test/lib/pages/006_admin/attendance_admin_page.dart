@@ -89,7 +89,6 @@ class AttendanceAdminPage extends HookWidget {
               final entry = groups[index];
               final list = entry.value;
 
-              // 代表ドキュメント（イベントの表示情報用）
               final head = list.first.data();
               final start = head['start'] is Timestamp
                   ? (head['start'] as Timestamp).toDate()
@@ -99,9 +98,7 @@ class AttendanceAdminPage extends HookWidget {
                   : null;
               final summary = (head['summary'] as String?) ?? '(無題)';
               final description = (head['description'] as String?) ?? '';
-              final eventId = (head['eventId'] ?? head['id'] ?? '') as String;
 
-              // ステータスごとに分類
               final absent = <Map<String, dynamic>>[];
               final late = <Map<String, dynamic>>[];
               final early = <Map<String, dynamic>>[];
@@ -120,124 +117,144 @@ class AttendanceAdminPage extends HookWidget {
                 }
               }
 
-              // 件数チップ
-              Widget counterChip(Color color, String label, int count) {
-                return Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                  decoration: BoxDecoration(
-                    color: color.withOpacity(0.1),
-                    borderRadius: BorderRadius.circular(999),
-                    border: Border.all(color: color.withOpacity(0.3)),
+              // 画面幅に応じてサイズ調整
+              final width = MediaQuery.of(context).size.width;
+              final compact = width < 360;
+
+              String ellipsize(String s, {int max = 22}) {
+                if (s.length <= max) return s;
+                return s.substring(0, max) + '…';
+              }
+
+              Widget statusChips(String label, Color color, IconData icon,
+                  List<Map<String, dynamic>> items) {
+                if (items.isEmpty) return const SizedBox.shrink();
+                return Padding(
+                  padding: const EdgeInsets.only(top: 4),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(icon,
+                              size: compact ? 14 : 16,
+                              color: color.withOpacity(.9)),
+                          const SizedBox(width: 4),
+                          Text(
+                            '$label (${items.length})',
+                            style: TextStyle(
+                              fontSize: compact ? 11 : 12,
+                              fontWeight: FontWeight.w600,
+                              color: color.withOpacity(.9),
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 2),
+                      Wrap(
+                        spacing: 6,
+                        runSpacing: -4,
+                        children: items.map((m) {
+                          final uid = (m['uid'] as String?) ?? '';
+                          final name = childNameMap.value[uid] ?? uid;
+                          final reason = (m['reason'] as String?)?.trim() ?? '';
+                          final short = reason.isEmpty
+                              ? name
+                              : '$name (${ellipsize(reason, max: compact ? 10 : 16)})';
+                          return Tooltip(
+                            message:
+                                reason.isEmpty ? name : '$name / 理由: $reason',
+                            triggerMode: TooltipTriggerMode.longPress,
+                            child: Container(
+                              padding: EdgeInsets.symmetric(
+                                horizontal: compact ? 6 : 8,
+                                vertical: compact ? 2 : 3,
+                              ),
+                              decoration: BoxDecoration(
+                                color: color.withOpacity(.08),
+                                borderRadius: BorderRadius.circular(18),
+                                border: Border.all(
+                                    color: color.withOpacity(.25), width: 0.7),
+                              ),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Icon(icon,
+                                      size: compact ? 12 : 14,
+                                      color: color.withOpacity(.9)),
+                                  const SizedBox(width: 3),
+                                  Text(
+                                    short,
+                                    style: TextStyle(
+                                      fontSize: compact ? 10.5 : 11.5,
+                                      height: 1.1,
+                                      color: Colors.black87,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          );
+                        }).toList(),
+                      ),
+                    ],
                   ),
-                  child: Text('$label $count',
-                      style: TextStyle(color: color, fontSize: 12)),
                 );
               }
 
-              // 子の表示行
-              List<Widget> buildPeople(
-                  List<Map<String, dynamic>> items, AttendanceStatus status) {
-                if (items.isEmpty) {
-                  return [
-                    const Padding(
-                      padding: EdgeInsets.only(left: 4, bottom: 8),
-                      child: Text('該当者なし',
-                          style: TextStyle(color: Colors.black54)),
-                    )
-                  ];
-                }
-                return items.map((m) {
-                  final uid = (m['uid'] as String?) ?? '';
-                  final name = childNameMap.value[uid] ?? uid;
-                  final reason = (m['reason'] as String?)?.trim() ?? '';
-                  return ListTile(
-                    dense: true,
-                    contentPadding: const EdgeInsets.only(left: 8, right: 8),
-                    leading: Icon(
-                      status == AttendanceStatus.absent
-                          ? Icons.event_busy
-                          : status == AttendanceStatus.late
-                              ? Icons.schedule
-                              : Icons.logout,
-                      color: status == AttendanceStatus.absent
-                          ? Colors.redAccent
-                          : status == AttendanceStatus.late
-                              ? Colors.orange
-                              : Colors.blue,
-                    ),
-                    title: Text(name),
-                    subtitle: reason.isNotEmpty ? Text('理由: $reason') : null,
-                  );
-                }).toList();
-              }
-
-              // CalendarDetailPage へ飛ぶためのイベント生成
-              final event = CalendarEvent(
-                id: eventId,
-                summary: summary,
-                description: description,
-                start: start ?? DateTime.now(),
-                end: end ?? DateTime.now(),
-                duration: head['duration'],
-              );
-
               return Card(
-                margin: const EdgeInsets.symmetric(vertical: 8),
+                margin: const EdgeInsets.symmetric(vertical: 6),
                 shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12)),
-                elevation: 2,
-                child: ExpansionTile(
-                  tilePadding: const EdgeInsets.symmetric(horizontal: 12),
-                  title: Text(summary,
-                      style: const TextStyle(fontWeight: FontWeight.w600)),
-                  subtitle: start != null ? Text('${start.toLocal()}') : null,
-                  trailing: Wrap(
-                    spacing: 6,
-                    crossAxisAlignment: WrapCrossAlignment.center,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                elevation: 1.5,
+                child: Padding(
+                  padding: EdgeInsets.fromLTRB(
+                      12, compact ? 8 : 10, 12, compact ? 8 : 10),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      counterChip(Colors.redAccent, '欠席', absent.length),
-                      counterChip(Colors.orange, '遅刻', late.length),
-                      counterChip(Colors.blue, '早退', early.length),
+                      // 上段: タイトル + 日時
+                      Text(
+                        summary,
+                        style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                          fontSize: compact ? 14 : 15.5,
+                        ),
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      if (start != null) ...[
+                        const SizedBox(height: 2),
+                        Text(
+                          '${start.month}/${start.day} '
+                          '${start.hour.toString().padLeft(2, '0')}:${start.minute.toString().padLeft(2, '0')}'
+                          '${end != null ? ' 〜 ${end.hour.toString().padLeft(2, '0')}:${end.minute.toString().padLeft(2, '0')}' : ''}',
+                          style: TextStyle(
+                            fontSize: compact ? 10.5 : 11,
+                            color: Colors.black54,
+                            height: 1.2,
+                          ),
+                        ),
+                      ],
+                      if (description.isNotEmpty) ...[
+                        const SizedBox(height: 3),
+                        Text(
+                          ellipsize(description, max: compact ? 40 : 70),
+                          style: TextStyle(
+                            fontSize: compact ? 10.5 : 11,
+                            color: Colors.black87,
+                          ),
+                        ),
+                      ],
+                      // ステータス別
+                      statusChips(
+                          '欠席', Colors.redAccent, Icons.event_busy, absent),
+                      statusChips('遅刻', Colors.orange, Icons.schedule, late),
+                      statusChips('早退', Colors.blue, Icons.logout, early),
                     ],
                   ),
-                  childrenPadding: const EdgeInsets.fromLTRB(12, 0, 12, 12),
-                  children: [
-                    // 欠席
-                    const Padding(
-                      padding: EdgeInsets.only(top: 8, bottom: 4),
-                      child: Text('欠席',
-                          style: TextStyle(fontWeight: FontWeight.bold)),
-                    ),
-                    ...buildPeople(absent, AttendanceStatus.absent),
-
-                    // 遅刻
-                    const Padding(
-                      padding: EdgeInsets.only(top: 8, bottom: 4),
-                      child: Text('遅刻',
-                          style: TextStyle(fontWeight: FontWeight.bold)),
-                    ),
-                    ...buildPeople(late, AttendanceStatus.late),
-
-                    // 早退
-                    const Padding(
-                      padding: EdgeInsets.only(top: 8, bottom: 4),
-                      child: Text('早退',
-                          style: TextStyle(fontWeight: FontWeight.bold)),
-                    ),
-                    ...buildPeople(early, AttendanceStatus.early),
-
-                    const SizedBox(height: 8),
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: TextButton.icon(
-                        icon: const Icon(Icons.open_in_new),
-                        label: const Text('詳細ページを開く'),
-                        onPressed: () =>
-                            context.go('/calendar/detail', extra: event),
-                      ),
-                    ),
-                  ],
                 ),
               );
             },
