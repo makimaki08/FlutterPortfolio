@@ -138,7 +138,7 @@ class _ChildAttendCard extends HookConsumerWidget {
                         final start = formatTimestamp(absence['start']);
                         final end = formatTimestamp(absence['end']);
                         final reason =
-                            (absence['reason'] as String?)?.trim() ?? ''; // 追加
+                            (absence['reason'] as String?)?.trim() ?? '';
                         // カレンダーイベント情報を作成
                         final calendarEvent = CalendarEvent(
                           id: absence['id'] ?? '',
