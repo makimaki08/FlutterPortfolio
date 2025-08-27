@@ -205,10 +205,9 @@ class CalendarDetailBody extends HookConsumerWidget {
                             final nextReasons =
                                 Map<String, String>.from(reasons.value);
                             if (isChecked == true) {
-                              next[uid] = status.value; // 現在のステータスで割当
+                              next[uid] = status.value;
                             } else {
                               next.remove(uid);
-                              nextReasons.remove(uid); // 理由もクリア
                             }
                             selections.value = next;
                             reasons.value = nextReasons;

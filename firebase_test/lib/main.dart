@@ -5,6 +5,8 @@ import 'package:firebase_test/style/color/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 void main() async {
   // FlutterBindingクラスを初期化し、runApp実行前にFirebaseの初期化処理を可能にする
@@ -28,7 +30,24 @@ class MyApp extends StatelessWidget {
     return MaterialApp.router(
       // Theme設定
       title: 'Flutter Demo',
+      locale: const Locale('ja', 'JP'),
+      supportedLocales: const [
+        Locale('ja', 'JP'),
+        Locale('en', 'US'),
+      ],
+      localizationsDelegates: const [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
       theme: ThemeData(
+        textTheme: GoogleFonts.notoSansJpTextTheme(),
+        fontFamily: GoogleFonts.notoSansJp().fontFamily,
+        fontFamilyFallback: const [
+          'Hiragino Sans',
+          'Yu Gothic',
+          'Noto Sans CJK JP',
+        ],
         useMaterial3: true,
         appBarTheme: const AppBarTheme(backgroundColor: AppColors.burlywood),
         // primarySwatch: Colors.amber,
