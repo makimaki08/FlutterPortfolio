@@ -2,13 +2,14 @@ import 'package:firebase_test/models/controller/child_info/child_info_controller
 import 'package:firebase_test/models/controller/child_info/child_info_state.dart';
 import 'package:firebase_test/models/controller/children_info/children_info_controller.dart';
 import 'package:firebase_test/models/controller/children_info/children_info_state.dart';
-import 'package:firebase_test/models/entities/children_info/gender_enum.dart';
 import 'package:firebase_test/style/color/app_colors.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter/services.dart';
+import 'package:intl/intl.dart';
 
 class AddChildInfo extends HookConsumerWidget {
   AddChildInfo({
@@ -27,6 +28,24 @@ class AddChildInfo extends HookConsumerWidget {
         ref.watch(childInfoProvider.notifier);
 
     final formKey = GlobalKey<FormState>();
+    final now = DateTime.now();
+    final nowYear = now.year;
+
+    // 追加: 選択した生年月日を保持
+    final birthDate = useState<DateTime?>(null);
+    final df = DateFormat('yyyy/MM/dd');
+
+    // 既存ageのみから推測できるのは「年」まで
+    final selectedBirthYear =
+        (state.age != null && state.age! > 0) ? nowYear - state.age! : null;
+
+    int calcAge(DateTime birth, DateTime today) {
+      var age = today.year - birth.year;
+      if (DateTime(today.year, birth.month, birth.day).isAfter(today)) {
+        age -= 1;
+      }
+      return age;
+    }
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 16.0),
@@ -83,10 +102,10 @@ class AddChildInfo extends HookConsumerWidget {
                       ),
                       const Gap(20),
 
-                      // 性別
+                      // 年齢 -> 生年月日（yyyy/MM/dd 表示）に変更
                       Text.rich(
                         TextSpan(
-                          text: "性別",
+                          text: "生年月日",
                           children: [
                             TextSpan(
                                 text: " *",
@@ -97,87 +116,49 @@ class AddChildInfo extends HookConsumerWidget {
                             fontSize: 16, fontWeight: FontWeight.bold),
                       ),
                       const SizedBox(height: 4),
-                      Row(
-                        children: [
-                          Expanded(
-                            child: ElevatedButton.icon(
-                              icon: Icon(Icons.male, color: Colors.blue),
-                              label: Text('男の子'),
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor:
-                                    state.gender == Gender.man.value
-                                        ? Colors.blue[100]
-                                        : Colors.white,
-                                foregroundColor: Colors.black,
-                                side: BorderSide(color: Colors.blue),
-                              ),
-                              onPressed: () => childInfoController
-                                  .onChangedGender(Gender.man.value),
-                            ),
-                          ),
-                          const Gap(8),
-                          Expanded(
-                            child: ElevatedButton.icon(
-                              icon: Icon(Icons.female, color: Colors.pink),
-                              label: Text('女の子'),
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor:
-                                    state.gender == Gender.woman.value
-                                        ? Colors.pink[100]
-                                        : Colors.white,
-                                foregroundColor: Colors.black,
-                                side: BorderSide(color: Colors.pink),
-                              ),
-                              onPressed: () => childInfoController
-                                  .onChangedGender(Gender.woman.value),
-                            ),
-                          ),
-                        ],
-                      ),
-                      if (state.gender == null)
-                        Padding(
-                          padding: const EdgeInsets.only(top: 4.0),
-                          child: Text('性別を選択してください',
-                              style:
-                                  TextStyle(color: Colors.red, fontSize: 12)),
-                        ),
-                      const Gap(20),
-
-                      // 年齢
-                      Text.rich(
-                        TextSpan(
-                          text: "年齢",
-                          children: [
-                            TextSpan(
-                                text: " *",
-                                style: TextStyle(color: Colors.red)),
-                          ],
-                        ),
-                        style: TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.bold),
-                      ),
-                      const SizedBox(height: 4),
-                      DropdownButtonFormField<int>(
-                        decoration: InputDecoration(
-                          border: OutlineInputBorder(),
-                          filled: true,
-                          fillColor: Colors.grey[50],
-                        ),
-                        hint: Text('年齢を選択してください'),
-                        items: List.generate(10, (index) {
-                          final age = 6 + index;
-                          return DropdownMenuItem(
-                            value: age,
-                            child: Text('$age歳'),
+                      GestureDetector(
+                        onTap: () async {
+                          final initial = birthDate.value ??
+                              DateTime(
+                                  selectedBirthYear ?? (nowYear - 10), 1, 1);
+                          final first = DateTime(nowYear - 30, 1, 1);
+                          final last = DateTime(nowYear, 12, 31);
+                          final picked = await showDatePicker(
+                            context: context,
+                            initialDate: initial,
+                            firstDate: first,
+                            lastDate: last,
+                            initialDatePickerMode: DatePickerMode.year,
+                            helpText: '生年月日を選択',
+                            cancelText: 'キャンセル',
+                            confirmText: '決定',
                           );
-                        }),
-                        value: state.age,
-                        onChanged: (value) {
-                          if (value != null) {
-                            childInfoController.onChangedAge(value);
+                          if (picked != null) {
+                            birthDate.value = picked;
+                            childInfoController
+                                .onChangedAge(calcAge(picked, now));
                           }
                         },
-                        validator: (v) => v == null ? '年齢を選択してください' : null,
+                        child: AbsorbPointer(
+                          child: TextFormField(
+                            readOnly: true,
+                            decoration: const InputDecoration(
+                              border: OutlineInputBorder(),
+                              filled: true,
+                              hintText: '生年月日を選択してください（例：2000/02/01）',
+                            ),
+                            controller: TextEditingController(
+                              text: birthDate.value != null
+                                  ? df.format(birthDate.value!)
+                                  : (selectedBirthYear != null
+                                      ? '$selectedBirthYear/01/01'
+                                      : ''),
+                            ),
+                            validator: (_) => birthDate.value == null
+                                ? '生年月日を選択してください'
+                                : null,
+                          ),
+                        ),
                       ),
                       const Gap(32),
 
@@ -196,7 +177,8 @@ class AddChildInfo extends HookConsumerWidget {
                           ),
                           onPressed: () {
                             if (formKey.currentState?.validate() != true ||
-                                state.gender == null) {
+                                state.age == null ||
+                                birthDate.value == null) {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(content: Text('未入力項目があります')),
                               );
@@ -214,7 +196,7 @@ class AddChildInfo extends HookConsumerWidget {
                                     children: [
                                       Text('名前：${nameController.text}'),
                                       Text(
-                                          '性別：${state.gender == 1 ? "男の子" : "女の子"}'),
+                                          '生年月日：${df.format(birthDate.value!)}'),
                                       Text('年齢：${state.age}歳'),
                                     ],
                                   ),
@@ -223,24 +205,22 @@ class AddChildInfo extends HookConsumerWidget {
                                       onPressed: () async {
                                         final value = ChildInfoState(
                                           name: nameController.text,
-                                          gender: state.gender,
-                                          age: state.age,
+                                          age: state.age, // 保存は従来通り age のみ
                                         );
                                         await childrenInfoController
                                             .addNewChild(uid, value);
                                         Navigator.of(context).pop();
                                         context.pop();
                                         ScaffoldMessenger.of(context)
-                                            .showSnackBar(
-                                          SnackBar(content: Text('登録が完了しました')),
-                                        );
+                                            .showSnackBar(const SnackBar(
+                                                content: Text('登録が完了しました')));
                                       },
-                                      child: Text('登録する'),
+                                      child: const Text('登録する'),
                                     ),
                                     TextButton(
                                       onPressed: () =>
                                           Navigator.of(context).pop(),
-                                      child: Text('キャンセル'),
+                                      child: const Text('キャンセル'),
                                     ),
                                   ],
                                 );

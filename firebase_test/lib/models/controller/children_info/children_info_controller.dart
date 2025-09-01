@@ -19,7 +19,6 @@ class ChildrenInfoController extends StateNotifier<ChildrenInfoState> {
       {
         'uid': uid,
         'name': value.name,
-        'gender': value.gender,
         'age': value.age,
       },
     );
@@ -41,17 +40,7 @@ class ChildrenInfoController extends StateNotifier<ChildrenInfoState> {
     state = state.copyWith(children: updateChildren);
   }
 
-  // childrenの性別を更新する
-  void updateChildGender(int index, int gender) {
-    final updatedChild = state.children[index].copyWith(gender: gender);
-
-    final updatedChildren = [...state.children];
-    updatedChildren[index] = updatedChild;
-
-    state = state.copyWith(children: updatedChildren);
-  }
-
-  // childrenの年齢を更新する
+  // childrenの年齢を更新する（UIでは西暦選択だが、保持は年齢のまま）
   void updateChildAge(int index, int value) {
     final updatedChild = state.children[index].copyWith(age: value);
 
@@ -80,7 +69,6 @@ class ChildrenInfoController extends StateNotifier<ChildrenInfoState> {
         .update(
       {
         'name': updatedChild.name,
-        'gender': updatedChild.gender,
         'age': updatedChild.age,
       },
     );
@@ -123,7 +111,6 @@ class ChildrenInfoController extends StateNotifier<ChildrenInfoState> {
         var child = ChildInfoState(
           docId: doc.id,
           name: doc.get('name'),
-          gender: doc.get('gender'),
           age: doc.get('age'),
         );
 
