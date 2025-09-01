@@ -21,17 +21,35 @@ class EditChildInfo extends StatelessWidget {
     return ListView.builder(
       itemCount: state.children.length,
       itemBuilder: (context, index) {
-        return EditChild(context, index, controller, state.children[index]);
+        return EditChild(
+          context: context,
+          index: index,
+          controller: controller,
+          childInfo: state.children[index],
+          state: state.children[index],
+        );
       },
     );
   }
+}
 
-  Widget EditChild(
-    BuildContext context,
-    int index,
-    ChildrenInfoController controller,
-    ChildInfoState state,
-  ) {
+class EditChild extends StatelessWidget {
+  const EditChild({
+    required this.context,
+    required this.index,
+    required this.controller,
+    required this.childInfo,
+    required this.state,
+    super.key,
+  });
+  final BuildContext context;
+  final int index;
+  final ChildrenInfoController controller;
+  final ChildInfoState childInfo;
+  final ChildInfoState state;
+
+  @override
+  Widget build(BuildContext context) {
     final nameController = TextEditingController(text: state.name);
 
     return Padding(
@@ -124,69 +142,6 @@ class EditChildInfo extends StatelessWidget {
                         padding: const EdgeInsets.only(top: 8.0),
                         child: Text(
                           nameController.text,
-                          style: const TextStyle(fontSize: 16),
-                        ),
-                      ),
-                    ),
-              const Gap(16),
-
-              // 性別
-              Align(
-                alignment: Alignment.centerLeft,
-                child: Text.rich(
-                  TextSpan(
-                    text: "性別",
-                    children: [
-                      TextSpan(text: " *", style: TextStyle(color: Colors.red)),
-                    ],
-                  ),
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                ),
-              ),
-              const SizedBox(height: 4),
-              state.isEditable
-                  ? Row(
-                      children: [
-                        Expanded(
-                          child: ElevatedButton.icon(
-                            icon: Icon(Icons.male, color: Colors.blue),
-                            label: Text('男の子'),
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: state.gender == Gender.man.value
-                                  ? Colors.blue[100]
-                                  : Colors.white,
-                              foregroundColor: Colors.black,
-                              side: BorderSide(color: Colors.blue),
-                            ),
-                            onPressed: () => controller.updateChildGender(
-                                index, Gender.man.value),
-                          ),
-                        ),
-                        const Gap(8),
-                        Expanded(
-                          child: ElevatedButton.icon(
-                            icon: Icon(Icons.female, color: Colors.pink),
-                            label: Text('女の子'),
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor:
-                                  state.gender == Gender.woman.value
-                                      ? Colors.pink[100]
-                                      : Colors.white,
-                              foregroundColor: Colors.black,
-                              side: BorderSide(color: Colors.pink),
-                            ),
-                            onPressed: () => controller.updateChildGender(
-                                index, Gender.woman.value),
-                          ),
-                        ),
-                      ],
-                    )
-                  : Container(
-                      alignment: Alignment.centerLeft,
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 16.0, top: 8.0),
-                        child: Text(
-                          state.gender == 1 ? "男の子" : "女の子",
                           style: const TextStyle(fontSize: 16),
                         ),
                       ),
